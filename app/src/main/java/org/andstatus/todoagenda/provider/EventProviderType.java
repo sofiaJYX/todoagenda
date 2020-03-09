@@ -10,16 +10,15 @@ import androidx.annotation.NonNull;
 import org.andstatus.todoagenda.EnvironmentChangedReceiver;
 import org.andstatus.todoagenda.calendar.CalendarEventProvider;
 import org.andstatus.todoagenda.calendar.CalendarEventVisualizer;
-import org.andstatus.todoagenda.prefs.EventSource;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.task.TaskVisualizer;
+import org.andstatus.todoagenda.task.astrid.AstridCloneTasksProvider;
 import org.andstatus.todoagenda.task.dmfs.DmfsOpenTasksContract;
 import org.andstatus.todoagenda.task.dmfs.DmfsOpenTasksProvider;
 import org.andstatus.todoagenda.task.samsung.SamsungTasksProvider;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.andstatus.todoagenda.widget.WidgetEntryVisualizer;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +44,12 @@ public enum EventProviderType {
         @Override
         public EventProvider getEventProvider(Context context, int widgetId) {
             return new SamsungTasksProvider(this, context, widgetId);
+        }
+    },
+    ASTRID_CLONE_TASKS(4, false, AstridCloneTasksProvider.PERMISSION, AstridCloneTasksProvider.AUTHORITY) {
+        @Override
+        public EventProvider getEventProvider(Context context, int widgetId) {
+            return new AstridCloneTasksProvider(this, context, widgetId);
         }
     };
 
