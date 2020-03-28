@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="widget_instance_name">Име на widget</string>
+    <string name="yesterday">Вчера</string>
     <string name="today">Днес</string>
     <string name="tomorrow">Утре</string>
+    <string name="not_initialized_yet">Все още не е инизциализирано</string>
+    <string name="no_events_to_show">Няма събития</string>
     <string name="no_upcoming_events">Няма предстоящи събития</string>
     <string name="open_prefs_desc">Настройки на уиджета</string>
+    <string name="go_to_today">Днес</string>
     <string name="add_event_desc">Добави ново събитие в календара</string>
     <string name="indicator_alarm">Индикатор за зададена аларма</string>
     <string name="indicator_recurring">Индикатор за повтарящо се събитие</string>
     <string name="no_title">(Без заглавие)</string>
+    <string name="grant_permissions">Даване на разрешения</string>
+    <string name="grant_permissions_verbose">Необходими за разрешения за четене на календар и задачи.\n
+Докоснете тук за да позволите.</string>
     <string name="end_of_list_header">Други събития</string>
+    <string name="permissions_justification">Добре дошли в Todo Agenda, лесният достъп до вашите календари и задачи.\n\n
+За да се възползвате функционалността на програмата, трябва да предоставите достъп до вашите календари и задачи.</string>
+    <string name="no_widgets_found">Моля добавете \"Todo Agenda\" уиджет на екрана на вашето устройство.</string>
+    <string name="select_a_widget_to_configure">Изберете уиджет</string>
+    <string name="close">Затвори</string>
+    <string name="go_to_home_screen">Към началният екран</string>
+    <string name="loading_with_dots">Зарежда...</string>
+    <string name="widget_header">Заглавна част</string>
     <string name="day_header">Покава деня в хедъра</string>
     <string name="event_entry">Елемент от списъка</string>
+    <string name="todays_events">Днешни събития</string>
+    <string name="future_events">Бъдещи събития</string>
+    <string name="not_found">Не е намерено</string>
     <!-- Descriptions for app markets -->
+    <string name="app_description_80_chars_max">Уиджет за събития и задачи</string>
+    <string name="app_description_4000_chars_max_part01">Todo Agenda  е уиджет за събития и задачи.
+        Всеки уиджет има собствена конфигурация и показва избрания списък текущи и бъдещи събития и задачи.</string>
     <!-- Preference frame: Layout -->
     <string name="widget_header_date_format">Формат дата за уиджета</string>
     <string name="appearance_day_header_alignment_desc">Настройка за подравняване на заглавната част</string>

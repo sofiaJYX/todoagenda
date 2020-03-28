@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lista nadchodzących wydarzeń</string>
-    <string name="widget_name">Lista nadchodzących wydarzeń</string>
+    <string name="app_name">Todo Agenda</string>
+    <string name="widget_name">Todo Agenda</string>
     <string name="widget_instance_name">Nazwa widżetu</string>
     <string name="yesterday">Wczoraj</string>
     <string name="today">Dzisiaj</string>
     <string name="tomorrow">Jutro</string>
-    <string name="not_initialized_yet">Jeszcze nie za zainicjowano...</string>
+    <string name="not_initialized_yet">Jeszcze nie zainicjowano...</string>
     <string name="no_events_to_show">Brak wydarzeń do wyświetlenia</string>
     <string name="no_upcoming_events">Brak nadchodzących wydarzeń</string>
     <string name="open_prefs_desc">Otwórz ustawienia widżetu kalendarza</string>
-    <string name="go_to_today">Przejdź do dzisiaj</string>
+    <string name="go_to_today">Przejdź do Dzisiaj</string>
     <string name="add_event_desc">Dodaj nowe wydarzenie w kalendarzu</string>
     <string name="indicator_alarm">Wskaźnik pokazujący czy został ustawiony alarm</string>
     <string name="indicator_recurring">Wskaźnik, jeśli wydarzenie się powtarza</string>
@@ -19,13 +19,13 @@
     <string name="grant_permissions_verbose">Widżet wymaga uprawnień do odczytu kalendarzy.\nDotknij tutaj, aby przyznać uprawnienia.</string>
     <string name="past_header">Wklej i otwórz</string>
     <string name="end_of_list_header">Inne wydarzenia</string>
-    <string name="permissions_justification">Witaj w Lista nadchodzących wydarzeń, łatwym dostępie do swojego kalendarza.\n\nAby jak najlepiej wykorzystać możliwości widżetu, należy przyznać mu dostęp do kalendarza.</string>
-    <string name="no_widgets_found">Proszę najpierw dodać widżet \"Lista nadchodzących wydarzeń\" z ekranu głównego urządzenia.</string>
+    <string name="permissions_justification">Witaj w Todo Agenda, łatwym dostępie do swojego kalendarza.\n\nAby jak najlepiej wykorzystać możliwości widżetu, należy przyznać mu dostęp do kalendarza.</string>
+    <string name="no_widgets_found">Proszę najpierw dodać widżet \"Todo Agenda\" z ekranu głównego urządzenia.</string>
     <string name="select_a_widget_to_configure">Wybierz widżet, aby skonfigurować</string>
     <string name="close">Zamknij</string>
     <string name="go_to_home_screen">Przejdź do ekranu głównego</string>
     <string name="loading_with_dots">Ładowanie...</string>
-    <string name="widget_header">Nagłówek widgetu</string>
+    <string name="widget_header">Nagłówek widżetu</string>
     <string name="day_header">Nagłówek dnia</string>
     <string name="event_entry">Wpis wydarzenia</string>
     <string name="todays_events">Dzisiejsze wydarzenia</string>
@@ -33,7 +33,7 @@
     <string name="not_found">Nie znaleziono</string>
     <!-- Descriptions for app markets -->
     <string name="app_description_80_chars_max">Widget wyświetla wydarzenia z wybranych kalendarzy i list zadań</string>
-    <string name="app_description_4000_chars_max_part01">Todo Agenda to bardzo rozbudowany widget kalendarza dla twojego urządzenia z systemem Android. Każdy widget ma swoje własne ustawienia i może pokazywać różne kalendarze czy listy zadań. Dzięki temu możesz łatwo mieć wgląd na wydarzenia przeszłe, obecne i przyszłe.</string>
+    <string name="app_description_4000_chars_max_part01">Todo Agenda to bardzo rozbudowany widżet kalendarza dla twojego urządzenia z systemem Android. Każdy widżet ma swoje własne ustawienia i może pokazywać różne kalendarze czy listy zadań. Dzięki temu możesz łatwo mieć wgląd w wydarzenia zakończone, obecne i przyszłe.</string>
     <string name="app_description_4000_chars_max_part02">Funkcje</string>
     <string name="app_description_4000_chars_max_part15">Bez reklam. Darmowa aplikacja z otwartym źródłem.</string>
     <string name="app_description_4000_chars_max_part03">Wyświetla wydarzenia z twoich kalendarzy i list zadań dla wybranych okresów z przeszłości i przyszłości.</string>
@@ -56,7 +56,7 @@
     <string name="widget_header_layout">Układ nagłówka</string>
     <string name="pref_event_entry_layout_title">Układ wydarzenia</string>
     <string name="default_multiline_layout">Czas poniżej nazwy</string>
-    <string name="widget_header_date_format">Format daty w nagłówku widżetu</string>
+    <string name="widget_header_date_format">Format daty w nagłówku</string>
     <string name="default_value">Domyślny</string>
     <string name="single_line_layout">Wszystko w jedenym wierszu</string>
     <string name="two_rows_layout">Układ dwóch wierszy</string>
@@ -71,9 +71,9 @@
     <string name="appearance_multiline_title_desc">Wyświetlaj tytuł w kilku liniach</string>
     <string name="appearance_show_days_without_events_title">Dni bez wydarzeń</string>
     <string name="appearance_show_days_without_events_desc">Wyświetlaj nagłówek dnia dla dni bez wydarzeń</string>
-    <string name="appearance_show_day_headers_title">Nagłówki dla każdego dnia</string>
+    <string name="appearance_show_day_headers_title">Dla każdego dnia</string>
     <string name="appearance_show_day_headers_desc">Wyświetlaj nagłówki dla każdego dnia</string>
-    <string name="day_header_date_format">Format dnia w nagłówku widżetu</string>
+    <string name="day_header_date_format">Format dnia</string>
     <string name="show_past_events_under_one_header_title">Ukryj ukończone lub odroczone wydarzenia</string>
     <string name="show_past_events_under_one_header_desc">Pokaż ukończone lub odroczone wydarzenia pod nagłówkiem \"Past and due\"</string>
     <string name="show_event_icon_title">Pokaż ikonę wydarzenia</string>
@@ -82,19 +82,20 @@
     <string name="multiline_details_title">Szczegóły w kilku wierszach</string>
     <string name="multiline_details_desc">Rozdziel czas i miejsce wydarzenia na kilka wierszy</string>
     <!-- Date format preference -->
-    <string name="simple_options">Proste opcje</string>
-    <string name="date_format_default_weekday">Domyślnie z dniem tygodnia</string>
-    <string name="date_format_default_days">Domyślnie z liczbą dni do zdarzenia</string>
-    <string name="appearance_abbreviate_dates_title">Skrócone daty z dniem tygodnia</string>
+    <string name="simple_options">Przykładowe opcje</string>
+    <string name="date_format_default_weekday">Domyślny, z dniem tygodnia</string>
+    <string name="date_format_default_ytt">Domyślny, z Wczoraj, Dzisiaj i Jutro</string>
+    <string name="date_format_default_days">Domyślny, z liczbą dni do wydarzenia</string>
+    <string name="appearance_abbreviate_dates_title">Skrócony, z dniem tygodnia</string>
     <string name="appearance_abbreviate_dates_desc">Użyj formatu trzyliterowego dla dat</string>
     <string name="date_format_number_of_days_to_event">Ilość dni do wydarzenia</string>
     <string name="date_format_day_in_month">Dzień w miesiącu</string>
     <string name="date_format_month_day">Miesiąc-Dzień</string>
-    <string name="date_format_week_in_year">Tydzień roku</string>
+    <string name="date_format_week_in_year">Tydzień w roku</string>
     <string name="pattern_example">Przykład wzoru</string>
     <string name="custom_pattern">Własny wzór</string>
     <string name="sample_date">Przykładowa data (w formacie rrrr-MM-dd)</string>
-    <string name="result_formatted_date">Wynik, data sformatowana</string>
+    <string name="result_formatted_date">Wynik, sformatowana data</string>
     <string name="N_days_ago">%d dni temu</string>
     <string name="in_N_days">za %d dni</string>
     <!-- Preference frame: Colors -->
@@ -106,7 +107,7 @@
     <string name="appearance_past_events_background_color_desc">Modyfikuj kolor tła przeszłych wydarzeń</string>
     <string name="todays_events_background_color_title">Kolor tła dzisiejszych wydarzeń</string>
     <string name="todays_events_background_color_desc">Zmień kolor tła dzisiejszych wydarzeń</string>
-    <string name="appearance_header_theme_title">Cieniowanie nagłówka widgetu</string>
+    <string name="appearance_header_theme_title">Cieniowanie nagłówka</string>
     <string name="appearance_header_theme_desc">Wyświetlaj nagłówek widżetu w ciemnym lub jasnym odcieniu</string>
     <string name="widget_header_background_color_desc">Zmień kolor nagłówka (domyślny: przezroczysty)</string>
     <string name="widget_header_background_color_title">Kolor tła nagłówka</string>
@@ -151,15 +152,15 @@
     <string name="event_range_one_year">Rok</string>
     <string name="show_past_events_with_default_color_title">Wyświetlaj wszystkie przeszłe wydarzenia w domyślnym kolorze</string>
     <string name="this_option_is_turned_off">Wyłączone</string>
-    <string name="pref_events_ended_title">Pokaż wydarzenia, które się zakończyły</string>
+    <string name="pref_events_ended_title">Pokaż zakończone wydarzenia</string>
     <string name="ended_one_hour_ago">Zakończyły się godzinę temu</string>
     <string name="ended_two_hours_ago">Zakończyły się dwie godziny temu</string>
     <string name="ended_four_hours_ago">Zakończyły się cztery godziny temu</string>
     <string name="ended_today">Zakończyły się dzisiaj</string>
     <string name="ended_yesterday">Zakończyły się wczoraj</string>
     <string name="ended_one_week_ago">Zakończyły się tydzień temu</string>
-    <string name="ended_two_weeks_ago">Zakończyły się twa tygdonie temu</string>
-    <string name="ended_one_month_ago">Zakończymy się miesiąc temu</string>
+    <string name="ended_two_weeks_ago">Zakończyły się twa tygodnie temu</string>
+    <string name="ended_one_month_ago">Zakończyły się miesiąc temu</string>
     <string name="ended_two_months_ago">Zakończyły się dwa miesiące temu</string>
     <string name="ended_three_months_ago">Zakończyły się trzy miesiące temu</string>
     <string name="ended_six_months_ago">Zakończyły się sześć miesięcy temu</string>
@@ -170,7 +171,7 @@
     <string name="task_scheduling_title">Harmonogram zadań</string>
     <string name="task_scheduling_date_due">Pokaż zadania pod datą zakończenia</string>
     <string name="task_scheduling_date_started">Pokaż zadania pod datą rozpoczęcia</string>
-    <string name="tasks_wo_dates_title">Zadania bez dat rozpoczęcia i zakończenia</string>
+    <string name="tasks_wo_dates_title">Zadania bez daty rozpoczęcia i zakończenia</string>
     <string name="tasks_wo_dates_end_of_list">Pokaż na końcu całej listy wydarzeń</string>
     <string name="tasks_wo_dates_end_of_today">Pokaż na końcu dzisiaj</string>
     <string name="tasks_wo_dates_hide">Ukryj</string>
@@ -184,7 +185,7 @@
     <string name="task_source_opentasks">OpenTasks (by dmfs GmbH)</string>
     <string name="task_source_samsung">Kalendarz Samsung</string>
     <!-- Preference frame: Other -->
-    <string name="device_default">Domyślne urządzenie</string>
+    <string name="device_default">Domyślny urządzenia</string>
     <string name="other_prefs_desc">Rozmiar, format daty i czasu itp.</string>
     <string name="other_prefs_title">Pozostałe ustawienia</string>
     <string name="appearance_prefs">Wygląd</string>
@@ -223,5 +224,5 @@
     <string name="backup_settings_title">Ustawienia kopii zapasowej</string>
     <string name="backup_settings_desc">To samo co \"Udostępnij wydarzenia do sprawdzania błędów\", ale nie zawiera danych wydarzeń</string>
     <string name="restore_settings_title">Przywróć ustawienia z kopii zapasowej</string>
-    <string name="restore_settings_desc">Ustawienia z każdego widgetu powinny być przywracanie pojedynczo</string>
+    <string name="restore_settings_desc">Ustawienia każdego widżetu powinny być przywracanie pojedynczo</string>
 </resources>
