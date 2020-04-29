@@ -93,6 +93,7 @@
     <!-- Date format preference -->
     <string name="simple_options">シンプルオプション</string>
     <string name="date_format_default_weekday">デフォルトで曜日</string>
+    <string name="date_format_default_ytt">デフォルトで昨日、今日、明後日</string>
     <string name="date_format_default_days">デフォルトでイベントの日数</string>
     <string name="appearance_abbreviate_dates_title">省略日付と曜日</string>
     <string name="appearance_abbreviate_dates_desc">３文字形式の日付を使用する</string>
@@ -104,6 +105,8 @@
     <string name="custom_pattern">カスタムパターン</string>
     <string name="sample_date">サンプル日付 (yyyy-MM-dd 形式)</string>
     <string name="result_formatted_date">結果。表示形式の日付</string>
+    <string name="N_days_ago">%d 日前</string>
+    <string name="in_N_days">%d 日内</string>
     <!-- Preference frame: Colors -->
     <string name="colors_prefs_desc">テキストと背景の色と透明度</string>
     <string name="appearance_group_color_title">色</string>

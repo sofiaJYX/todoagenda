@@ -188,6 +188,7 @@
     <string name="tasks_wo_dates_hide">Verbergen</string>
     <string name="filter_mode">Filter Fehlersuche</string>
     <string name="filter_mode_normal">Normale Filterung</string>
+    <string name="filter_mode_debug">Normale Filterung</string>
     <string name="filter_mode_no_filtering">Alle Filter ignorieren (ausschalten)</string>
     <!-- Preference frame: Calendars and Task Lists -->
     <string name="calendars_prefs">Kalender</string>

@@ -39,8 +39,14 @@
         a dává tak rychlý přehled toho, co Vás čeká.</string>
     <string name="app_description_4000_chars_max_part02">Funkce</string>
     <string name="app_description_4000_chars_max_part15">Žádná reklamy. Zdarma a Open Source.</string>
+    <string name="app_description_4000_chars_max_part09">Přizpůsobit velikost textu widgetu.</string>
+    <string name="app_description_4000_chars_max_part10">Plně upravitelný widget s alternativním rozložením.</string>
+    <string name="app_description_4000_chars_max_part11">Ukazatele pro výstrahy a opakující se události.</string>
+    <string name="app_description_4000_chars_max_part12">Uzamknout časové pásmo při cestování do různých časových pásem.</string>
     <string name="app_description_4000_chars_max_part16">Skrýt duplicitní události.</string>
+    <string name="app_description_4000_chars_max_part14">Android 7+ podporován. Podporuje Android tablety.</string>
     <!-- Preference frame: Layout -->
+    <string name="layout_prefs_desc">Místo, zobrazit a skrýt prvky widgetu</string>
     <string name="layout_prefs_title">Uspořádání</string>
     <string name="widget_header_layout">Rozložení záhlaví widgetu</string>
     <string name="pref_event_entry_layout_title">Rozložení události</string>
@@ -75,6 +81,7 @@
     <string name="date_format_default_weekday">Výchozí se dnem v týdnu</string>
     <string name="date_format_default_ytt">Výchozí s textem včera, dnes a zítra</string>
     <string name="date_format_default_days">Výchozí s počtem dní k události</string>
+    <string name="appearance_abbreviate_dates_title">Zkrátit data s týdnem</string>
     <string name="appearance_abbreviate_dates_desc">Použít třípísmenný formát pro data</string>
     <string name="date_format_number_of_days_to_event">Počet dní k událostí</string>
     <string name="date_format_day_in_month">Den v měsíci</string>
@@ -155,7 +162,15 @@
     <string name="pref_hide_based_on_keywords_title">Skrýt na základě klíčových slov v názvu</string>
     <string name="show_only_closest_instance_of_recurring_event">Zobrazit pouze nejbližší výskyt opakované události</string>
     <string name="hide_duplicates">Skrýt duplikáty</string>
+    <string name="task_scheduling_title">Plánování úkolů</string>
+    <string name="task_scheduling_date_started">Zobrazit úkoly pod datem zahájení</string>
+    <string name="tasks_wo_dates_title">Úkoly bez zahájení a termínu</string>
+    <string name="tasks_wo_dates_end_of_list">Zobrazit na konci celého seznamu událostí</string>
+    <string name="tasks_wo_dates_end_of_today">Zobrazit na konci dneška</string>
     <string name="tasks_wo_dates_hide">Skrýt</string>
+    <string name="filter_mode">Řešení problémů s filtry</string>
+    <string name="filter_mode_normal">Normální filtrování</string>
+    <string name="filter_mode_no_filtering">Ignorovat všechny filtry (vypněte je)</string>
     <!-- Preference frame: Calendars and Task Lists -->
     <string name="calendars_prefs">Kalendáře</string>
     <string name="calendars_prefs_desc">Vyberte kalendáře k zobrazení</string>
@@ -182,6 +197,10 @@
     <string name="lock_time_zone_off_desc">Odemčené, aktuální zóna: %s</string>
     <string name="lock_time_zone_on_desc">Uzamčeno na %s</string>
     <string name="lock_time_zone_title">Zamknout časové pásmo</string>
+    <string name="snapshot_mode">Zamknout seznam událostí (režim snímků)</string>
+    <string name="snapshot_mode_live_data">Živá data ze skutečných zdrojů</string>
+    <string name="snapshot_mode_time">Snímek jako v době, kdy byl pořízen: %s</string>
+    <string name="snapshot_mode_now">Uložený snímek zobrazený v aktuálním čase (spuštěn v %s)</string>
     <string name="refresh_period_minutes">Perioda automatické aktualizace v minutách</string>
     <string name="refresh_period_minutes_desc">Automaticky aktualizovat widget každých %d minut</string>
     <!-- Preference frame: Feedback and Backup -->
