@@ -46,4 +46,9 @@
     <color name="task_list_8">#9c27b0</color>
     <color name="task_list_9">#4caf59</color>
 
+    <color name="tasks_priority_high">#f44336</color>
+    <color name="tasks_priority_medium">#ffc107</color>
+    <color name="tasks_priority_low">#2196f3</color>
+    <color name="tasks_priority_none">#9e9e9e</color>
+
 </resources>

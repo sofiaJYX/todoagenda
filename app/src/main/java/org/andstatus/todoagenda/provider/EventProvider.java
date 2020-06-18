@@ -31,6 +31,7 @@ public class EventProvider {
     protected static final String CLOSING_BRACKET = " )";
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
+    protected static final String IN = " IN ";
     protected static final String EQUALS = " = ";
     protected static final String NOT_EQUALS = " != ";
     protected static final String LTE = " <= ";

@@ -20,7 +20,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "ORG_TASKS_AUTHORITY", "\"org.tasks.debug\""
+        }
         release {
+            buildConfigField "String", "ORG_TASKS_AUTHORITY", "\"org.tasks\""
             minifyEnabled false
             lintOptions {
                 warning 'MissingTranslation','InvalidPackage'
