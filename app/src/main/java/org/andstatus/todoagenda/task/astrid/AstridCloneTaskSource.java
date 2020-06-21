@@ -2,9 +2,9 @@ package org.andstatus.todoagenda.task.astrid;
 
 import android.net.Uri;
 
-public interface TaskSource {
+interface AstridCloneTaskSource {
 
-  TaskSource GOOGLE_TASKS = new TaskSource() {
+  AstridCloneTaskSource GOOGLE_TASKS = new AstridCloneTaskSource() {
     @Override
     public Uri getListUri() {
       return AstridCloneTasksProvider.GOOGLE_LISTS_URI;
@@ -30,7 +30,8 @@ public interface TaskSource {
       return "gtl_account";
     }
   };
-  TaskSource TASKS = new TaskSource() {
+
+  AstridCloneTaskSource TASKS = new AstridCloneTaskSource() {
     @Override
     public Uri getListUri() {
       return AstridCloneTasksProvider.TASKS_LISTS_URI;

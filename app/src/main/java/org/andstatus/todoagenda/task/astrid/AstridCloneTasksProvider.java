@@ -41,10 +41,18 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
     private static final String TASKS_COLUMN_IMPORTANCE = "importance";
     private static final String TASKS_COLUMN_COMPLETED = "completed";
 
-    private final TaskSource taskSource;
+    private final AstridCloneTaskSource taskSource;
 
-    public AstridCloneTasksProvider(
-        EventProviderType type, Context context, int widgetId, TaskSource taskSource) {
+    public static AstridCloneTasksProvider newTasksProvider(EventProviderType type, Context context, int widgetId) {
+        return new AstridCloneTasksProvider(type, context, widgetId, AstridCloneTaskSource.TASKS);
+    }
+
+    public static AstridCloneTasksProvider newGoogleTasksProvider(EventProviderType type, Context context, int widgetId) {
+        return new AstridCloneTasksProvider(type, context, widgetId, AstridCloneTaskSource.GOOGLE_TASKS);
+    }
+
+    private AstridCloneTasksProvider(
+        EventProviderType type, Context context, int widgetId, AstridCloneTaskSource taskSource) {
         super(type, context, widgetId);
         this.taskSource = taskSource;
     }

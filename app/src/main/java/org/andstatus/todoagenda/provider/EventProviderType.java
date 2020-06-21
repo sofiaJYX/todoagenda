@@ -13,7 +13,6 @@ import org.andstatus.todoagenda.calendar.CalendarEventVisualizer;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.task.TaskVisualizer;
 import org.andstatus.todoagenda.task.astrid.AstridCloneTasksProvider;
-import org.andstatus.todoagenda.task.astrid.TaskSource;
 import org.andstatus.todoagenda.task.dmfs.DmfsOpenTasksContract;
 import org.andstatus.todoagenda.task.dmfs.DmfsOpenTasksProvider;
 import org.andstatus.todoagenda.task.samsung.SamsungTasksProvider;
@@ -50,13 +49,13 @@ public enum EventProviderType {
     ASTRID_CLONE_TASKS(4, false, AstridCloneTasksProvider.PERMISSION, AstridCloneTasksProvider.AUTHORITY) {
         @Override
         public EventProvider getEventProvider(Context context, int widgetId) {
-            return new AstridCloneTasksProvider(this, context, widgetId, TaskSource.TASKS);
+            return AstridCloneTasksProvider.newTasksProvider(this, context, widgetId);
         }
     },
     ASTRID_CLONE_GOOGLE_TASKS(5, false, AstridCloneTasksProvider.PERMISSION, AstridCloneTasksProvider.AUTHORITY) {
         @Override
         public EventProvider getEventProvider(Context context, int widgetId) {
-            return new AstridCloneTasksProvider(this, context, widgetId, TaskSource.GOOGLE_TASKS);
+            return AstridCloneTasksProvider.newGoogleTasksProvider(this, context, widgetId);
         }
     };
 
