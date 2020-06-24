@@ -31,4 +31,13 @@ public enum SnapshotMode {
         }
         return defaultValue;
     }
+
+    public boolean isSnapshotMode() {
+        return this == SNAPSHOT_NOW || this == SNAPSHOT_TIME;
+    }
+
+    public boolean isLiveMode() {
+        return this == LIVE_DATA;
+    }
+
 }

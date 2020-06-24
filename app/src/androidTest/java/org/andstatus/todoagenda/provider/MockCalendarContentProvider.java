@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.andstatus.todoagenda.prefs.AllSettings.getStorageKey;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_ID;
 import static org.andstatus.todoagenda.provider.QueryResultsStorage.KEY_SETTINGS;
+import static org.junit.Assert.fail;
 
 /**
  * @author yvolk@yurivolkov.com
@@ -73,7 +74,7 @@ public class MockCalendarContentProvider {
     public void updateAppSettings(String tag) {
         settings.setResultsStorage(results);
         if (!results.getResults().isEmpty()) {
-            settings.clock().setSnapshotMode(SnapshotMode.SNAPSHOT_TIME);
+            settings.clock().setSnapshotMode(SnapshotMode.SNAPSHOT_TIME, settings);
         }
         AllSettings.addNew(tag, context, settings);
         if (results.getResults().size() > 0) {
@@ -153,15 +154,18 @@ public class MockCalendarContentProvider {
         settings = AllSettings.instanceFromId(getContext(), getWidgetId());
     }
 
-    public QueryResultsStorage loadResultsAndSettings(@RawRes int jsonResId)
-            throws IOException, JSONException {
-        JSONObject json = new JSONObject(RawResourceUtils.getString(InstrumentationRegistry.getInstrumentation().getContext(), jsonResId));
-        json.getJSONObject(KEY_SETTINGS).put(PREF_WIDGET_ID, widgetId);
-
-        WidgetData widgetData = WidgetData.fromJson(json);
-        InstanceSettings settings = widgetData.getSettingsForWidget(context, this.settings, widgetId);
-        setSettings(settings);
-        return settings.getResultsStorage();
+    public QueryResultsStorage loadResultsAndSettings(@RawRes int jsonResId) {
+        try {
+            JSONObject json = new JSONObject(RawResourceUtils.getString(InstrumentationRegistry.getInstrumentation().getContext(), jsonResId));
+            json.getJSONObject(KEY_SETTINGS).put(PREF_WIDGET_ID, widgetId);
+            WidgetData widgetData = WidgetData.fromJson(json);
+            InstanceSettings settings = widgetData.getSettingsForWidget(context, this.settings, widgetId);
+            setSettings(settings);
+            return settings.getResultsStorage();
+        } catch (Exception e) {
+            fail("loadResultsAndSettings" + e.getMessage());
+        }
+        return null;
     }
 
     public OrderedEventSource getFirstActiveEventSource() {

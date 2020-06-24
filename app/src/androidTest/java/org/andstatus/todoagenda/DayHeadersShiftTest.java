@@ -2,10 +2,7 @@ package org.andstatus.todoagenda;
 
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.DayHeader;
-import org.json.JSONException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class DayHeadersShiftTest extends BaseWidgetTest {
 
     @Test
-    public void testDayHeadersShift() throws IOException, JSONException {
+    public void testDayHeadersShift() {
         final String method = "testDayHeadersShift";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.day_headers_shift);

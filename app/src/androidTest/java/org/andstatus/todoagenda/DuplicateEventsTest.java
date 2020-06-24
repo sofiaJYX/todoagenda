@@ -1,10 +1,7 @@
 package org.andstatus.todoagenda;
 
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
-import org.json.JSONException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,7 +14,7 @@ public class DuplicateEventsTest extends BaseWidgetTest {
      * https://github.com/plusonelabs/calendar-widget/issues/354
      */
     @Test
-    public void testIssue354() throws IOException, JSONException {
+    public void testIssue354() {
         final String method = "testIssue354";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.duplicates);

@@ -8,10 +8,8 @@ import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.andstatus.todoagenda.widget.WidgetEntryPosition;
-import org.json.JSONException;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -27,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
 
     @Test
-    public void dateDueNoFilters() throws IOException, JSONException {
+    public void dateDueNoFilters() {
         final String method = "dateDueNoFilters";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -54,7 +52,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
 
     /** T1 at https://github.com/andstatus/todoagenda/issues/4#issue-551945909 */
     @Test
-    public void dateDueEndOfList() throws IOException, JSONException {
+    public void dateDueEndOfList() {
         final String method = "dateDueNoFilters";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -81,7 +79,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
     }
 
     @Test
-    public void dateDueFiltered() throws IOException, JSONException {
+    public void dateDueFiltered() {
         final String method = "testDateDueFiltered";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -107,7 +105,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
     }
 
     @Test
-    public void dateStartedNoFilters() throws IOException, JSONException {
+    public void dateStartedNoFilters() {
         final String method = "dateStartedNoFilters";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -135,7 +133,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
 
     /** T2 at https://github.com/andstatus/todoagenda/issues/4#issue-551945909 */
     @Test
-    public void dateStartedEndOfList() throws IOException, JSONException {
+    public void dateStartedEndOfList() {
         final String method = "dateStartedEndOfList";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -163,7 +161,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
     }
 
     @Test
-    public void dateStartedHideNoDates() throws IOException, JSONException {
+    public void dateStartedHideNoDates() {
         final String method = "dateStartedHideNoDates";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -190,7 +188,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
     }
 
     @Test
-    public void dateStartedFiltered() throws IOException, JSONException {
+    public void dateStartedFiltered() {
         final String method = "dateStartedFiltered";
         List<String> names = Arrays.asList(
                 WidgetEntryPosition.DAY_HEADER.value,
@@ -214,7 +212,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
         oneCase(method, setter, names);
     }
 
-    private void oneCase(String method, UnaryOperator<InstanceSettings> setter, List<String> names) throws IOException, JSONException {
+    private void oneCase(String method, UnaryOperator<InstanceSettings> setter, List<String> names) {
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.filter_tasks_308_no_filters);
         provider.addResults(inputs);
@@ -225,7 +223,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
                 names);
     }
 
-    private void oneCaseSettings(String method, UnaryOperator<InstanceSettings> setter, List<String> names) throws IOException, JSONException {
+    private void oneCaseSettings(String method, UnaryOperator<InstanceSettings> setter, List<String> names) {
         setter.apply(getSettings());
 
         playResults(method);

@@ -277,9 +277,6 @@ public class InstanceSettings {
             if (json.has(PREF_LOCKED_TIME_ZONE_ID)) {
                 clock().setLockedTimeZoneId(json.getString(PREF_LOCKED_TIME_ZONE_ID));
             }
-            if (json.has(PREF_SNAPSHOT_MODE)) {
-                clock().setSnapshotMode(SnapshotMode.fromValue(json.getString(PREF_SNAPSHOT_MODE)));
-            }
             if (json.has(PREF_REFRESH_PERIOD_MINUTES)) {
                 setRefreshPeriodMinutes(json.getInt(PREF_REFRESH_PERIOD_MINUTES));
             }
@@ -329,6 +326,7 @@ public class InstanceSettings {
             if (json.has(PREF_RESULTS_STORAGE)) {
                 setResultsStorage(QueryResultsStorage.fromJson(widgetId, json.getJSONObject(PREF_RESULTS_STORAGE)));
             }
+            clock().setSnapshotMode(SnapshotMode.fromValue(json.optString(PREF_SNAPSHOT_MODE)), this);
         } catch (JSONException e) {
             Log.w(TAG, "setFromJson failed, widgetId:" + widgetId + "\n" + json);
             return this;
@@ -386,10 +384,10 @@ public class InstanceSettings {
                     PREF_DAY_HEADER_ALIGNMENT_DEFAULT);
 
             settings.clock().setLockedTimeZoneId(ApplicationPreferences.getLockedTimeZoneId(context));
-            settings.clock().setSnapshotMode(ApplicationPreferences.getSnapshotMode(context));
             if (settingsStored != null && settingsStored.hasResults()) {
                 settings.setResultsStorage(settingsStored.getResultsStorage());
             }
+            settings.clock().setSnapshotMode(ApplicationPreferences.getSnapshotMode(context), settings);
             return settings;
         }
     }
@@ -613,8 +611,12 @@ public class InstanceSettings {
         return clock;
     }
 
+    public boolean isSnapshotMode() {
+        return clock().getSnapshotMode().isSnapshotMode();
+    }
+
     public boolean isLiveMode() {
-        return clock().getSnapshotMode() == SnapshotMode.LIVE_DATA;
+        return clock().getSnapshotMode().isLiveMode();
     }
 
     public void setRefreshPeriodMinutes(int refreshPeriodMinutes) {
@@ -671,7 +673,7 @@ public class InstanceSettings {
     }
 
     public FilterMode getFilterMode() {
-        return filterMode == FilterMode.NORMAL_FILTER && clock().getSnapshotMode() != SnapshotMode.LIVE_DATA
+        return filterMode == FilterMode.NORMAL_FILTER && clock().getSnapshotMode().isSnapshotMode()
                 ? FilterMode.DEBUG_FILTER
                 : filterMode;
     }
@@ -786,7 +788,6 @@ public class InstanceSettings {
                     addActiveEventSource(providerType);
                 }
             }
-            clock().setSnapshotDate(resultsStorage.getExecutedAt());
         }
     }
 

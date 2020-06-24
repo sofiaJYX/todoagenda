@@ -5,10 +5,7 @@ import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.CalendarEntry;
 import org.andstatus.todoagenda.widget.LastEntry;
 import org.joda.time.DateTime;
-import org.json.JSONException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class BirthdayTest extends BaseWidgetTest {
 
     @Test
-    public void testBirthdayOneDayOnly() throws IOException, JSONException {
+    public void testBirthdayOneDayOnly() {
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.birthday);
 

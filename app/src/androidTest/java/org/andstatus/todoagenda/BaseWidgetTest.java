@@ -2,8 +2,10 @@ package org.andstatus.todoagenda;
 
 import android.util.Log;
 
+import org.andstatus.todoagenda.prefs.FilterMode;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.provider.MockCalendarContentProvider;
+import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.util.LazyVal;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -122,5 +124,12 @@ public class BaseWidgetTest {
     public RemoteViewsFactory getFactory() {
         RemoteViewsFactory existingFactory = RemoteViewsFactory.factories.get(provider.getWidgetId());
         return existingFactory == null ? factory.get() : existingFactory;
+    }
+
+    protected void ensureNonEmptyResults() {
+        QueryResultsStorage inputs = provider.loadResultsAndSettings(org.andstatus.todoagenda.tests.R.raw.birthday);
+        InstanceSettings settings = getSettings();
+        settings.setFilterMode(FilterMode.NO_FILTERING);
+        provider.addResults(inputs);
     }
 }

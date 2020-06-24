@@ -6,10 +6,7 @@ import org.andstatus.todoagenda.widget.CalendarEntry;
 import org.andstatus.todoagenda.widget.LastEntry;
 import org.andstatus.todoagenda.widget.TaskEntry;
 import org.andstatus.todoagenda.widget.WidgetEntryPosition;
-import org.json.JSONException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,7 +19,7 @@ public class PastDueHeaderWithTasksTest extends BaseWidgetTest {
      * https://github.com/plusonelabs/calendar-widget/issues/205
      */
     @Test
-    public void testPastDueHeaderWithTasks() throws IOException, JSONException {
+    public void testPastDueHeaderWithTasks() {
         final String method = "testPastDueHeaderWithTasks";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.past_due_header_with_tasks);

@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -117,7 +116,7 @@ public class MockCalendarContentProviderTest extends BaseWidgetTest {
     }
 
     @Test
-    public void testJsonToAndFrom() throws IOException, JSONException {
+    public void testJsonToAndFrom() throws JSONException {
         QueryResultsStorage inputs1 = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.birthday);
         JSONObject jsonOutput = inputs1.toJson(provider.getContext(), provider.getWidgetId(), true);

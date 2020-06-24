@@ -71,10 +71,10 @@ public class MyContentResolver {
     }
 
     private Cursor queryAvailableSources(@NonNull Uri uri, @Nullable String[] projection) {
-        return widgetId == 0 || getSettings().isLiveMode()
-                ? context.getContentResolver().query(uri, projection, null, null, null)
-                : getSettings().getResultsStorage().getResult(type, requestsCounter.incrementAndGet() - 1)
-                .map(r -> r.querySource(projection)).orElse(null);
+        return widgetId != 0 && getSettings().isSnapshotMode()
+                ? getSettings().getResultsStorage().getResult(type, requestsCounter.incrementAndGet() - 1)
+                    .map(r -> r.querySource(projection)).orElse(null)
+                : context.getContentResolver().query(uri, projection, null, null, null);
     }
 
     public void onQueryEvents() {
@@ -111,9 +111,9 @@ public class MyContentResolver {
 
     private Cursor queryForEvents(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                                   @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return getSettings().isLiveMode()
-                ? context.getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder)
-                : getSettings().getResultsStorage().getResult(type, requestsCounter.incrementAndGet() - 1)
-                    .map(r -> r.query(projection)).orElse(null);
+        return widgetId != 0 && getSettings().isSnapshotMode()
+                ? getSettings().getResultsStorage().getResult(type, requestsCounter.incrementAndGet() - 1)
+                    .map(r -> r.query(projection)).orElse(null)
+                : context.getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
     }
 }

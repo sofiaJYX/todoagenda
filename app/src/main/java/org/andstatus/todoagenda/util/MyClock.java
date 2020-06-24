@@ -2,6 +2,7 @@ package org.andstatus.todoagenda.util;
 
 import androidx.annotation.Nullable;
 
+import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.SnapshotMode;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -26,15 +27,19 @@ public class MyClock {
         zone = DateTimeZone.getDefault();
     }
 
-    public void setSnapshotMode(SnapshotMode snapshotMode) {
-        this.snapshotMode = snapshotMode;
+    public void setSnapshotMode(SnapshotMode snapshotModeIn, InstanceSettings settings) {
+        snapshotMode = snapshotModeIn.isSnapshotMode() && !settings.hasResults()
+            ? SnapshotMode.LIVE_DATA
+            : snapshotModeIn;
+        if (snapshotMode.isSnapshotMode()) {
+            setSnapshotDate(settings.getResultsStorage().getExecutedAt());
+        }
         updateZone();
     }
 
-    public void setSnapshotDate(DateTime snapshotDate) {
+    private void setSnapshotDate(DateTime snapshotDate) {
         this.snapshotDate = snapshotDate;
         snapshotDateSetAt = DateTime.now();
-        updateZone();
     }
 
     public void setLockedTimeZoneId(String timeZoneId) {

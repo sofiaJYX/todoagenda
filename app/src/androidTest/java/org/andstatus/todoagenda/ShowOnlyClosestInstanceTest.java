@@ -3,10 +3,8 @@ package org.andstatus.todoagenda;
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.CalendarEntry;
 import org.andstatus.todoagenda.widget.WidgetEntry;
-import org.json.JSONException;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +17,7 @@ import static org.junit.Assert.assertNotEquals;
 public class ShowOnlyClosestInstanceTest extends BaseWidgetTest {
 
     @Test
-    public void testShowOnlyClosestInstance() throws IOException, JSONException {
+    public void testShowOnlyClosestInstance() {
         final String method = "testShowOnlyClosestInstance";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.closest_event);

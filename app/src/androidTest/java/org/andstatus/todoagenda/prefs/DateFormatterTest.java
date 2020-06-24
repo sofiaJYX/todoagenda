@@ -21,8 +21,7 @@ public class DateFormatterTest extends BaseWidgetTest {
 
     @Test
     public void testTimeZones() {
-        InstanceSettings settings = getSettings();
-        settings.clock().setSnapshotMode(SnapshotMode.SNAPSHOT_TIME);
+        ensureNonEmptyResults();
         assertNow("2020-02-15T01:00:00.000+08:00");
         assertNow("2020-02-15T23:00:00.000+08:00");
         assertNow("2020-02-29T01:00:00.000+08:00");
@@ -57,8 +56,8 @@ public class DateFormatterTest extends BaseWidgetTest {
 
     @Test
     public void customPatterns() {
+        ensureNonEmptyResults();
         InstanceSettings settings = getSettings();
-        settings.clock().setSnapshotMode(SnapshotMode.SNAPSHOT_TIME);
         DateTime now = settings.clock().now().withTimeAtStartOfDay().plusHours(1);
         provider.setExecutedAt(now);
 

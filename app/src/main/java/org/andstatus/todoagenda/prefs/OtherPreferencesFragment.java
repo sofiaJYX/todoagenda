@@ -81,10 +81,10 @@ public class OtherPreferencesFragment extends PreferenceFragmentCompat
         preference.setEntries(entries);
 
         SnapshotMode snapshotMode = ApplicationPreferences.getSnapshotMode(getActivity());
-        if (snapshotMode == SnapshotMode.LIVE_DATA) {
-            preference.setSummary(snapshotMode.valueResId);
-        } else {
+        if (snapshotMode.isSnapshotMode()) {
             preference.setSummary(formatSnapshotModeSummary(settings, snapshotMode.valueResId));
+        } else {
+            preference.setSummary(snapshotMode.valueResId);
         }
     }
 
@@ -148,10 +148,10 @@ public class OtherPreferencesFragment extends PreferenceFragmentCompat
             case InstanceSettings.PREF_SNAPSHOT_MODE:
                 SnapshotMode snapshotMode = ApplicationPreferences.getSnapshotMode(getActivity());
                 InstanceSettings settings = getSettings();
-                if (snapshotMode != SnapshotMode.LIVE_DATA && !settings.hasResults()) {
+                if (snapshotMode.isSnapshotMode() && !settings.hasResults()) {
                     settings.setResultsStorage(QueryResultsStorage.getNewResults(getActivity(), settings.widgetId));
                 }
-                settings.clock().setSnapshotMode(snapshotMode);
+                settings.clock().setSnapshotMode(snapshotMode, settings);
                 settings.save(key, "newResultsForSnapshotMode");
                 showSnapshotMode();
                 setLockTimeZone();

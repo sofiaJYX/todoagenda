@@ -6,10 +6,7 @@ import org.andstatus.todoagenda.widget.DayHeader;
 import org.andstatus.todoagenda.widget.LastEntry;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.joda.time.DateTime;
-import org.json.JSONException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -20,7 +17,7 @@ import static org.junit.Assert.fail;
 public class MultidayAllDayEventTest extends BaseWidgetTest {
 
     @Test
-    public void testInsidePeriod() throws IOException, JSONException {
+    public void testInsidePeriod() {
         final String method = "testInsidePeriod";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.multi_day);

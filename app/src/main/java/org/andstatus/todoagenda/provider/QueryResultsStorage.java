@@ -52,9 +52,9 @@ public class QueryResultsStorage {
         final String method = "shareEventsForDebugging";
         Log.i(TAG, method + " started");
         InstanceSettings settings = AllSettings.instanceFromId(context, widgetId);
-        QueryResultsStorage storage = settings.isLiveMode() || !settings.hasResults()
-                ? getNewResults(context, widgetId)
-                : settings.getResultsStorage();
+        QueryResultsStorage storage = settings.isSnapshotMode()
+                ? settings.getResultsStorage()
+                : getNewResults(context, widgetId);
         String results = storage.toJsonString(context, widgetId);
         if (TextUtils.isEmpty(results)) {
             Log.i(TAG, method + "; Nothing to share");

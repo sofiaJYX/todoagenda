@@ -2,10 +2,7 @@ package org.andstatus.todoagenda;
 
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.CalendarEntry;
-import org.json.JSONException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,7 +15,7 @@ public class WrongDatesLostEventsTest extends BaseWidgetTest {
      * https://github.com/plusonelabs/calendar-widget/issues/205
      */
     @Test
-    public void testIssue205() throws IOException, JSONException {
+    public void testIssue205() {
         final String method = "testIssue205";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
                 org.andstatus.todoagenda.tests.R.raw.wrong_dates_lost_events);

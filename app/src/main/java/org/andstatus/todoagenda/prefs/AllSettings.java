@@ -181,7 +181,7 @@ public class AllSettings {
         InstanceSettings settings = WidgetData.fromJson(json)
                 .getSettingsForWidget(activity, instances.get(targetWidgetId), targetWidgetId);
         if (settings.hasResults()) {
-            settings.clock().setSnapshotMode(SnapshotMode.SNAPSHOT_TIME);
+            settings.clock().setSnapshotMode(SnapshotMode.SNAPSHOT_TIME, settings);
         }
         save(TAG, "restoreWidgetSettings", settings);
         return settings;
