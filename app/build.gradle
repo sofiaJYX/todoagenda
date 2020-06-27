@@ -1,5 +1,3 @@
-import org.ajoberstar.grgit.Grgit
-
 apply plugin: 'com.android.application'
 
 android {
@@ -9,8 +7,8 @@ android {
     useLibrary 'android.test.mock'
 
     defaultConfig {
-        versionCode getCommitCount()
-        versionName '4.1.0' + "-" + versionCode
+        versionCode 681
+        versionName '4.1.0'
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
 
@@ -72,15 +70,4 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
-}
-
-static getCommitCount() {
-    try {
-        def git = Grgit.open()
-        def versionCode = git.log().size()
-        git.close()
-        return versionCode
-    } catch (ignored) {
-        return 1
-    }
 }
