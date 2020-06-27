@@ -1,12 +1,16 @@
 package org.andstatus.todoagenda.widget;
 
+import android.content.Intent;
+
+import org.andstatus.todoagenda.RemoteViewsFactory;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatType;
 import org.andstatus.todoagenda.util.DateUtil;
 import org.andstatus.todoagenda.util.MyClock;
 import org.joda.time.DateTime;
-import org.joda.time.Days;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.andstatus.todoagenda.util.DateUtil.isSameDate;
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.DAY_HEADER;
@@ -15,8 +19,10 @@ import static org.andstatus.todoagenda.widget.WidgetEntryPosition.ENTRY_DATE;
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.PAST_AND_DUE;
 
 public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparable<WidgetEntry<T>> {
-
+    public static final String EXTRA_WIDGET_ENTRY_ID = RemoteViewsFactory.PACKAGE + ".extra.WIDGET_ENTRY_ID";
+    private final static AtomicLong idGenerator = new AtomicLong(0);
     protected final InstanceSettings settings;
+    public final long entryId = idGenerator.incrementAndGet();
     public final WidgetEntryPosition entryPosition;
     public final DateTime entryDate;
     public final DateTime entryDay;
@@ -127,9 +133,7 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
         return "";
     }
 
-    public OrderedEventSource getSource() {
-        return OrderedEventSource.EMPTY;
-    }
+    public abstract OrderedEventSource getSource();
 
     public String getTitle() {
         return "";
@@ -189,6 +193,10 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
                 : settings.entryDateFormatter().formatDate(entryDate);
     }
 
+    public Intent createOnClickFillInIntent() {
+        return new Intent().putExtra(EXTRA_WIDGET_ENTRY_ID, entryId);
+    }
+
     @Override
     public String toString() {
         return entryPosition.value + " [" +
@@ -197,5 +205,9 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
                         (entryDate == MyClock.DATETIME_MAX) ? "max" : entryDate) +
                 ", endDate=" + endDate +
             "]";
+    }
+
+    public WidgetEvent getEvent() {
+        return null;
     }
 }

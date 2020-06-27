@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Attendees;
 import android.provider.CalendarContract.Instances;
-import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 
@@ -17,14 +16,16 @@ import org.andstatus.todoagenda.prefs.FilterMode;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
-import org.andstatus.todoagenda.util.CalendarIntentUtil;
+import org.andstatus.todoagenda.util.IntentUtil;
 import org.andstatus.todoagenda.util.MyClock;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import io.vavr.control.Try;
@@ -73,7 +74,7 @@ public class CalendarEventProvider extends EventProvider {
     }
 
     private void filterShowOnlyClosestInstanceOfRecurringEvent(@NonNull List<CalendarEvent> eventList) {
-        SparseArray<CalendarEvent> eventIds = new SparseArray<>();
+        Map<Long, CalendarEvent> eventIds = new HashMap<>();
         List<CalendarEvent> toRemove = new ArrayList<>();
         for (CalendarEvent event : eventList) {
             CalendarEvent otherEvent = eventIds.get(event.getEventId());
@@ -232,7 +233,7 @@ public class CalendarEventProvider extends EventProvider {
     }
 
     public Intent createViewEventIntent(CalendarEvent event) {
-        Intent intent = CalendarIntentUtil.createViewIntent();
+        Intent intent = IntentUtil.createViewIntent();
         intent.setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, event.getEventId()));
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStartMillis());
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEndMillis());

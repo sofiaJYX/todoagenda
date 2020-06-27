@@ -1,6 +1,7 @@
 package org.andstatus.todoagenda.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -26,14 +27,14 @@ import static org.andstatus.todoagenda.util.RemoteViewsUtil.setViewWidth;
 import static org.andstatus.todoagenda.widget.EventEntryLayout.SPACE_PIPE_SPACE;
 
 public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
-    private final EventProvider eventProvider;
+    protected final EventProvider eventProvider;
 
     public WidgetEntryVisualizer(EventProvider eventProvider) {
         this.eventProvider = eventProvider;
     }
 
+    @NonNull
     public RemoteViews getRemoteViews(WidgetEntry entry, int position) {
-
         RemoteViews rv = new RemoteViews(getContext().getPackageName(), getSettings().getEventEntryLayout().layoutId);
         setTitle(entry, rv);
         setDetails(entry, rv);
@@ -140,4 +141,11 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
                 rv, viewId, R.attr.dayHeaderTitle);
     }
 
+    public boolean isFor(WidgetEntry entry) {
+        return entry.getSource().source.providerType == eventProvider.type;
+    }
+
+    public Intent createViewEntryIntent(WidgetEntry entry) {
+        return null;
+    }
 }

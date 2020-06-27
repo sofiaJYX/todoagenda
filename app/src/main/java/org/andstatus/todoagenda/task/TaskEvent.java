@@ -2,12 +2,13 @@ package org.andstatus.todoagenda.task;
 
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
+import org.andstatus.todoagenda.widget.WidgetEvent;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import static org.andstatus.todoagenda.util.StringUtil.notNull;
 
-public class TaskEvent {
+public class TaskEvent implements WidgetEvent {
 
     private OrderedEventSource eventSource;
     private long id;
@@ -24,6 +25,7 @@ public class TaskEvent {
         this.zone = zone;
     }
 
+    @Override
     public OrderedEventSource getEventSource() {
         return eventSource;
     }
@@ -33,7 +35,8 @@ public class TaskEvent {
         return this;
     }
 
-    public long getId() {
+    @Override
+    public long getEventId() {
         return id;
     }
 

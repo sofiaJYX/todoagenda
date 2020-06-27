@@ -57,7 +57,9 @@ public enum EventProviderType {
         public EventProvider getEventProvider(Context context, int widgetId) {
             return AstridCloneTasksProvider.newGoogleTasksProvider(this, context, widgetId);
         }
-    };
+    },
+    DAY_HEADER(6, true, "", ""),
+    LAST_ENTRY(7, true, "", "");
 
     private static final String TAG = EventProviderType.class.getSimpleName();
     public final int id;

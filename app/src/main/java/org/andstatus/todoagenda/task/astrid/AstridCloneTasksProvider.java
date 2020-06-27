@@ -6,14 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
+
 import androidx.annotation.ColorRes;
-import io.vavr.control.Try;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
+
 import org.andstatus.todoagenda.BuildConfig;
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.EventSource;
@@ -22,7 +17,16 @@ import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.task.AbstractTaskProvider;
 import org.andstatus.todoagenda.task.TaskEvent;
-import org.andstatus.todoagenda.util.CalendarIntentUtil;
+import org.andstatus.todoagenda.util.IntentUtil;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+
+import io.vavr.control.Try;
 
 public class AstridCloneTasksProvider extends AbstractTaskProvider {
 
@@ -168,8 +172,7 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
 
     @Override
     final public Intent createViewEventIntent(TaskEvent event) {
-        Intent intent = CalendarIntentUtil.createViewIntent();
-        intent.setData(ContentUris.withAppendedId(TASKS_URI, event.getId()));
-        return intent;
+        return IntentUtil.createViewIntent()
+                .setData(ContentUris.withAppendedId(TASKS_URI, event.getEventId()));
     }
 }

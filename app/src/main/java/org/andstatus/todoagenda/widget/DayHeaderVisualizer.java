@@ -6,6 +6,8 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import androidx.annotation.NonNull;
+
 import org.andstatus.todoagenda.Alignment;
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.TextShadingPref;
@@ -29,27 +31,30 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
     private final boolean horizontalLineBelowDayHeader;
 
     public DayHeaderVisualizer(Context context, int widgetId) {
-        super(new EventProvider(EventProviderType.EMPTY, context, widgetId));
+        super(new EventProvider(EventProviderType.DAY_HEADER, context, widgetId));
         alignment = Alignment.valueOf(getSettings().getDayHeaderAlignment());
         horizontalLineBelowDayHeader = getSettings().getHorizontalLineBelowDayHeader();
     }
 
     @Override
+    @NonNull
     public RemoteViews getRemoteViews(WidgetEntry eventEntry, int position) {
-        if(!(eventEntry instanceof DayHeader)) return null;
-
         DayHeader entry = (DayHeader) eventEntry;
         RemoteViews rv = new RemoteViews(getContext().getPackageName(), horizontalLineBelowDayHeader
                 ? R.layout.day_header_separator_below : R.layout.day_header_separator_above);
         rv.setInt(R.id.day_header_title_wrapper, "setGravity", alignment.gravity);
 
         ContextThemeWrapper shadingContext = getSettings().getShadingContext(TextShadingPref.forDayHeader(entry));
-        setBackgroundColor(rv, R.id.day_header, getSettings().getEntryBackgroundColor(entry));
+        setBackgroundColor(rv, R.id.event_entry, getSettings().getEntryBackgroundColor(entry));
         setDayHeaderTitle(position, entry, rv, shadingContext);
         setDayHeaderSeparator(position, rv, shadingContext);
-        Intent intent = createOpenCalendarAtDayIntent(entry.entryDate);
-        rv.setOnClickFillInIntent(R.id.day_header, intent);
         return rv;
+    }
+
+    @Override
+    public Intent createViewEntryIntent(WidgetEntry eventEntry) {
+        DayHeader entry = (DayHeader) eventEntry;
+        return createOpenCalendarAtDayIntent(entry.entryDate);
     }
 
     private void setDayHeaderTitle(int position, DayHeader entry, RemoteViews rv, ContextThemeWrapper shadingContext) {

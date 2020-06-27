@@ -18,6 +18,8 @@ import java.util.List;
 public class OrderedEventSource {
     private static final String TAG = OrderedEventSource.class.getSimpleName();
     public final static OrderedEventSource EMPTY = new OrderedEventSource(EventSource.EMPTY, 0);
+    public final static OrderedEventSource DAY_HEADER = new OrderedEventSource(EventSource.DAY_HEADER, 0);
+    public final static OrderedEventSource LAST_ENTRY = new OrderedEventSource(EventSource.LAST_ENTRY, 0);
 
     public final EventSource source;
     public final int order;

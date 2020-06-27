@@ -14,7 +14,7 @@ import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.task.AbstractTaskProvider;
 import org.andstatus.todoagenda.task.TaskEvent;
 import org.andstatus.todoagenda.task.TaskStatus;
-import org.andstatus.todoagenda.util.CalendarIntentUtil;
+import org.andstatus.todoagenda.util.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -151,8 +151,7 @@ public class DmfsOpenTasksProvider extends AbstractTaskProvider {
 
     @Override
     public Intent createViewEventIntent(TaskEvent event) {
-        Intent intent = CalendarIntentUtil.createViewIntent();
-        intent.setData(ContentUris.withAppendedId(DmfsOpenTasksContract.Tasks.PROVIDER_URI, event.getId()));
-        return intent;
+        return IntentUtil.createViewIntent()
+                .setData(ContentUris.withAppendedId(DmfsOpenTasksContract.Tasks.PROVIDER_URI, event.getEventId()));
     }
 }

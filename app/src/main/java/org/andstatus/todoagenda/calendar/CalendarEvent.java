@@ -6,6 +6,7 @@ import android.util.Log;
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
+import org.andstatus.todoagenda.widget.WidgetEvent;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import static org.andstatus.todoagenda.util.StringUtil.nonEmpty;
 import static org.andstatus.todoagenda.util.StringUtil.notNull;
 
-public class CalendarEvent {
+public class CalendarEvent implements WidgetEvent {
 
     private final InstanceSettings settings;
     private final Context context;
@@ -40,6 +41,7 @@ public class CalendarEvent {
         this.allDay = allDay;
     }
 
+    @Override
     public OrderedEventSource getEventSource() {
         return eventSource;
     }
@@ -109,7 +111,8 @@ public class CalendarEvent {
         }
     }
 
-    public int getEventId() {
+    @Override
+    public long getEventId() {
         return eventId;
     }
 

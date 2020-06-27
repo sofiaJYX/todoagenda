@@ -12,6 +12,8 @@ import org.json.JSONObject;
 public class EventSource {
     private static final String TAG = EventSource.class.getSimpleName();
     public final static EventSource EMPTY = new EventSource(EventProviderType.EMPTY, 0, "Empty", "", 0, false);
+    public final static EventSource DAY_HEADER = new EventSource(EventProviderType.DAY_HEADER, 1, "Day header", "", 0, false);
+    public final static EventSource LAST_ENTRY = new EventSource(EventProviderType.LAST_ENTRY, 1, "Last entry", "", 0, false);
     public static final String STORE_SEPARATOR = ",";
 
     private static final String KEY_PROVIDER_TYPE = "providerType";

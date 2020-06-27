@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.andstatus.todoagenda.util.CalendarIntentUtil.createOpenCalendarEventPendingIntent;
+import static org.andstatus.todoagenda.EnvironmentChangedReceiver.createWidgetEntryOnClickPendingIntent;
 import static org.andstatus.todoagenda.util.CalendarIntentUtil.createOpenCalendarPendingIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
@@ -61,7 +61,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     static final int REQUEST_CODE_MIDNIGHT_ALARM = REQUEST_CODE_ADD_EVENT + MAX_NUMBER_OF_WIDGETS;
     static final int REQUEST_CODE_PERIODIC_ALARM = REQUEST_CODE_MIDNIGHT_ALARM + MAX_NUMBER_OF_WIDGETS;
 
-    private static final String PACKAGE = "org.andstatus.todoagenda";
+    public static final String PACKAGE = "org.andstatus.todoagenda";
     static final String ACTION_GOTO_TODAY = PACKAGE + ".action.GOTO_TODAY";
     private static final String ACTION_REFRESH = PACKAGE + ".action.REFRESH";
     static final String ACTION_MIDNIGHT_ALARM = PACKAGE + ".action.MIDNIGHT_ALARM";
@@ -105,21 +105,50 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         return widgetEntries.size();
     }
 
+    @Override
     public RemoteViews getViewAt(int position) {
         if (position < widgetEntries.size()) {
             WidgetEntry entry = widgetEntries.get(position);
-            for (WidgetEntryVisualizer<? extends WidgetEntry> visualizer : visualizers) {
+            WidgetEntryVisualizer<? extends WidgetEntry> visualizer = visualizerFor(entry);
+            if (visualizer != null) {
                 RemoteViews views = visualizer.getRemoteViews(entry, position);
-                if (views != null) {
-                    if (position == widgetEntries.size() - 1) {
-                        InstanceState.listRedrawn(widgetId);
-                    }
-                    return views;
+                views.setOnClickFillInIntent(R.id.event_entry, entry.createOnClickFillInIntent());
+                if (position == widgetEntries.size() - 1) {
+                    InstanceState.listRedrawn(widgetId);
                 }
+                return views;
+            } else {
+                logEvent("no visualizer at:" + position + " for " + entry);
+                return null;
             }
         }
-        logEvent("no view at:" + position);
+        logEvent("no view at:" + position + ", size:" + widgetEntries.size());
         return null;
+    }
+
+    private WidgetEntryVisualizer<? extends WidgetEntry> visualizerFor(WidgetEntry entry) {
+        for (WidgetEntryVisualizer<? extends WidgetEntry> visualizer : visualizers) {
+            if (visualizer.isFor(entry)) return visualizer;
+        }
+        return null;
+    }
+
+    public static Intent getOnClickIntent(int widgetId, long entryId) {
+        if (widgetId == 0 || entryId == 0) return null;
+
+        RemoteViewsFactory factory = factories.get(widgetId);
+        if (factory == null) return null;
+
+        WidgetEntry entry = factory.getWidgetEntries().stream()
+            .filter(we -> we.entryId == entryId)
+            .findFirst().orElse(null);
+        factory.logEvent("Clicked entryId:" + entryId + ", entry: " + entry);
+        if (entry == null) return null;
+
+        WidgetEntryVisualizer<? extends WidgetEntry> visualizer = factory.visualizerFor(entry);
+        return visualizer == null
+            ? null
+            : visualizer.createViewEntryIntent(entry);
     }
 
     @NonNull
@@ -373,7 +402,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         rv.setRemoteAdapter(R.id.event_list, intent);
-        rv.setPendingIntentTemplate(R.id.event_list, createOpenCalendarEventPendingIntent(settings));
+        rv.setPendingIntentTemplate(R.id.event_list, createWidgetEntryOnClickPendingIntent(settings));
     }
 
     private static void configureGotoToday(InstanceSettings settings, Context context, RemoteViews rv) {

@@ -57,32 +57,31 @@ public class AllSettings {
     }
 
     public static void ensureLoadedFromFiles(Context context, boolean reInitialize) {
-        if (instancesLoaded && !reInitialize) {
-            return;
-        }
+        if (instancesLoaded && !reInitialize) return;
+
         synchronized (instances) {
-            if (!instancesLoaded || reInitialize) {
-                instances.clear();
-                EventProviderType.initialize(context, reInitialize);
-                for (int widgetId : getWidgetIds(context)) {
-                    InstanceSettings settings;
-                    try {
-                        JSONObject json = loadJsonFromFile(context, getStorageKey(widgetId));
-                        settings = InstanceSettings.fromJson(context, instances.get(widgetId), json);
-                        if (settings.widgetId == 0) {
-                            newInstance(context, widgetId);
-                        } else {
-                            settings.logMe(TAG, "ensureLoadedFromFiles put", widgetId);
-                            instances.put(widgetId, settings);
-                        }
-                    } catch (Exception e) { // Starting from API21 android.system.ErrnoException may be thrown
-                        Log.e("loadInstances", "widgetId:" + widgetId, e);
+            if (instancesLoaded && !reInitialize) return;
+
+            instances.clear();
+            EventProviderType.initialize(context, reInitialize);
+            for (int widgetId : getWidgetIds(context)) {
+                InstanceSettings settings;
+                try {
+                    JSONObject json = loadJsonFromFile(context, getStorageKey(widgetId));
+                    settings = InstanceSettings.fromJson(context, instances.get(widgetId), json);
+                    if (settings.widgetId == 0) {
                         newInstance(context, widgetId);
+                    } else {
+                        settings.logMe(TAG, "ensureLoadedFromFiles put", widgetId);
+                        instances.put(widgetId, settings);
                     }
+                } catch (Exception e) { // Starting from API21 android.system.ErrnoException may be thrown
+                    Log.e("loadInstances", "widgetId:" + widgetId, e);
+                    newInstance(context, widgetId);
                 }
-                instancesLoaded = true;
-                EnvironmentChangedReceiver.registerReceivers(instances);
             }
+            instancesLoaded = true;
+            EnvironmentChangedReceiver.registerReceivers(instances);
         }
     }
 

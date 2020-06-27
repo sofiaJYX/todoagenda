@@ -11,10 +11,14 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import androidx.annotation.NonNull;
+
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.DateUtil;
+import org.andstatus.todoagenda.util.PermissionsUtil;
+import org.andstatus.todoagenda.util.StringUtil;
 import org.joda.time.DateTime;
 
 import java.util.HashSet;
@@ -24,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.andstatus.todoagenda.AppWidgetProvider.getWidgetIds;
+import static org.andstatus.todoagenda.widget.WidgetEntry.EXTRA_WIDGET_ENTRY_ID;
 
 public class EnvironmentChangedReceiver extends BroadcastReceiver {
     private static final AtomicReference<EnvironmentChangedReceiver> registeredReceiver = new AtomicReference<>();
@@ -102,6 +107,13 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
         registeredReceiver.set(null);
     }
 
+    public static PendingIntent createWidgetEntryOnClickPendingIntent(InstanceSettings settings) {
+        Intent intent = new Intent(settings.getContext(), EnvironmentChangedReceiver.class)
+            .setAction(Intent.ACTION_VIEW)
+            .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
+        return PermissionsUtil.getPermittedPendingBroadcastIntent(settings, intent);
+    }
+
     private void unRegister(Context context) {
         context.unregisterReceiver(this);
     }
@@ -113,32 +125,46 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
         String action = intent == null
                 ? ""
                 : (intent.getAction() == null ? "" : intent.getAction());
+        int widgetId = intent == null
+                ? 0
+                : intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
         switch (action) {
             case RemoteViewsFactory.ACTION_GOTO_TODAY:
-                int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
-                RemoteViewsFactory factory = RemoteViewsFactory.factories.get(widgetId);
-                int position1 = factory == null ? 0 : factory.getTomorrowsPosition();
-                int position2 = factory == null ? 0 : factory.getTodaysPosition();
-                gotoPosition(context, widgetId, position1);
-                if (position1 >= 0 && position2 >= 0 && position1 != position2) {
-                    sleep(1000);
-                }
-                gotoPosition(context, widgetId, position2);
+                gotoToday(context, widgetId);
                 break;
             case RemoteViewsFactory.ACTION_PERIODIC_ALARM:
                 updateAllWidgets(context);
                 break;
             default:
-                int widgetId2 = intent == null
-                    ? 0
-                    : intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
-                if (widgetId2 == 0) {
+                if (widgetId == 0 || StringUtil.isEmpty(action)) {
                     updateAllWidgets(context);
                 } else {
-                    updateWidget(context, widgetId2);
+                    onReceive(context, intent, action, widgetId);
+                    updateWidget(context, widgetId);
                 }
                 break;
         }
+    }
+
+    private void gotoToday(Context context, int widgetId) {
+        RemoteViewsFactory factory = RemoteViewsFactory.factories.get(widgetId);
+        int position1 = factory == null ? 0 : factory.getTomorrowsPosition();
+        int position2 = factory == null ? 0 : factory.getTodaysPosition();
+        gotoPosition(context, widgetId, position1);
+        if (position1 >= 0 && position2 >= 0 && position1 != position2) {
+            sleep(1000);
+        }
+        gotoPosition(context, widgetId, position2);
+    }
+
+    private void onReceive(Context context, @NonNull Intent intent, @NonNull String action, int widgetId) {
+        long entryId = intent.getLongExtra(EXTRA_WIDGET_ENTRY_ID, 0);
+        Intent activityIntent = RemoteViewsFactory.getOnClickIntent(widgetId, entryId);
+        if (activityIntent != null) {
+            context.startActivity(activityIntent);
+        }
+        Log.d(TAG, "action:" + action + ", widgetId:" + widgetId + ", entryId:" + entryId +
+                ", activityIntent: " + activityIntent);
     }
 
     public static void sleep(int millis) {

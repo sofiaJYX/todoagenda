@@ -53,6 +53,7 @@
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="org.andstatus.todoagenda.action.REFRESH" />
             </intent-filter>
             <intent-filter>

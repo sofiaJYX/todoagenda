@@ -1,7 +1,10 @@
 package org.andstatus.todoagenda.calendar;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.AlarmIndicatorScaled;
 import org.andstatus.todoagenda.R;
@@ -22,21 +25,28 @@ import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setImageFromAttr;
 
 public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry> {
-    private final CalendarEventProvider eventProvider;
 
     public CalendarEventVisualizer(EventProvider eventProvider) {
         super(eventProvider);
-        this.eventProvider = (CalendarEventProvider) eventProvider;
     }
 
-    public RemoteViews getRemoteViews(WidgetEntry eventEntry, int position) {
-        if (!(eventEntry instanceof CalendarEntry)) return null;
+    private CalendarEventProvider getCalendarEventProvider() {
+        return (CalendarEventProvider) eventProvider;
+    }
 
+    @Override
+    @NonNull
+    public RemoteViews getRemoteViews(WidgetEntry eventEntry, int position) {
         RemoteViews rv = super.getRemoteViews(eventEntry, position);
         CalendarEntry entry = (CalendarEntry) eventEntry;
-        rv.setOnClickFillInIntent(R.id.event_entry, eventProvider.createViewEventIntent(entry.getEvent()));
         setIcon(entry, rv);
         return rv;
+    }
+
+    @Override
+    public Intent createViewEntryIntent(WidgetEntry eventEntry) {
+        CalendarEntry entry = (CalendarEntry) eventEntry;
+        return getCalendarEventProvider().createViewEventIntent(entry.getEvent());
     }
 
     @Override
@@ -92,7 +102,7 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
 
     @Override
     public List<CalendarEntry> queryEventEntries() {
-        return createEntryList(eventProvider.queryEvents());
+        return createEntryList(getCalendarEventProvider().queryEvents());
     }
 
     private List<CalendarEntry> createEntryList(List<CalendarEvent> eventList) {
@@ -110,11 +120,11 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
 
     private CalendarEntry getDayOneEntry(CalendarEvent event) {
         DateTime firstDate = event.getStartDate();
-        DateTime dayOfStartOfTimeRange = eventProvider.getStartOfTimeRange()
+        DateTime dayOfStartOfTimeRange = getCalendarEventProvider().getStartOfTimeRange()
                 .withTimeAtStartOfDay();
         if (!event.hasDefaultCalendarColor()   // ??? TODO: fix logic
-                && firstDate.isBefore(eventProvider.getStartOfTimeRange())
-                && event.getEndDate().isAfter(eventProvider.getStartOfTimeRange())) {
+                && firstDate.isBefore(getCalendarEventProvider().getStartOfTimeRange())
+                && event.getEndDate().isAfter(getCalendarEventProvider().getStartOfTimeRange())) {
             if (event.isAllDay() || firstDate.isBefore(dayOfStartOfTimeRange)) {
                 firstDate = dayOfStartOfTimeRange;
             }
@@ -128,8 +138,8 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
 
     private void createFollowingEntries(List<CalendarEntry> entryList, CalendarEntry dayOneEntry) {
         DateTime endDate = dayOneEntry.getEvent().getEndDate();
-        if (endDate.isAfter(eventProvider.getEndOfTimeRange())) {
-            endDate = eventProvider.getEndOfTimeRange();
+        if (endDate.isAfter(getCalendarEventProvider().getEndOfTimeRange())) {
+            endDate = getCalendarEventProvider().getEndOfTimeRange();
         }
         DateTime thisDay = dayOneEntry.entryDay.plusDays(1).withTimeAtStartOfDay();
         while (thisDay.isBefore(endDate)) {

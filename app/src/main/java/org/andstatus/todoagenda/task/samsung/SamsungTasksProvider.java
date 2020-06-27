@@ -15,7 +15,7 @@ import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.task.AbstractTaskProvider;
 import org.andstatus.todoagenda.task.TaskEvent;
-import org.andstatus.todoagenda.util.CalendarIntentUtil;
+import org.andstatus.todoagenda.util.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -126,14 +126,13 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
 
     @Override
     public Intent createViewEventIntent(TaskEvent event) {
-        Intent intent = CalendarIntentUtil.createViewIntent();
-        intent.setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, event.getId()));
-        intent.putExtra(SamsungTasksContract.INTENT_EXTRA_TASK, true);
-        intent.putExtra(SamsungTasksContract.INTENT_EXTRA_SELECTED, event.getId());
-        intent.putExtra(SamsungTasksContract.INTENT_EXTRA_ACTION_VIEW_FOCUS, 0);
-        intent.putExtra(SamsungTasksContract.INTENT_EXTRA_DETAIL_MODE, true);
-        intent.putExtra(SamsungTasksContract.INTENT_EXTRA_LAUNCH_FROM_WIDGET, true);
-        return intent;
+        return IntentUtil.createViewIntent()
+            .setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, event.getEventId()))
+            .putExtra(SamsungTasksContract.INTENT_EXTRA_TASK, true)
+            .putExtra(SamsungTasksContract.INTENT_EXTRA_SELECTED, event.getEventId())
+            .putExtra(SamsungTasksContract.INTENT_EXTRA_ACTION_VIEW_FOCUS, 0)
+            .putExtra(SamsungTasksContract.INTENT_EXTRA_DETAIL_MODE, true)
+            .putExtra(SamsungTasksContract.INTENT_EXTRA_LAUNCH_FROM_WIDGET, true);
     }
 
     private int getColor(Cursor cursor, int colorIdx, int accountId) {

@@ -1,7 +1,10 @@
 package org.andstatus.todoagenda.task;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.provider.EventProvider;
@@ -13,23 +16,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskVisualizer extends WidgetEntryVisualizer<TaskEntry> {
-    private final AbstractTaskProvider eventProvider;
 
     public TaskVisualizer(EventProvider eventProvider) {
         super(eventProvider);
-        this.eventProvider = (AbstractTaskProvider) eventProvider;
+    }
+
+    private AbstractTaskProvider getTaskProvider() {
+        return (AbstractTaskProvider) super.eventProvider;
     }
 
     @Override
+    @NonNull
     public RemoteViews getRemoteViews(WidgetEntry eventEntry, int position) {
-        if (!(eventEntry instanceof TaskEntry)) return null;
-
         RemoteViews rv = super.getRemoteViews(eventEntry, position);
 
         TaskEntry entry = (TaskEntry) eventEntry;
-        rv.setOnClickFillInIntent(R.id.event_entry, eventProvider.createViewEventIntent(entry.getEvent()));
         setIcon(entry, rv);
         return rv;
+    }
+
+    @Override
+    public Intent createViewEntryIntent(WidgetEntry eventEntry) {
+        TaskEntry entry = (TaskEntry) eventEntry;
+        return getTaskProvider().createViewEventIntent(entry.getEvent());
     }
 
     private void setIcon(TaskEntry entry, RemoteViews rv) {
@@ -44,7 +53,7 @@ public class TaskVisualizer extends WidgetEntryVisualizer<TaskEntry> {
 
     @Override
     public List<TaskEntry> queryEventEntries() {
-        return createEntryList(eventProvider.queryEvents());
+        return createEntryList(getTaskProvider().queryEvents());
     }
 
     private List<TaskEntry> createEntryList(List<TaskEvent> events) {

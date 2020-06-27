@@ -2,6 +2,7 @@ package org.andstatus.todoagenda.widget;
 
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
+import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.util.PermissionsUtil;
 import org.joda.time.DateTime;
 
@@ -26,6 +27,11 @@ public class LastEntry extends WidgetEntry<LastEntry> {
             ? LastEntry.forEmptyList(settings)
             : new LastEntry(settings, LastEntryType.LAST, widgetEntries.get(widgetEntries.size() - 1).entryDate);
         widgetEntries.add(entry);
+    }
+
+    @Override
+    public OrderedEventSource getSource() {
+        return OrderedEventSource.LAST_ENTRY;
     }
 
     public enum LastEntryType {

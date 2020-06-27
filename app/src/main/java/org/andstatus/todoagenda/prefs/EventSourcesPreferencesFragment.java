@@ -59,12 +59,19 @@ public class EventSourcesPreferencesFragment extends PreferenceFragmentCompat {
                 addAsPreference(clicked, false);
             }
         }
-        for (OrderedEventSource available : EventProviderType.getAvailableSources()) {
-            if (!added.contains(available.source)) {
-                added.add(available.source);
-                addAsPreference(available.source, false);
+        if (getSettings().isLiveMode()) {
+            for (OrderedEventSource available : EventProviderType.getAvailableSources()) {
+                if (!added.contains(available.source)) {
+                    added.add(available.source);
+                    addAsPreference(available.source, false);
+                }
             }
         }
+    }
+
+    private InstanceSettings getSettings() {
+        int widgetId = ApplicationPreferences.getWidgetId(getActivity());
+        return AllSettings.instanceFromId(getActivity(), widgetId);
     }
 
     private void addAsPreference(EventSource source, boolean isChecked ) {

@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -503,7 +502,7 @@ public class InstanceSettings {
     }
 
     public List<OrderedEventSource> getActiveEventSources() {
-        return activeEventSources.isEmpty()
+        return activeEventSources.isEmpty() && isLiveMode()
                 ? EventProviderType.getAvailableSources()
                 : activeEventSources;
     }
@@ -757,12 +756,21 @@ public class InstanceSettings {
         return getActiveEventSources().stream().map(s -> s.source.providerType).distinct().collect(Collectors.toList());
     }
 
-    public OrderedEventSource getActiveEventSource(EventProviderType type, int id) {
+    public OrderedEventSource getActiveEventSource(EventProviderType type, int sourceId) {
         for(OrderedEventSource orderedSource: getActiveEventSources()) {
-            if (orderedSource.source.providerType == type && orderedSource.source.getId() == id) {
+            if (orderedSource.source.providerType == type && orderedSource.source.getId() == sourceId) {
                 return orderedSource;
             }
         }
+        if (isSnapshotMode()) {
+            // TODO: Map Calendars when moving between devices
+            EventSource eventSource = new EventSource(type, sourceId, "(" + type + " #" + sourceId + ")",
+                    "", 0, false);
+            OrderedEventSource orderedSource = new OrderedEventSource(eventSource, getActiveEventSources().size() + 1);
+            getActiveEventSources().add(orderedSource);
+            return orderedSource;
+        }
+
         return OrderedEventSource.EMPTY;
     }
 
@@ -781,33 +789,5 @@ public class InstanceSettings {
 
     public void setResultsStorage(QueryResultsStorage resultsStorage) {
         this.resultsStorage = resultsStorage;
-        if (resultsStorage != null) {
-            // TODO: Map Calendars when moving between devices
-            for (EventProviderType providerType : resultsStorage.getProviderTypes(widgetId)) {
-                if (activeEventSources.stream().noneMatch(s -> s.source.providerType == providerType)) {
-                    addActiveEventSource(providerType);
-                }
-            }
-        }
-    }
-
-    private void addActiveEventSource(EventProviderType providerType) {
-        int id = maxSourceId() + 1;
-        List<OrderedEventSource> list = new ArrayList<>(activeEventSources);
-        list.add(
-            new OrderedEventSource(
-                new EventSource(providerType, id, "Test source " + id, "", Color.CYAN, true),
-                getActiveEventSources().size() + 1
-            )
-        );
-        activeEventSources = list;
-    }
-
-    private int maxSourceId() {
-        int id1 = activeEventSources.stream().map(s -> s.source.getId())
-                .max(Comparator.comparingInt(id -> id)).orElse(1);
-        int id2 = EventProviderType.getAvailableSources().stream().map(s -> s.source.getId())
-                .max(Comparator.comparingInt(id -> id)).orElse(1);
-        return Math.max(id1, id2);
     }
 }
