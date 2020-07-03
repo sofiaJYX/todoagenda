@@ -15,14 +15,12 @@ android {
         testApplicationId "org.andstatus.todoagenda.tests"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.archivesBaseName = "TodoAgenda-$versionName".toString()
+
+        buildConfigField "String", "ORG_TASKS_AUTHORITY", "\"org.tasks\""
     }
 
     buildTypes {
-        debug {
-            buildConfigField "String", "ORG_TASKS_AUTHORITY", "\"org.tasks.debug\""
-        }
         release {
-            buildConfigField "String", "ORG_TASKS_AUTHORITY", "\"org.tasks\""
             minifyEnabled false
             lintOptions {
                 warning 'MissingTranslation','InvalidPackage'
