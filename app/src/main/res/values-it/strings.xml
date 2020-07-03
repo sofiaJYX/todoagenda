@@ -28,6 +28,7 @@ Per ottenere il massimo dal widget è necessario autorizzare l\'accesso ai calen
     <string name="loading_with_dots">Caricamento in corso...</string>
     <string name="widget_header">Intestazione del widget</string>
     <string name="day_header">Intestazione del giorno</string>
+    <string name="event_entry">Immetti evento</string>
     <string name="todays_events">Eventi di oggi</string>
     <string name="future_events">Eventi futuri</string>
     <string name="not_found">Non trovato</string>
@@ -57,6 +58,7 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="widget_header_layout">Layout della testata</string>
     <string name="pref_event_entry_layout_title">Formato dell\'evento</string>
     <string name="default_multiline_layout">Ora sotto il titolo</string>
+    <string name="widget_header_date_format">Formato data dell\'intestazione del widget</string>
     <string name="default_value">Default</string>
     <string name="single_line_layout">Tutto in una riga</string>
     <string name="two_rows_layout">Mostra su due righe</string>
@@ -73,6 +75,7 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="appearance_show_days_without_events_desc">Visualizza le intestazioni del giorno per giorni senza eventi</string>
     <string name="appearance_show_day_headers_title">Visualizza l\'intestazione del giorno</string>
     <string name="appearance_show_day_headers_desc">Non visualizzare l\'intestazione del giorno</string>
+    <string name="day_header_date_format">Formato data dell\'intestazione del giorno</string>
     <string name="show_past_events_under_one_header_title">Testata per eventi passati non conclusi</string>
     <string name="show_past_events_under_one_header_desc">Mostra tutti gli eventi passati e non conclusi sotto l\'intestazione \"Passati e non conclusi\"</string>
     <string name="show_event_icon_title">Mostra icona dell\'evento</string>
@@ -84,9 +87,19 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="simple_options">Semplici opzioni</string>
     <string name="date_format_default_weekday">Predefinito con Weekday</string>
     <string name="date_format_default_ytt">Predefinito con ieri, oggi e domani</string>
+    <string name="date_format_default_days">Predefinito con numero di giorni all\'evento</string>
     <string name="appearance_abbreviate_dates_title">Abbrevia le date della settimana</string>
     <string name="appearance_abbreviate_dates_desc">Usa il formato tre lettere per le date</string>
+    <string name="date_format_number_of_days_to_event">Numero di giorni all\'evento</string>
+    <string name="date_format_day_in_month">Giorno del mese</string>
+    <string name="date_format_month_day">Giorno del mese</string>
+    <string name="date_format_week_in_year">Settimane dell\'anno</string>
     <string name="pattern_example">Esempio di modello</string>
+    <string name="custom_pattern">Motivo personalizzato</string>
+    <string name="sample_date">Data di esempio (nel formato aaaa-MM-gg)</string>
+    <string name="result_formatted_date">Risultato, data formattata</string>
+    <string name="N_days_ago">%d giorni fa</string>
+    <string name="in_N_days">In %d giorni</string>
     <!-- Preference frame: Colors -->
     <string name="colors_prefs_desc">Colore e trasparenza dei testi e dello sfondo</string>
     <string name="appearance_group_color_title">Colori</string>
@@ -157,11 +170,16 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="pref_hide_based_on_keywords_title">Nascondi in base alla parole chiave nel titolo</string>
     <string name="show_only_closest_instance_of_recurring_event">Visualizza solo l\'istanza piú vicina di un evento ricorrente</string>
     <string name="hide_duplicates">Nascondi duplicati</string>
+    <string name="task_scheduling_title">Pianificazione delle attività</string>
     <string name="task_scheduling_date_due">Mostra le attività sotto la data di scadenza</string>
+    <string name="task_scheduling_date_started">Mostra attività dalla data di inizio</string>
     <string name="tasks_wo_dates_title">Attività senza data di inizio e scadenza</string>
     <string name="tasks_wo_dates_end_of_list">Mostra alla fine della lista eventi</string>
+    <string name="tasks_wo_dates_end_of_today">Mostra alla fine di oggi</string>
+    <string name="tasks_wo_dates_hide">Nascondi</string>
     <string name="filter_mode">Risolutore filtri</string>
     <string name="filter_mode_normal">Filtro normale</string>
+    <string name="filter_mode_debug">Filtraggio di debug</string>
     <string name="filter_mode_no_filtering">Ignora tutti i filtri (disattiva)</string>
     <!-- Preference frame: Calendars and Task Lists -->
     <string name="calendars_prefs">Calendari</string>
@@ -182,6 +200,7 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="appearance_text_size_large">Grande</string>
     <string name="appearance_text_size_very_large">Molto grande</string>
     <string name="appearance_date_format_desc">Visualizza il tempo in formato am/pm o 24 ore</string>
+    <string name="appearance_time_format_title">Formato dell\'orario</string>
     <string name="appearance_date_format_auto">Automatico</string>
     <string name="appearance_date_format_24">17:00</string>
     <string name="appearance_date_format_12">5:00 pm</string>

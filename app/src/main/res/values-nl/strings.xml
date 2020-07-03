@@ -30,36 +30,98 @@
     <string name="event_entry">Gebeurtenis invoer</string>
     <string name="todays_events">Gebeurtenissen van vandaag</string>
     <string name="future_events">Toekomstige gebeurtenissen</string>
+    <string name="not_found">Niet gevonden </string>
     <!-- Descriptions for app markets -->
+    <string name="app_description_80_chars_max">Widgets met gebeurtenissen uit geselecteerde kalenders en takenlijsten</string>
+    <string name="app_description_4000_chars_max_part01">Todo Agenda is een startscherm-widget voor je Android-apparaat.
+         Elke widget heeft zijn eigen instellingen en geeft een geconfigureerde lijst met kalendergebeurtenissen en taken weer
+         zodat je eenvoudig een glimp kunt opvangen van je geplande, huidige en aanstaande afspraken.</string>
     <string name="app_description_4000_chars_max_part02">Functies</string>
+    <string name="app_description_4000_chars_max_part15">Geen reclame. Gratis en open source.</string>
+    <string name="app_description_4000_chars_max_part03">Geeft gebeurtenissen uit je agenda\'s en takenlijsten weer
+         voor de geselecteerde periodes in het verleden en in de toekomst.</string>
     <string name="app_description_4000_chars_max_part04">Updatet automatisch wanneer u een afspraak toevoegt/verwijdert/wijzigt. U kunt ook op verzoek bijwerken.</string>
+    <string name="app_description_4000_chars_max_part05">Selecteer alleen de kalenders en takenlijsten
+        die je wilt zien in de widget.</string>
+    <string name="app_description_4000_chars_max_part06">Maak indien nodig meerdere widgets aan. Elke widget heeft zijn eigen instellingen,
+        inclusief lay-outs, kleuren, filters, geselecteerde kalenders en takenlijsten.</string>
+    <string name="app_description_4000_chars_max_part07">Pas achtergrondkleuren en transparantie
+        aan van verschillende widgetonderdelen, zwarte en witte kleur voor teksten.</string>
+    <string name="app_description_4000_chars_max_part08">Scroll door de lijst met gebeurtenissen.
+        Gebruik de knop \"Ga naar vandaag\" om direct terug te keren naar vandaag.</string>
     <string name="app_description_4000_chars_max_part09">Verander de tekstgrootte van de widget.</string>
+    <string name="app_description_4000_chars_max_part10">Volledig aanpasbare widget met alternatieve lay-outs.</string>
     <string name="app_description_4000_chars_max_part11">Indicatoren voor herinneringen en herhaalde afspraken.</string>
     <string name="app_description_4000_chars_max_part12">Vergrendel de tijdzone als u naar verschillende tijdzones reist.</string>
+    <string name="app_description_4000_chars_max_part13">Schakel widget-header, dag headers, gebeurtenispictogrammen, dagen vanaf vandaag,
+        etc. uit en toon alleen wat je nodig hebt.</string>
+    <string name="app_description_4000_chars_max_part16">Dubbele afspraken verbergen.</string>
+    <string name="app_description_4000_chars_max_part17">Back-up en herstel instellingen,
+        kopieer widgets op hetzelfde of andere apparaten.</string>
+    <string name="app_description_4000_chars_max_part14">Android 7+ ondersteund. Ondersteunt Android tablets.</string>
     <!-- Preference frame: Layout -->
+    <string name="layout_prefs_desc">Plaats, toon en verberg widget-elementen</string>
+    <string name="layout_prefs_title">Indeling</string>
+    <string name="widget_header_layout">Widget header lay-out</string>
     <string name="pref_event_entry_layout_title">Gebeurtenis item uiterlijk</string>
     <string name="default_multiline_layout">Tijd onder de titel</string>
+    <string name="widget_header_date_format">Widget header datumformaat</string>
+    <string name="default_value">Standaard</string>
     <string name="single_line_layout">Alles op één rij</string>
+    <string name="two_rows_layout">Twee rijen lay-out</string>
+    <string name="hidden">Verborgen</string>
     <string name="appearance_day_header_alignment_desc">De uitlijning van de dag koptekst instellen</string>
     <string name="appearance_day_header_alignment_title">Dag koptekst uitlijning</string>
     <string name="appearance_day_header_alignment_left">Links</string>
     <string name="appearance_day_header_alignment_center">Centreren</string>
     <string name="appearance_day_header_alignment_right">Rechts</string>
+    <string name="horizontalLineBelowDayHeader">Horizontale lijn onder dag koptekst</string>
     <string name="appearance_multiline_title_title">Titel op meerdere regels</string>
     <string name="appearance_multiline_title_desc">Verdeel de titel van de gebeurtenis over meerdere regels</string>
     <string name="appearance_show_days_without_events_title">Toon dagen zonder gebeurtenissen</string>
     <string name="appearance_show_days_without_events_desc">Toon dag titels voor dagen zonder gebeurtenissen</string>
     <string name="appearance_show_day_headers_title">Laat dag titels zien</string>
     <string name="appearance_show_day_headers_desc">Laat dag titels zien</string>
+    <string name="day_header_date_format">Dag koptekst datum formaat</string>
+    <string name="show_past_events_under_one_header_title">Kop voor gepasseerde gebeurtenissen</string>
+    <string name="show_past_events_under_one_header_desc">Toon alle gepasseerde gebeurtenissen onder één kop</string>
+    <string name="show_event_icon_title">Afspraakpictogram weergeven</string>
+    <string name="show_event_icon_desc">Toon Kalender kleurenbalk / Taak pictogram voor gebeurtenis</string>
+    <string name="entry_date_format">Datumformaat voor vermelding</string>
+    <string name="multiline_details_title">Titel op meerdere regels</string>
+    <string name="multiline_details_desc">Verdeel de titel van de gebeurtenis over meerdere regels</string>
     <!-- Date format preference -->
+    <string name="simple_options">Eenvoudige opties</string>
+    <string name="date_format_default_weekday">Standaard met weekdag</string>
+    <string name="date_format_default_ytt">Standaard op gisteren, vandaag en morgen</string>
+    <string name="date_format_default_days">Standaard met aantal dagen op gebeurtenis</string>
+    <string name="appearance_abbreviate_dates_title">Kort data af met weekdag</string>
+    <string name="appearance_abbreviate_dates_desc">Gebruik drie-letterformaat voor data</string>
+    <string name="date_format_number_of_days_to_event">Aantal dagen voor gebeurtenis</string>
+    <string name="date_format_day_in_month">Dag in maand</string>
+    <string name="date_format_month_day">Maandelijkse</string>
+    <string name="date_format_week_in_year">Week in jaar</string>
+    <string name="pattern_example">Patroon voorbeeld</string>
+    <string name="custom_pattern">Aangepast patroon</string>
+    <string name="sample_date">Voorbeelddatum (in yyyy-MM-dd formaat)</string>
+    <string name="result_formatted_date">Resultaat, opgemaakte datum</string>
+    <string name="N_days_ago">%d dag(en) geleden</string>
+    <string name="in_N_days">in %d dagen</string>
     <!-- Preference frame: Colors -->
+    <string name="colors_prefs_desc">Kleur en ondoorzichtigheid van teksten en achtergronden</string>
     <string name="appearance_group_color_title">Kleuren</string>
     <string name="appearance_background_color_title">Achtergrondkleur</string>
     <string name="appearance_background_color_desc">De kleur van de achtergrond aanpassen</string>
     <string name="appearance_past_events_background_color_title">Achtergrondkleur van gebeurtenissen in het verleden</string>
     <string name="appearance_past_events_background_color_desc">Pas de achtergrondkleur van afspraken in het verleden aan</string>
+    <string name="todays_events_background_color_title">Achtergrondkleur van de gebeurtenissen van vandaag</string>
+    <string name="todays_events_background_color_desc">Pas achtergrondkleur van de gebeurtenissen van vandaag aan</string>
     <string name="appearance_header_theme_title">Widget titel kleur</string>
     <string name="appearance_header_theme_desc">De kop van de widget in donkere of lichte tint weergeven</string>
+    <string name="widget_header_background_color_desc">Kleur van de koptekst van de widget aanpassen. Standaard transparant</string>
+    <string name="widget_header_background_color_title">Widget kop achtergrond kleur</string>
+    <string name="day_header_theme_title">Dag koptekst kleur</string>
+    <string name="day_header_theme_desc">Toon dag koptekst in donkere of lichte schaduw</string>
     <string name="appearance_entries_theme_title">Afspraak kleur</string>
     <string name="appearance_entries_theme_desc">Gebeurtenis tekst in donkere of lichte tint weergeven</string>
     <string name="appearance_theme_black">Wit</string>
@@ -105,6 +167,8 @@
     <string name="ended_four_hours_ago">Eindigde vier uur geleden</string>
     <string name="ended_today">Eindigde vandaag</string>
     <string name="ended_yesterday">Eindigde gisteren</string>
+    <string name="ended_one_week_ago">Een week geleden geëindigd</string>
+    <string name="ended_two_weeks_ago">Eindigde twee weken geleden</string>
     <string name="pref_hide_based_on_keywords_title">Verbergen op basis van zoekwoorden in een titel</string>
     <string name="show_only_closest_instance_of_recurring_event">Toon alleen de eerstvolgende van een terugkerende afspraak</string>
     <!-- Preference frame: Calendars and Task Lists -->
