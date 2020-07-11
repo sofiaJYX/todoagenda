@@ -160,11 +160,17 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
     private void onReceive(Context context, @NonNull Intent intent, @NonNull String action, int widgetId) {
         long entryId = intent.getLongExtra(EXTRA_WIDGET_ENTRY_ID, 0);
         Intent activityIntent = RemoteViewsFactory.getOnClickIntent(widgetId, entryId);
+        String msgLog = (activityIntent == null ? "(no intent), action:" + action : activityIntent) +
+                ", widgetId:" + widgetId + ", entryId:" + entryId;
         if (activityIntent != null) {
-            context.startActivity(activityIntent);
+            try {
+                context.startActivity(activityIntent);
+            } catch (Exception e) {
+                msgLog = "Failed to open Calendar/Tasks app.\n" + msgLog;
+                ErrorReportActivity.showMessage(context, msgLog, e);
+            }
         }
-        Log.d(TAG, "action:" + action + ", widgetId:" + widgetId + ", entryId:" + entryId +
-                ", activityIntent: " + activityIntent);
+        Log.d(TAG, msgLog);
     }
 
     public static void sleep(int millis) {

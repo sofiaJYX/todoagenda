@@ -29,6 +29,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="org.andstatus.todoagenda.ErrorReportActivity"
+            android:exported="false"
+            android:finishOnTaskLaunch="true"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme">
+        </activity>
+
         <activity android:name="org.andstatus.todoagenda.WidgetConfigurationActivity"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true">
