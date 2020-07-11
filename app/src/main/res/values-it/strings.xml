@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Agenda Todo</string>
     <string name="widget_name">Agenda Todo</string>
-    <string name="widget_instance_name">Nome Widget</string>
+    <string name="widget_instance_name">Nome del Widget</string>
     <string name="yesterday">Ieri</string>
     <string name="today">Oggi</string>
     <string name="tomorrow">Domani</string>
@@ -15,8 +15,8 @@
     <string name="indicator_alarm">Mostra se l\'evento ha un allarme</string>
     <string name="indicator_recurring">Mostra se l\'evento è ricorrente</string>
     <string name="no_title">(Nessun titolo)</string>
-    <string name="grant_permissions">Dai permessi</string>
-    <string name="grant_permissions_verbose">Il widget chiede il permesso di leggere i calendari.\nTocca per concederlo.</string>
+    <string name="grant_permissions">Dai i permessi</string>
+    <string name="grant_permissions_verbose">Il widget chiede il permesso di leggere i calendari e i compiti.\nTocca qui per autorizzarlo</string>
     <string name="past_header">Trascorsi non completati</string>
     <string name="end_of_list_header">Altri eventi</string>
     <string name="permissions_justification">Benvenuto in Todo Agenda, facile accesso a calendario e attività.
@@ -24,7 +24,7 @@ Per ottenere il massimo dal widget è necessario autorizzare l\'accesso ai calen
     <string name="no_widgets_found">Per prima cosa aggiungere il widget \"Todo Agenda\" alla pagina Home del tuo dispositivo.</string>
     <string name="select_a_widget_to_configure">Seleziona un widget da configurare</string>
     <string name="close">Chiudi</string>
-    <string name="go_to_home_screen">Vai alla home</string>
+    <string name="go_to_home_screen">Vai alla schermata home</string>
     <string name="loading_with_dots">Caricamento in corso...</string>
     <string name="widget_header">Intestazione del widget</string>
     <string name="day_header">Intestazione del giorno</string>
@@ -105,17 +105,17 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="appearance_group_color_title">Colori</string>
     <string name="appearance_background_color_title">Sfondo trasparente</string>
     <string name="appearance_background_color_desc">Imposta la trasparenza dello sfondo</string>
-    <string name="appearance_past_events_background_color_title">Colore di sfondo di eventi passati</string>
+    <string name="appearance_past_events_background_color_title">Colore di sfondo degli eventi passati</string>
     <string name="appearance_past_events_background_color_desc">Regola il colore di sfondo degli eventi passati</string>
     <string name="todays_events_background_color_title">Colore sfondo per gli eventi di oggi</string>
     <string name="todays_events_background_color_desc">Modifica colore sfondo per gli eventi di oggi</string>
-    <string name="appearance_header_theme_title">Ombreggiatura dell\'intestazione del widget</string>
+    <string name="appearance_header_theme_title">Ombreggiatura del titolo del widget</string>
     <string name="appearance_header_theme_desc">Mostra l\'intestazione del widget con una ombreggiatura chiara o scura</string>
     <string name="widget_header_background_color_desc">Modifica colore della testata. Default trasparente</string>
     <string name="widget_header_background_color_title">Colore sfondo della testata</string>
     <string name="day_header_theme_title">Ombreggiatura testo della testata</string>
     <string name="day_header_theme_desc">Testo della testata chiaro o scuro</string>
-    <string name="appearance_entries_theme_title">Ombreggiatura evento</string>
+    <string name="appearance_entries_theme_title">Ombreggiatura del testo dell\'evento</string>
     <string name="appearance_entries_theme_desc">Mostra il testo dell\'evento con una ombreggiatura chiara o scura</string>
     <string name="appearance_theme_black">Bianco</string>
     <string name="appearance_theme_dark">Luce</string>
@@ -137,7 +137,7 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="event_details_indicate_recurring_title">Eventi ricorrenti</string>
     <!-- Preference frame: Event filters -->
     <string name="event_filters_prefs">Filtri per gli eventi</string>
-    <string name="event_filters_prefs_desc">Eventi attuali, futuri e passati da mostrare</string>
+    <string name="event_filters_prefs_desc">Quali eventi attuali, futuri e passati mostrare</string>
     <string name="all_events">Tutti gli eventi</string>
     <string name="current_and_future_events">Eventi attuali e futuri</string>
     <string name="past_events">Eventi passati</string>
@@ -154,7 +154,7 @@ Ogni widget ha le proprie impostazioni e mostra le liste e le attività come con
     <string name="event_range_one_year">Un anno</string>
     <string name="show_past_events_with_default_color_title">Visualizza tutti gli eventi passati con il colore predefinito</string>
     <string name="this_option_is_turned_off">(disabilitato)</string>
-    <string name="pref_events_ended_title">Visualizza gli eventi conclusi di recente</string>
+    <string name="pref_events_ended_title">Visualizza gli eventi passati</string>
     <string name="ended_one_hour_ago">Concluso un ora fa</string>
     <string name="ended_two_hours_ago">Concluso due ore fa</string>
     <string name="ended_four_hours_ago">Concluso quattro ore fa</string>
