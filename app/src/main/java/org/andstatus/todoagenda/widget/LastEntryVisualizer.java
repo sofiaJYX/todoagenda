@@ -65,7 +65,7 @@ public class LastEntryVisualizer extends WidgetEntryVisualizer<LastEntry> {
             default:
                 break;
         }
-        return  MainActivity.intentToStartMe(getSettings().getContext());
+        return  MainActivity.intentToConfigure(getSettings().getContext(), getSettings().getWidgetId());
     }
 
     @Override
