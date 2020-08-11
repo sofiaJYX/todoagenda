@@ -38,7 +38,7 @@ public class TaskVisualizer extends WidgetEntryVisualizer<TaskEntry> {
     @Override
     public Intent createViewEntryIntent(WidgetEntry eventEntry) {
         TaskEntry entry = (TaskEntry) eventEntry;
-        return getTaskProvider().createViewEventIntent(entry.getEvent());
+        return getTaskProvider().getViewEventIntent(entry.getEvent());
     }
 
     private void setIcon(TaskEntry entry, RemoteViews rv) {

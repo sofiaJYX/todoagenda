@@ -27,6 +27,10 @@ import io.vavr.control.Try;
 public class SamsungTasksProvider extends AbstractTaskProvider {
     private static final String TAG = SamsungTasksProvider.class.getSimpleName();
 
+    // TODO: Check if the below Intent is correct
+    private static final Intent NEW_TASK_INTENT = IntentUtil.createViewIntent()
+            .setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, 0));
+
     public SamsungTasksProvider(EventProviderType type, Context context, int widgetId) {
         super(type, context, widgetId);
     }
@@ -125,7 +129,7 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    public Intent createViewEventIntent(TaskEvent event) {
+    public Intent getViewEventIntent(TaskEvent event) {
         return IntentUtil.createViewIntent()
             .setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, event.getEventId()))
             .putExtra(SamsungTasksContract.INTENT_EXTRA_TASK, true)
@@ -143,5 +147,10 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
             int arrayIdx = accountId % fixedColors.length;
             return fixedColors[arrayIdx];
         }
+    }
+
+    @Override
+    public Intent getNewTaskIntent() {
+        return NEW_TASK_INTENT;
     }
 }

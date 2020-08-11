@@ -38,6 +38,9 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
     static final Uri GOOGLE_LISTS_URI = Uri.parse(CONTENT_URI_STRING + "/google_lists");
     private static final Uri TODOAGENDA_URI = Uri.parse(CONTENT_URI_STRING + "/todoagenda");
 
+    private static final Intent NEW_TASK_INTENT = IntentUtil.createViewIntent()
+            .setData(ContentUris.withAppendedId(TASKS_URI, 0));
+
     private static final String TASKS_COLUMN_ID = "_id";
     private static final String TASKS_COLUMN_TITLE = "title";
     private static final String TASKS_COLUMN_DUE_DATE = "dueDate";
@@ -171,8 +174,13 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    final public Intent createViewEventIntent(TaskEvent event) {
+    final public Intent getViewEventIntent(TaskEvent event) {
         return IntentUtil.createViewIntent()
                 .setData(ContentUris.withAppendedId(TASKS_URI, event.getEventId()));
+    }
+
+    @Override
+    public Intent getNewTaskIntent() {
+        return NEW_TASK_INTENT;
     }
 }

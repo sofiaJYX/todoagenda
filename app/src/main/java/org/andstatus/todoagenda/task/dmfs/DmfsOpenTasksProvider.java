@@ -23,7 +23,11 @@ import java.util.Set;
 
 import io.vavr.control.Try;
 
+import static org.andstatus.todoagenda.task.dmfs.DmfsOpenTasksContract.Tasks.PROVIDER_URI;
+
 public class DmfsOpenTasksProvider extends AbstractTaskProvider {
+    private static final Intent NEW_TASK_INTENT = IntentUtil.newIntent(Intent.ACTION_INSERT)
+            .setDataAndType(PROVIDER_URI, "vnd.android.cursor.dir/org.dmfs.tasks.tasks");
 
     public DmfsOpenTasksProvider(EventProviderType type, Context context, int widgetId) {
         super(type, context, widgetId);
@@ -33,7 +37,7 @@ public class DmfsOpenTasksProvider extends AbstractTaskProvider {
     public List<TaskEvent> queryTasks() {
         myContentResolver.onQueryEvents();
 
-        Uri uri = DmfsOpenTasksContract.Tasks.PROVIDER_URI;
+        Uri uri = PROVIDER_URI;
         String[] projection = {
                 DmfsOpenTasksContract.Tasks.COLUMN_LIST_ID,
                 DmfsOpenTasksContract.Tasks.COLUMN_ID,
@@ -150,8 +154,12 @@ public class DmfsOpenTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    public Intent createViewEventIntent(TaskEvent event) {
-        return IntentUtil.createViewIntent()
-                .setData(ContentUris.withAppendedId(DmfsOpenTasksContract.Tasks.PROVIDER_URI, event.getEventId()));
+    public Intent getViewEventIntent(TaskEvent event) {
+        return IntentUtil.createViewIntent().setData(ContentUris.withAppendedId(PROVIDER_URI, event.getEventId()));
+    }
+
+    @Override
+    public Intent getNewTaskIntent() {
+        return NEW_TASK_INTENT;
     }
 }
