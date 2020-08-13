@@ -36,9 +36,9 @@ public class TaskVisualizer extends WidgetEntryVisualizer<TaskEntry> {
     }
 
     @Override
-    public Intent createViewEntryIntent(WidgetEntry eventEntry) {
+    public Intent newViewEntryIntent(WidgetEntry eventEntry) {
         TaskEntry entry = (TaskEntry) eventEntry;
-        return getTaskProvider().getViewEventIntent(entry.getEvent());
+        return getTaskProvider().newViewEventIntent(entry.getEvent());
     }
 
     private void setIcon(TaskEntry entry, RemoteViews rv) {
@@ -53,10 +53,10 @@ public class TaskVisualizer extends WidgetEntryVisualizer<TaskEntry> {
 
     @Override
     public List<TaskEntry> queryEventEntries() {
-        return createEntryList(getTaskProvider().queryEvents());
+        return toTaskEntryList(getTaskProvider().queryEvents());
     }
 
-    private List<TaskEntry> createEntryList(List<TaskEvent> events) {
+    private List<TaskEntry> toTaskEntryList(List<TaskEvent> events) {
         List<TaskEntry> entries = new ArrayList<>();
         for (TaskEvent event : events) {
             entries.add(TaskEntry.fromEvent(getSettings(), event));

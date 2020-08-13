@@ -58,7 +58,7 @@ public abstract class AbstractTaskProvider extends EventProvider {
         return !mKeywordsFilter.matched(task.getTitle());
     }
 
-    public abstract Intent getViewEventIntent(TaskEvent event);
+    public abstract Intent newViewEventIntent(TaskEvent event);
 
-    public abstract Intent getNewTaskIntent();
+    public abstract Intent getAddTaskIntent();
 }

@@ -44,9 +44,9 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
     }
 
     @Override
-    public Intent createViewEntryIntent(WidgetEntry eventEntry) {
+    public Intent newViewEntryIntent(WidgetEntry eventEntry) {
         CalendarEntry entry = (CalendarEntry) eventEntry;
-        return getCalendarEventProvider().createViewEventIntent(entry.getEvent());
+        return getCalendarEventProvider().newViewEventIntent(entry.getEvent());
     }
 
     @Override
@@ -102,17 +102,17 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
 
     @Override
     public List<CalendarEntry> queryEventEntries() {
-        return createEntryList(getCalendarEventProvider().queryEvents());
+        return toCalendarEntryList(getCalendarEventProvider().queryEvents());
     }
 
-    private List<CalendarEntry> createEntryList(List<CalendarEvent> eventList) {
+    private List<CalendarEntry> toCalendarEntryList(List<CalendarEvent> eventList) {
         boolean fillAllDayEvents = getSettings().getFillAllDayEvents();
         List<CalendarEntry> entryList = new ArrayList<>();
         for (CalendarEvent event : eventList) {
             CalendarEntry dayOneEntry = getDayOneEntry(event);
             entryList.add(dayOneEntry);
             if (fillAllDayEvents) {
-                createFollowingEntries(entryList, dayOneEntry);
+                addEntriesToFillAllDayEvents(entryList, dayOneEntry);
             }
         }
         return entryList;
@@ -136,7 +136,7 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
         return CalendarEntry.fromEvent(getSettings(), event, firstDate);
     }
 
-    private void createFollowingEntries(List<CalendarEntry> entryList, CalendarEntry dayOneEntry) {
+    private void addEntriesToFillAllDayEvents(List<CalendarEntry> entryList, CalendarEntry dayOneEntry) {
         DateTime endDate = dayOneEntry.getEvent().getEndDate();
         if (endDate.isAfter(getCalendarEventProvider().getEndOfTimeRange())) {
             endDate = getCalendarEventProvider().getEndOfTimeRange();

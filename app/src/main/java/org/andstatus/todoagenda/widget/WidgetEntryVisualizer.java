@@ -145,7 +145,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
         return entry.getSource().source.providerType == eventProvider.type;
     }
 
-    public Intent createViewEntryIntent(WidgetEntry entry) {
+    public Intent newViewEntryIntent(WidgetEntry entry) {
         return null;
     }
 }

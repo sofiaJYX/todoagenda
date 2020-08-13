@@ -28,7 +28,7 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
     private static final String TAG = SamsungTasksProvider.class.getSimpleName();
 
     // TODO: Check if the below Intent is correct
-    private static final Intent NEW_TASK_INTENT = IntentUtil.createViewIntent()
+    private static final Intent ADD_TASK_INTENT = IntentUtil.newViewIntent()
             .setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, 0));
 
     public SamsungTasksProvider(EventProviderType type, Context context, int widgetId) {
@@ -51,7 +51,7 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
 
         return myContentResolver.foldEvents(uri, projection, where, null, null,
                 new ArrayList<>(), tasks -> cursor -> {
-                    TaskEvent task = createTask(cursor);
+                    TaskEvent task = newTask(cursor);
                     if (matchedFilter(task)) {
                         tasks.add(task);
                     }
@@ -82,7 +82,7 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
         return whereBuilder.toString();
     }
 
-    private TaskEvent createTask(Cursor cursor) {
+    private TaskEvent newTask(Cursor cursor) {
         OrderedEventSource source = getSettings()
                 .getActiveEventSource(type,
                         cursor.getInt(cursor.getColumnIndex(SamsungTasksContract.Tasks.COLUMN_LIST_ID)));
@@ -129,8 +129,8 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    public Intent getViewEventIntent(TaskEvent event) {
-        return IntentUtil.createViewIntent()
+    public Intent newViewEventIntent(TaskEvent event) {
+        return IntentUtil.newViewIntent()
             .setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, event.getEventId()))
             .putExtra(SamsungTasksContract.INTENT_EXTRA_TASK, true)
             .putExtra(SamsungTasksContract.INTENT_EXTRA_SELECTED, event.getEventId())
@@ -150,7 +150,7 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    public Intent getNewTaskIntent() {
-        return NEW_TASK_INTENT;
+    public Intent getAddTaskIntent() {
+        return ADD_TASK_INTENT;
     }
 }

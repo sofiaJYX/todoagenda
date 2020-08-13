@@ -107,7 +107,7 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
         registeredReceiver.set(null);
     }
 
-    public static PendingIntent createWidgetEntryOnClickPendingIntent(InstanceSettings settings) {
+    public static PendingIntent newWidgetEntryOnClickPendingIntent(InstanceSettings settings) {
         Intent intent = new Intent(settings.getContext(), EnvironmentChangedReceiver.class)
             .setAction(Intent.ACTION_VIEW)
             .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());

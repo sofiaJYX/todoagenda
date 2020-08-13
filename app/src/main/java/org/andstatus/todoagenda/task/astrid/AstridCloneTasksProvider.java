@@ -38,7 +38,7 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
     static final Uri GOOGLE_LISTS_URI = Uri.parse(CONTENT_URI_STRING + "/google_lists");
     private static final Uri TODOAGENDA_URI = Uri.parse(CONTENT_URI_STRING + "/todoagenda");
 
-    private static final Intent NEW_TASK_INTENT = IntentUtil.createViewIntent()
+    private static final Intent ADD_TASK_INTENT = IntentUtil.newViewIntent()
             .setData(ContentUris.withAppendedId(TASKS_URI, 0));
 
     private static final String TASKS_COLUMN_ID = "_id";
@@ -72,7 +72,7 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
 
         return myContentResolver.foldEvents(TODOAGENDA_URI, null, where, null, null,
             new ArrayList<>(), tasks -> cursor -> {
-                TaskEvent task = createTask(cursor);
+                TaskEvent task = newTask(cursor);
                 if (matchedFilter(task)) {
                     tasks.add(task);
                 }
@@ -113,7 +113,7 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
         return whereBuilder.toString();
     }
 
-    private TaskEvent createTask(Cursor cursor) {
+    private TaskEvent newTask(Cursor cursor) {
         OrderedEventSource source = getSettings().getActiveEventSource(
             type, cursor.getInt(cursor.getColumnIndex(taskSource.getListColumnId())));
         TaskEvent task = new TaskEvent(getSettings(), getSettings().clock().getZone());
@@ -174,13 +174,13 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    final public Intent getViewEventIntent(TaskEvent event) {
-        return IntentUtil.createViewIntent()
+    final public Intent newViewEventIntent(TaskEvent event) {
+        return IntentUtil.newViewIntent()
                 .setData(ContentUris.withAppendedId(TASKS_URI, event.getEventId()));
     }
 
     @Override
-    public Intent getNewTaskIntent() {
-        return NEW_TASK_INTENT;
+    public Intent getAddTaskIntent() {
+        return ADD_TASK_INTENT;
     }
 }

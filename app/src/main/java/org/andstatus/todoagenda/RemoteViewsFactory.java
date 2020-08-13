@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.andstatus.todoagenda.EnvironmentChangedReceiver.createWidgetEntryOnClickPendingIntent;
-import static org.andstatus.todoagenda.util.CalendarIntentUtil.createOpenCalendarPendingIntent;
+import static org.andstatus.todoagenda.EnvironmentChangedReceiver.newWidgetEntryOnClickPendingIntent;
+import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarPendingIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setImageFromAttr;
@@ -112,7 +112,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
             WidgetEntryVisualizer<? extends WidgetEntry> visualizer = visualizerFor(entry);
             if (visualizer != null) {
                 RemoteViews views = visualizer.getRemoteViews(entry, position);
-                views.setOnClickFillInIntent(R.id.event_entry, entry.createOnClickFillInIntent());
+                views.setOnClickFillInIntent(R.id.event_entry, entry.newOnClickFillInIntent());
                 if (position == widgetEntries.size() - 1) {
                     InstanceState.listRedrawn(widgetId);
                 }
@@ -148,7 +148,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         WidgetEntryVisualizer<? extends WidgetEntry> visualizer = factory.visualizerFor(entry);
         return visualizer == null
             ? null
-            : visualizer.createViewEntryIntent(entry);
+            : visualizer.newViewEntryIntent(entry);
     }
 
     @NonNull
@@ -352,7 +352,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     private static void configureCurrentDate(InstanceSettings settings, RemoteViews rv) {
         int viewId = R.id.calendar_current_date;
-        rv.setOnClickPendingIntent(viewId, createOpenCalendarPendingIntent(settings));
+        rv.setOnClickPendingIntent(viewId, newOpenCalendarPendingIntent(settings));
         String formattedDate = settings.widgetHeaderDateFormatter()
                 .formatDate(settings.clock().now()).toString()
                 .toUpperCase(Locale.getDefault());
@@ -402,7 +402,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         rv.setRemoteAdapter(R.id.event_list, intent);
-        rv.setPendingIntentTemplate(R.id.event_list, createWidgetEntryOnClickPendingIntent(settings));
+        rv.setPendingIntentTemplate(R.id.event_list, newWidgetEntryOnClickPendingIntent(settings));
     }
 
     private static void configureGotoToday(InstanceSettings settings, Context context, RemoteViews rv) {
@@ -417,7 +417,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     public static PendingIntent getPermittedAddEventPendingIntent(InstanceSettings settings) {
         Context context = settings.getContext();
         Intent intent = PermissionsUtil.getPermittedActivityIntent(context,
-                CalendarIntentUtil.createNewEventIntent(settings.clock().getZone()));
+                CalendarIntentUtil.newAddCalendarEventIntent(settings.clock().getZone()));
         return isIntentAvailable(context, intent) ?
                 PendingIntent.getActivity(context, REQUEST_CODE_ADD_EVENT, intent, PendingIntent.FLAG_UPDATE_CURRENT) :
                 getEmptyPendingIntent(context);

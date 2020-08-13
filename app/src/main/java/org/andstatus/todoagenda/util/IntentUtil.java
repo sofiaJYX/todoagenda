@@ -3,7 +3,7 @@ package org.andstatus.todoagenda.util;
 import android.content.Intent;
 
 public class IntentUtil {
-    public static Intent createViewIntent() {
+    public static Intent newViewIntent() {
         return newIntent(Intent.ACTION_VIEW);
     }
 

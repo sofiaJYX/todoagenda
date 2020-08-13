@@ -35,15 +35,16 @@ public class ErrorReportActivity extends AppCompatActivity {
         finish();
     }
 
-    public static void showMessage(Context context, String message, @NonNull Exception exception) {
-        Intent intent = IntentUtil.createViewIntent();
-        intent.setClass(context, ErrorReportActivity.class);
-        intent.putExtra(EXTRA_APP_MESSAGE, message + "\n\n" +
-                "Caused by: " + exception.getClass() + ",\n" + exception.getMessage());
+    public static void showMessage(Context context, String message, @NonNull Exception exceptionToReport) {
+        String msgLog = message + "\n\n" +
+                "Caused by: " + exceptionToReport.getClass() + ",\n" + exceptionToReport.getMessage();
+        Intent intent = IntentUtil.newViewIntent()
+            .setClass(context, ErrorReportActivity.class)
+            .putExtra(EXTRA_APP_MESSAGE, msgLog);
         try {
             context.startActivity(intent);
         } catch (Exception e) {
-            String msgLog = "Failed to start " + TAG + ". " + message;
+            msgLog += "\n\nFailed to start " + TAG + ".";
             Log.e(TAG, msgLog, e);
             throw new RuntimeException(msgLog, e);
         }

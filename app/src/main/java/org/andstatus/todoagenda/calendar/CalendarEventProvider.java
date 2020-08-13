@@ -152,7 +152,7 @@ public class CalendarEventProvider extends EventProvider {
     private List<CalendarEvent> queryList(Uri uri, String selection) {
         return myContentResolver.foldEvents(uri, getProjection(), selection, null, EVENT_SORT_ORDER,
                 new ArrayList<>(), eventList -> cursor -> {
-                    CalendarEvent event = createCalendarEvent(cursor);
+                    CalendarEvent event = newCalendarEvent(cursor);
                     if (!eventList.contains(event) && !mKeywordsFilter.matched(event.getTitle())) {
                         eventList.add(event);
                     }
@@ -192,7 +192,7 @@ public class CalendarEventProvider extends EventProvider {
             CLOSING_BRACKET;
     }
 
-    private CalendarEvent createCalendarEvent(Cursor cursor) {
+    private CalendarEvent newCalendarEvent(Cursor cursor) {
         OrderedEventSource source = getSettings()
             .getActiveEventSource(type, cursor.getInt(cursor.getColumnIndex(Instances.CALENDAR_ID)));
 
@@ -232,8 +232,8 @@ public class CalendarEventProvider extends EventProvider {
                 });
     }
 
-    public Intent createViewEventIntent(CalendarEvent event) {
-        Intent intent = IntentUtil.createViewIntent();
+    public Intent newViewEventIntent(CalendarEvent event) {
+        Intent intent = IntentUtil.newViewIntent();
         intent.setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, event.getEventId()));
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStartMillis());
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEndMillis());

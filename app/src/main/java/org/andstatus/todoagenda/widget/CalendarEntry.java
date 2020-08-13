@@ -84,7 +84,7 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
 
     @Override
     public String getEventTimeString() {
-        return hideEventTime() ? "" : createTimeSpanString();
+        return hideEventTime() ? "" : getTimeSpanString();
     }
 
     private boolean hideEventTime() {
@@ -92,7 +92,7 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
                 isAllDay();
     }
 
-    private String createTimeSpanString() {
+    private String getTimeSpanString() {
         String startStr;
         String endStr;
         String separator = SPACE_DASH_SPACE;

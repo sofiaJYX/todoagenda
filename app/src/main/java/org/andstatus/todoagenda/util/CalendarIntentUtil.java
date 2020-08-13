@@ -16,8 +16,8 @@ public class CalendarIntentUtil {
     private static final String KEY_DETAIL_VIEW = "DETAIL_VIEW";
     private static final String TIME = "time";
 
-    public static Intent createOpenCalendarAtDayIntent(DateTime goToTime) {
-        Intent intent = IntentUtil.createViewIntent();
+    public static Intent newOpenCalendarAtDayIntent(DateTime goToTime) {
+        Intent intent = IntentUtil.newViewIntent();
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
         builder.appendPath(TIME);
         if (goToTime.getMillis() != 0) {
@@ -28,12 +28,12 @@ public class CalendarIntentUtil {
         return intent;
     }
 
-    public static PendingIntent createOpenCalendarPendingIntent(InstanceSettings settings) {
+    public static PendingIntent newOpenCalendarPendingIntent(InstanceSettings settings) {
         return PermissionsUtil.getPermittedPendingActivityIntent(settings,
-                createOpenCalendarAtDayIntent(new DateTime(settings.clock().getZone())));
+                newOpenCalendarAtDayIntent(new DateTime(settings.clock().getZone())));
     }
 
-    public static Intent createNewEventIntent(DateTimeZone timeZone) {
+    public static Intent newAddCalendarEventIntent(DateTimeZone timeZone) {
         DateTime beginTime = new DateTime(timeZone).plusHours(1).withMinuteOfHour(0).withSecondOfMinute(0)
                 .withMillisOfSecond(0);
         DateTime endTime = beginTime.plusHours(1);

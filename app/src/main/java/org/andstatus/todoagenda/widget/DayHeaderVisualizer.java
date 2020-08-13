@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static org.andstatus.todoagenda.util.CalendarIntentUtil.createOpenCalendarAtDayIntent;
+import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarAtDayIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColorFromAttr;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setPadding;
@@ -52,9 +52,9 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
     }
 
     @Override
-    public Intent createViewEntryIntent(WidgetEntry eventEntry) {
+    public Intent newViewEntryIntent(WidgetEntry eventEntry) {
         DayHeader entry = (DayHeader) eventEntry;
-        return createOpenCalendarAtDayIntent(entry.entryDate);
+        return newOpenCalendarAtDayIntent(entry.entryDate);
     }
 
     private void setDayHeaderTitle(int position, DayHeader entry, RemoteViews rv, ContextThemeWrapper shadingContext) {

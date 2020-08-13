@@ -78,13 +78,13 @@ public class EventSourcesPreferencesFragment extends PreferenceFragmentCompat {
         CheckBoxPreference checkboxPref = new CheckBoxPreference(getActivity());
         checkboxPref.setTitle((source.isAvailable ? "" : getText(R.string.not_found) + ": ") + source.getTitle());
         checkboxPref.setSummary(source.getSummary());
-        checkboxPref.setIcon(createDrawable(source.providerType.isCalendar, source.getColor()));
+        checkboxPref.setIcon(getDrawable(source.providerType.isCalendar, source.getColor()));
         checkboxPref.getExtras().putString(SOURCE_ID, source.toStoredString());
         getPreferenceScreen().addPreference(checkboxPref);
         checkboxPref.setChecked(isChecked);
     }
 
-    private Drawable createDrawable(boolean isCalendar, int color) {
+    private Drawable getDrawable(boolean isCalendar, int color) {
         Drawable drawable = getResources().getDrawable(
                 isCalendar ? R.drawable.prefs_calendar_entry : R.drawable.task_icon
         );

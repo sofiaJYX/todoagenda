@@ -193,7 +193,7 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
                 : settings.entryDateFormatter().formatDate(entryDate);
     }
 
-    public Intent createOnClickFillInIntent() {
+    public Intent newOnClickFillInIntent() {
         return new Intent().putExtra(EXTRA_WIDGET_ENTRY_ID, entryId);
     }
 

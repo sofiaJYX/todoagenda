@@ -18,7 +18,7 @@ import org.joda.time.DateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.andstatus.todoagenda.util.CalendarIntentUtil.createOpenCalendarAtDayIntent;
+import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarAtDayIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorFromAttr;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
@@ -53,13 +53,13 @@ public class LastEntryVisualizer extends WidgetEntryVisualizer<LastEntry> {
     }
 
     @Override
-    public Intent createViewEntryIntent(WidgetEntry widgetEntry) {
+    public Intent newViewEntryIntent(WidgetEntry widgetEntry) {
         LastEntry entry = (LastEntry) widgetEntry;
         switch (entry.type) {
             case EMPTY:
             case NOT_LOADED:
                 if (PermissionsUtil.arePermissionsGranted(getSettings().getContext())) {
-                    return createOpenCalendarAtDayIntent(new DateTime(getSettings().clock().getZone()));
+                    return newOpenCalendarAtDayIntent(new DateTime(getSettings().clock().getZone()));
                 }
                 break;
             default:
