@@ -12,12 +12,13 @@ import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
-import org.andstatus.todoagenda.util.PermissionsUtil;
 import org.joda.time.DateTime;
 
 import java.util.Collections;
 import java.util.List;
 
+import static org.andstatus.todoagenda.RemoteViewsFactory.ACTION_CONFIGURE;
+import static org.andstatus.todoagenda.RemoteViewsFactory.getActionPendingIntent;
 import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarAtDayIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorFromAttr;
@@ -40,7 +41,7 @@ public class LastEntryVisualizer extends WidgetEntryVisualizer<LastEntry> {
 
         int viewId = R.id.event_entry;
         if (position < 0) {
-            rv.setOnClickPendingIntent(R.id.event_entry, PermissionsUtil.getNoPermissionsPendingIntent(getSettings()));
+            rv.setOnClickPendingIntent(R.id.event_entry, getActionPendingIntent(getSettings(), ACTION_CONFIGURE));
         }
         if (entry.type == LastEntry.LastEntryType.EMPTY && getSettings().noPastEvents()) {
             rv.setTextViewText(viewId, getContext().getText(R.string.no_upcoming_events));
@@ -58,10 +59,7 @@ public class LastEntryVisualizer extends WidgetEntryVisualizer<LastEntry> {
         switch (entry.type) {
             case EMPTY:
             case NOT_LOADED:
-                if (PermissionsUtil.arePermissionsGranted(getSettings().getContext())) {
-                    return newOpenCalendarAtDayIntent(new DateTime(getSettings().clock().getZone()));
-                }
-                break;
+                return newOpenCalendarAtDayIntent(new DateTime(getSettings().clock().getZone()));
             default:
                 break;
         }

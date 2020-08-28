@@ -4,8 +4,6 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -18,10 +16,8 @@ import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProviderType;
-import org.andstatus.todoagenda.util.CalendarIntentUtil;
 import org.andstatus.todoagenda.util.InstanceId;
 import org.andstatus.todoagenda.util.MyClock;
-import org.andstatus.todoagenda.util.PermissionsUtil;
 import org.andstatus.todoagenda.util.StringUtil;
 import org.andstatus.todoagenda.widget.DayHeader;
 import org.andstatus.todoagenda.widget.DayHeaderVisualizer;
@@ -39,8 +35,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.andstatus.todoagenda.EnvironmentChangedReceiver.newWidgetEntryOnClickPendingIntent;
-import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarPendingIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setImageFromAttr;
@@ -56,14 +50,18 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     public final static ConcurrentHashMap<Integer, RemoteViewsFactory> factories = new ConcurrentHashMap<>();
 
     private static final int MAX_NUMBER_OF_WIDGETS = 100;
-    private static final int REQUEST_CODE_EMPTY = 1;
     private static final int REQUEST_CODE_ADD_EVENT = 2;
     static final int REQUEST_CODE_MIDNIGHT_ALARM = REQUEST_CODE_ADD_EVENT + MAX_NUMBER_OF_WIDGETS;
     static final int REQUEST_CODE_PERIODIC_ALARM = REQUEST_CODE_MIDNIGHT_ALARM + MAX_NUMBER_OF_WIDGETS;
 
     public static final String PACKAGE = "org.andstatus.todoagenda";
+    static final String ACTION_OPEN_CALENDAR = PACKAGE + ".action.OPEN_CALENDAR";
     static final String ACTION_GOTO_TODAY = PACKAGE + ".action.GOTO_TODAY";
-    private static final String ACTION_REFRESH = PACKAGE + ".action.REFRESH";
+    static final String ACTION_ADD_CALENDAR_EVENT = PACKAGE + ".action.ADD_CALENDAR_EVENT";
+    static final String ACTION_ADD_TASK = PACKAGE + ".action.GOTO_TODAY";
+    static final String ACTION_VIEW_ENTRY = PACKAGE + ".action.VIEW_ENTRY";
+    static final String ACTION_REFRESH = PACKAGE + ".action.REFRESH";
+    public static final String ACTION_CONFIGURE = PACKAGE + ".action.CONFIGURE";
     static final String ACTION_MIDNIGHT_ALARM = PACKAGE + ".action.MIDNIGHT_ALARM";
     static final String ACTION_PERIODIC_ALARM = PACKAGE + ".action.PERIODIC_ALARM";
 
@@ -180,8 +178,8 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
             InstanceSettings settings = AllSettings.instanceFromId(context, widgetId);
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_initial);
 
-            configureWidgetHeader(settings, context, rv);
-            configureWidgetEntriesList(settings, context, widgetId, rv);
+            configureWidgetHeader(settings, rv);
+            configureWidgetEntriesList(settings, rv);
 
             appWidgetManager.updateAppWidget(widgetId, rv);
         } catch (Exception e) {
@@ -331,20 +329,20 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         return false;
     }
 
-    private static void configureWidgetHeader(InstanceSettings settings, Context context, RemoteViews rv) {
+    private static void configureWidgetHeader(InstanceSettings settings, RemoteViews rv) {
         Log.d(TAG, settings.getWidgetId() + " configureWidgetHeader, layout:" + settings.getWidgetHeaderLayout());
         rv.removeAllViews(R.id.header_parent);
 
         if (settings.getWidgetHeaderLayout() != WidgetHeaderLayout.HIDDEN) {
-            RemoteViews headerView = new RemoteViews(context.getPackageName(),
+            RemoteViews headerView = new RemoteViews(settings.getContext().getPackageName(),
                     settings.getWidgetHeaderLayout().layoutId);
             rv.addView(R.id.header_parent, headerView);
 
             setBackgroundColor(rv, R.id.action_bar, settings.getWidgetHeaderBackgroundColor());
             configureCurrentDate(settings, rv);
             setActionIcons(settings, rv);
-            configureGotoToday(settings, context, rv);
-            configureAddEvent(settings, rv);
+            configureGotoToday(settings, rv);
+            configureAddCalendarEvent(settings, rv);
             configureRefresh(settings, rv);
             configureOverflowMenu(settings, rv);
         }
@@ -352,7 +350,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     private static void configureCurrentDate(InstanceSettings settings, RemoteViews rv) {
         int viewId = R.id.calendar_current_date;
-        rv.setOnClickPendingIntent(viewId, newOpenCalendarPendingIntent(settings));
+        rv.setOnClickPendingIntent(viewId, getActionPendingIntent(settings, ACTION_OPEN_CALENDAR));
         String formattedDate = settings.widgetHeaderDateFormatter()
                 .formatDate(settings.clock().now()).toString()
                 .toUpperCase(Locale.getDefault());
@@ -365,6 +363,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         ContextThemeWrapper themeContext = settings.getShadingContext(TextShadingPref.WIDGET_HEADER);
         setImageFromAttr(themeContext, rv, R.id.go_to_today, R.attr.header_action_go_to_today);
         setImageFromAttr(themeContext, rv, R.id.add_event, R.attr.header_action_add_event);
+        setImageFromAttr(themeContext, rv, R.id.add_task, R.attr.header_action_add_task);
         setImageFromAttr(themeContext, rv, R.id.refresh, R.attr.header_action_refresh);
         setImageFromAttr(themeContext, rv, R.id.overflow_menu, R.attr.header_action_overflow);
         TextShading textShading = settings.getShading(TextShadingPref.WIDGET_HEADER);
@@ -374,66 +373,43 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         }
         setAlpha(rv, R.id.go_to_today, alpha);
         setAlpha(rv, R.id.add_event, alpha);
+        setAlpha(rv, R.id.add_task, alpha);
         setAlpha(rv, R.id.refresh, alpha);
         setAlpha(rv, R.id.overflow_menu, alpha);
     }
 
-    private static void configureAddEvent(InstanceSettings settings, RemoteViews rv) {
-        rv.setOnClickPendingIntent(R.id.add_event, getPermittedAddEventPendingIntent(settings));
+    private static void configureAddCalendarEvent(InstanceSettings settings, RemoteViews rv) {
+        rv.setOnClickPendingIntent(R.id.add_event, getActionPendingIntent(settings, ACTION_ADD_CALENDAR_EVENT));
     }
 
     private static void configureRefresh(InstanceSettings settings, RemoteViews rv) {
-        Intent intent = new Intent(settings.getContext(), EnvironmentChangedReceiver.class)
-                .setAction(ACTION_REFRESH)
-                .setData(Uri.parse("intent:refresh" + settings.getWidgetId()))
-                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
-        PendingIntent pendingIntent = PermissionsUtil.getPermittedPendingBroadcastIntent(settings, intent);
-        rv.setOnClickPendingIntent(R.id.refresh, pendingIntent);
+        rv.setOnClickPendingIntent(R.id.refresh, getActionPendingIntent(settings, ACTION_REFRESH));
     }
 
     private static void configureOverflowMenu(InstanceSettings settings, RemoteViews rv) {
-        Intent intent = MainActivity.intentToConfigure(settings.getContext(), settings.getWidgetId());
-        PendingIntent pendingIntent = PermissionsUtil.getPermittedPendingActivityIntent(settings, intent);
-        rv.setOnClickPendingIntent(R.id.overflow_menu, pendingIntent);
+        rv.setOnClickPendingIntent(R.id.overflow_menu, getActionPendingIntent(settings, ACTION_CONFIGURE));
     }
 
-    private static void configureWidgetEntriesList(InstanceSettings settings, Context context, int widgetId, RemoteViews rv) {
-        Intent intent = new Intent(context, org.andstatus.todoagenda.RemoteViewsService.class);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+    private static void configureWidgetEntriesList(InstanceSettings settings, RemoteViews rv) {
+        Intent intent = new Intent(settings.getContext(), org.andstatus.todoagenda.RemoteViewsService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         rv.setRemoteAdapter(R.id.event_list, intent);
-        rv.setPendingIntentTemplate(R.id.event_list, newWidgetEntryOnClickPendingIntent(settings));
+        rv.setPendingIntentTemplate(R.id.event_list, getActionPendingIntent(settings, ACTION_VIEW_ENTRY));
     }
 
-    private static void configureGotoToday(InstanceSettings settings, Context context, RemoteViews rv) {
-        Intent intent = new Intent(context.getApplicationContext(), EnvironmentChangedReceiver.class)
-            .setAction(ACTION_GOTO_TODAY)
-            .setData(Uri.parse("intent:gototoday" + settings.getWidgetId()))
-            .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
-        PendingIntent pendingIntent = PermissionsUtil.getPermittedPendingBroadcastIntent(settings, intent);
-        rv.setOnClickPendingIntent(R.id.go_to_today, pendingIntent);
+    private static void configureGotoToday(InstanceSettings settings, RemoteViews rv) {
+        rv.setOnClickPendingIntent(R.id.go_to_today, getActionPendingIntent(settings, ACTION_GOTO_TODAY));
     }
 
-    public static PendingIntent getPermittedAddEventPendingIntent(InstanceSettings settings) {
-        Context context = settings.getContext();
-        Intent intent = PermissionsUtil.getPermittedActivityIntent(context,
-                CalendarIntentUtil.newAddCalendarEventIntent(settings.clock().getZone()));
-        return isIntentAvailable(context, intent) ?
-                PendingIntent.getActivity(context, REQUEST_CODE_ADD_EVENT, intent, PendingIntent.FLAG_UPDATE_CURRENT) :
-                getEmptyPendingIntent(context);
+    public static PendingIntent getActionPendingIntent(InstanceSettings settings, String action) {
+        // We need unique request codes for each widget
+        int requestCode = action.hashCode() + settings.getWidgetId();
+        Intent intent = new Intent(settings.getContext().getApplicationContext(), EnvironmentChangedReceiver.class)
+                .setAction(action)
+                .setData(Uri.parse("intent:" + action.toLowerCase() + settings.getWidgetId()))
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
+        return PendingIntent.getBroadcast(settings.getContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private static PendingIntent getEmptyPendingIntent(Context context) {
-        return PendingIntent.getActivity(
-                context.getApplicationContext(),
-                REQUEST_CODE_EMPTY,
-                new Intent(),
-                PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private static boolean isIntentAvailable(Context context, Intent intent) {
-        PackageManager packageManager = context.getPackageManager();
-        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
-    }
 }

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.provider.EventProviderType;
+import org.andstatus.todoagenda.util.CalendarIntentUtil;
 import org.andstatus.todoagenda.util.DateUtil;
 import org.andstatus.todoagenda.util.PermissionsUtil;
 import org.andstatus.todoagenda.util.StringUtil;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.andstatus.todoagenda.AppWidgetProvider.getWidgetIds;
+import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarAtDayIntent;
 import static org.andstatus.todoagenda.widget.WidgetEntry.EXTRA_WIDGET_ENTRY_ID;
 
 public class EnvironmentChangedReceiver extends BroadcastReceiver {
@@ -107,13 +109,6 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
         registeredReceiver.set(null);
     }
 
-    public static PendingIntent newWidgetEntryOnClickPendingIntent(InstanceSettings settings) {
-        Intent intent = new Intent(settings.getContext(), EnvironmentChangedReceiver.class)
-            .setAction(Intent.ACTION_VIEW)
-            .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
-        return PermissionsUtil.getPermittedPendingBroadcastIntent(settings, intent);
-    }
-
     private void unRegister(Context context) {
         context.unregisterReceiver(this);
     }
@@ -122,26 +117,40 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Received intent: " + intent);
         AllSettings.ensureLoadedFromFiles(context, false);
-        String action = intent == null
-                ? ""
-                : (intent.getAction() == null ? "" : intent.getAction());
         int widgetId = intent == null
                 ? 0
                 : intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
+        InstanceSettings settings = widgetId == 0
+                ? null
+                : AllSettings.getLoadedInstances().get(widgetId);
+        String action0 = intent == null ? "" : intent.getAction();
+        String action = intent == null || settings == null || StringUtil.isEmpty(action0)
+                ? RemoteViewsFactory.ACTION_REFRESH
+                : action0;
+        if (!action.equals(RemoteViewsFactory.ACTION_REFRESH) && !PermissionsUtil.arePermissionsGranted(context)) {
+            action = RemoteViewsFactory.ACTION_CONFIGURE;
+        }
         switch (action) {
+            case RemoteViewsFactory.ACTION_OPEN_CALENDAR:
+                Intent openCalendar = newOpenCalendarAtDayIntent(new DateTime(settings.clock().getZone()));
+                startActivity(context, openCalendar, action, widgetId, "Open Calendar");
+            case RemoteViewsFactory.ACTION_VIEW_ENTRY:
+                onReceive(context, intent, action, widgetId);
+                updateWidget(context, widgetId);
+                break;
             case RemoteViewsFactory.ACTION_GOTO_TODAY:
                 gotoToday(context, widgetId);
                 break;
-            case RemoteViewsFactory.ACTION_PERIODIC_ALARM:
-                updateAllWidgets(context);
+            case RemoteViewsFactory.ACTION_ADD_CALENDAR_EVENT:
+                Intent addCalendarEvent = CalendarIntentUtil.newAddCalendarEventIntent(settings.clock().getZone());
+                startActivity(context, addCalendarEvent, action, widgetId, "Add calendar event");
+                break;
+            case RemoteViewsFactory.ACTION_CONFIGURE:
+                Intent configure = MainActivity.intentToConfigure(context, widgetId);
+                startActivity(context, configure, action, widgetId, "Open widget Settings");
                 break;
             default:
-                if (widgetId == 0 || StringUtil.isEmpty(action)) {
-                    updateAllWidgets(context);
-                } else {
-                    onReceive(context, intent, action, widgetId);
-                    updateWidget(context, widgetId);
-                }
+                updateAllWidgets(context);
                 break;
         }
     }
@@ -160,8 +169,12 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
     private void onReceive(Context context, @NonNull Intent intent, @NonNull String action, int widgetId) {
         long entryId = intent.getLongExtra(EXTRA_WIDGET_ENTRY_ID, 0);
         Intent activityIntent = RemoteViewsFactory.getOnClickIntent(widgetId, entryId);
-        String msgLog = (activityIntent == null ? "(no intent), action:" + action : activityIntent) +
-                ", widgetId:" + widgetId + ", entryId:" + entryId;
+        startActivity(context, activityIntent, action, widgetId, "Open Calendar/Tasks app.\nentryId:" + entryId);
+    }
+
+    private void startActivity(Context context, Intent activityIntent, String action, int widgetId, String msg1) {
+        String msgLog = msg1 + "; " + (activityIntent == null ? "(no intent), action:" + action : activityIntent) +
+                ", widgetId:" + widgetId;
         if (activityIntent != null) {
             try {
                 context.startActivity(activityIntent);

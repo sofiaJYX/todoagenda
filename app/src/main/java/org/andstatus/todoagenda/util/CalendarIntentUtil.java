@@ -1,13 +1,11 @@
 package org.andstatus.todoagenda.util;
 
-import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 
-import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -28,16 +26,12 @@ public class CalendarIntentUtil {
         return intent;
     }
 
-    public static PendingIntent newOpenCalendarPendingIntent(InstanceSettings settings) {
-        return PermissionsUtil.getPermittedPendingActivityIntent(settings,
-                newOpenCalendarAtDayIntent(new DateTime(settings.clock().getZone())));
-    }
-
     public static Intent newAddCalendarEventIntent(DateTimeZone timeZone) {
         DateTime beginTime = new DateTime(timeZone).plusHours(1).withMinuteOfHour(0).withSecondOfMinute(0)
                 .withMillisOfSecond(0);
         DateTime endTime = beginTime.plusHours(1);
-        return new Intent(Intent.ACTION_INSERT, Events.CONTENT_URI)
+        return IntentUtil.newIntent(Intent.ACTION_INSERT)
+                .setData(Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getMillis())
                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getMillis());
     }
