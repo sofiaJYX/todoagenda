@@ -1,10 +1,12 @@
 package org.andstatus.todoagenda.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 
 import androidx.annotation.NonNull;
 
+import org.andstatus.todoagenda.MainActivity;
 import org.andstatus.todoagenda.prefs.EventSource;
 import org.andstatus.todoagenda.prefs.FilterMode;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
@@ -81,5 +83,9 @@ public class EventProvider {
 
     protected FilterMode getFilterMode() {
         return getSettings().getFilterMode();
+    }
+
+    public Intent getAddEventIntent() {
+        return MainActivity.intentToConfigure(context, widgetId);
     }
 }

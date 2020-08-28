@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
+import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.prefs.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.InstanceId;
@@ -58,7 +60,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     static final String ACTION_OPEN_CALENDAR = PACKAGE + ".action.OPEN_CALENDAR";
     static final String ACTION_GOTO_TODAY = PACKAGE + ".action.GOTO_TODAY";
     static final String ACTION_ADD_CALENDAR_EVENT = PACKAGE + ".action.ADD_CALENDAR_EVENT";
-    static final String ACTION_ADD_TASK = PACKAGE + ".action.GOTO_TODAY";
+    static final String ACTION_ADD_TASK = PACKAGE + ".action.ADD_TASK";
     static final String ACTION_VIEW_ENTRY = PACKAGE + ".action.VIEW_ENTRY";
     static final String ACTION_REFRESH = PACKAGE + ".action.REFRESH";
     public static final String ACTION_CONFIGURE = PACKAGE + ".action.CONFIGURE";
@@ -343,6 +345,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
             setActionIcons(settings, rv);
             configureGotoToday(settings, rv);
             configureAddCalendarEvent(settings, rv);
+            configureAddTask(settings, rv);
             configureRefresh(settings, rv);
             configureOverflowMenu(settings, rv);
         }
@@ -379,7 +382,21 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     }
 
     private static void configureAddCalendarEvent(InstanceSettings settings, RemoteViews rv) {
-        rv.setOnClickPendingIntent(R.id.add_event, getActionPendingIntent(settings, ACTION_ADD_CALENDAR_EVENT));
+        if (settings.getFirstSource(true) == OrderedEventSource.EMPTY) {
+            rv.setViewVisibility(R.id.add_event, View.GONE);
+        } else {
+            rv.setViewVisibility(R.id.add_event, View.VISIBLE);
+            rv.setOnClickPendingIntent(R.id.add_event, getActionPendingIntent(settings, ACTION_ADD_CALENDAR_EVENT));
+        }
+    }
+
+    private static void configureAddTask(InstanceSettings settings, RemoteViews rv) {
+        if (settings.getFirstSource(false) == OrderedEventSource.EMPTY) {
+            rv.setViewVisibility(R.id.add_task, View.GONE);
+        } else {
+            rv.setViewVisibility(R.id.add_task, View.VISIBLE);
+            rv.setOnClickPendingIntent(R.id.add_task, getActionPendingIntent(settings, ACTION_ADD_TASK));
+        }
     }
 
     private static void configureRefresh(InstanceSettings settings, RemoteViews rv) {

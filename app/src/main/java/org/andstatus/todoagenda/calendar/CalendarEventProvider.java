@@ -16,6 +16,7 @@ import org.andstatus.todoagenda.prefs.FilterMode;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
+import org.andstatus.todoagenda.util.CalendarIntentUtil;
 import org.andstatus.todoagenda.util.IntentUtil;
 import org.andstatus.todoagenda.util.MyClock;
 import org.joda.time.DateTime;
@@ -240,4 +241,8 @@ public class CalendarEventProvider extends EventProvider {
         return intent;
     }
 
+    @Override
+    public Intent getAddEventIntent() {
+        return CalendarIntentUtil.newAddCalendarEventIntent(getSettings().clock().getZone());
+    }
 }

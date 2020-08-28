@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.provider.EventProviderType;
-import org.andstatus.todoagenda.util.CalendarIntentUtil;
 import org.andstatus.todoagenda.util.DateUtil;
 import org.andstatus.todoagenda.util.PermissionsUtil;
 import org.andstatus.todoagenda.util.StringUtil;
@@ -142,8 +141,16 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
                 gotoToday(context, widgetId);
                 break;
             case RemoteViewsFactory.ACTION_ADD_CALENDAR_EVENT:
-                Intent addCalendarEvent = CalendarIntentUtil.newAddCalendarEventIntent(settings.clock().getZone());
+                Intent addCalendarEvent = settings.getFirstSource(true).source.providerType
+                        .getEventProvider(context, widgetId)
+                        .getAddEventIntent();
                 startActivity(context, addCalendarEvent, action, widgetId, "Add calendar event");
+                break;
+            case RemoteViewsFactory.ACTION_ADD_TASK:
+                Intent addTask = settings.getFirstSource(false).source.providerType
+                        .getEventProvider(context, widgetId)
+                        .getAddEventIntent();
+                startActivity(context, addTask, action, widgetId,"Add task");
                 break;
             case RemoteViewsFactory.ACTION_CONFIGURE:
                 Intent configure = MainActivity.intentToConfigure(context, widgetId);

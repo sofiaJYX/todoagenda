@@ -774,6 +774,15 @@ public class InstanceSettings {
         return OrderedEventSource.EMPTY;
     }
 
+    public OrderedEventSource getFirstSource(boolean isCalendar) {
+        for(OrderedEventSource orderedSource: getActiveEventSources()) {
+            if (orderedSource.source.providerType.isCalendar == isCalendar) {
+                return orderedSource;
+            }
+        }
+        return OrderedEventSource.EMPTY;
+    }
+
     public InstanceSettings asForWidget(Context context, int targetWidgetId) {
         String newName = AllSettings.uniqueInstanceName(context, targetWidgetId, widgetInstanceName);
         return new InstanceSettings(context, targetWidgetId, newName).setFromJson(toJson());

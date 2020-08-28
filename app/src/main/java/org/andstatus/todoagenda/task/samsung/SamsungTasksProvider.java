@@ -150,7 +150,7 @@ public class SamsungTasksProvider extends AbstractTaskProvider {
     }
 
     @Override
-    public Intent getAddTaskIntent() {
+    public Intent getAddEventIntent() {
         return ADD_TASK_INTENT;
     }
 }

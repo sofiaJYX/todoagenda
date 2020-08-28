@@ -59,6 +59,4 @@ public abstract class AbstractTaskProvider extends EventProvider {
     }
 
     public abstract Intent newViewEventIntent(TaskEvent event);
-
-    public abstract Intent getAddTaskIntent();
 }
