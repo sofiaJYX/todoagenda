@@ -46,7 +46,8 @@ selected calendars and task lists.
 
 Note on Tasks support: As there is no unified way to access tasks created in different applications, 
 each application needs its own implementation. Currently supported:
-* [OpenTasks (by dmfs GmbH)](https://github.com/dmfs/opentasks).
+* [OpenTasks (by dmfs GmbH)](https://github.com/dmfs/opentasks#readme).
+* [Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme), Google Tasks can be used via it.
 * Tasks of Samsung Calendar ([looks like a deprecating feature...](
   https://eu.community.samsung.com/t5/Galaxy-S9-S9/New-Update-Calendar-Issues/td-p/940866)). 
 
@@ -72,9 +73,10 @@ Source code of these tests is in the repository also.
 
 ## <a id="changelog"/> Changelog
 
-### <a id="troubleshooting"/> Troubleshooting after update
+### <a id="troubleshooting"/> Troubleshooting after installation or an update
 
-Due to Android design, widgets may misbehave or even may not work at all after an update. In this case, try the below:
+Due to Android design, widgets may misbehave or even may not work at all  
+ after installation or an update. In this case, try the below:
 
 1. Restart your device.
 
@@ -87,6 +89,12 @@ If the problem is still present:
 
 In a case the widget doesn't work properly even after this, please
  [search, read and follow up on similar issues here](https://github.com/andstatus/todoagenda/issues?q=is%3Aissue+sort%3Aupdated-desc).
+
+### 2020-08-29 <a id="v4.2"/> v4.2.0 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
+* Support of "[Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme)"
+ not only gives us another app to manage tasks, but also allows to see Google tasks in our widget and manage them via the Tasks app.
+ Please note that this works only with "[Tasks app v.10+](https://github.com/tasks/tasks/blob/main/CHANGELOG.md)"
+ [#2](https://github.com/andstatus/todoagenda/issues/2).
 
 ### 2020-03-01 <a id="v4.0"/> v4.0.8 Three powerful date format preferences.
 * This version is for Android 7+ only. Versions for older devices are still available e.g.
