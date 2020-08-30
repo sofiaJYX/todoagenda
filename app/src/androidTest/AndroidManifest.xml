@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:compileSdkVersion="28"
-    android:compileSdkVersionCodename="9"
+    android:compileSdkVersion="29"
     package="org.andstatus.todoagenda.tests">
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="28" />
+        android:minSdkVersion="24"
+        android:targetSdkVersion="29" />
 
     <instrumentation
         android:label="Tests for DoTo Agenda"
