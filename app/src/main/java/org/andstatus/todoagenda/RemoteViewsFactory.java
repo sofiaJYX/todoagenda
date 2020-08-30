@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
@@ -222,13 +223,14 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
             eventEntries.addAll(visualizer.queryEventEntries());
         }
         Collections.sort(eventEntries);
-        List<WidgetEntry> deduplicated = settings.getHideDuplicates() ? hideDuplicates(eventEntries) : eventEntries;
+        List<WidgetEntry> noHidden = eventEntries.stream().filter(WidgetEntry::notHidden).collect(Collectors.toList());
+        List<WidgetEntry> deduplicated = settings.getHideDuplicates() ? filterOutDuplicates(noHidden) : noHidden;
         List<WidgetEntry> widgetEntries = settings.getShowDayHeaders() ? addDayHeaders(deduplicated) : deduplicated;
         LastEntry.addLast(settings, widgetEntries);
         return widgetEntries;
     }
 
-    private List<WidgetEntry> hideDuplicates(List<WidgetEntry> inputEntries) {
+    private List<WidgetEntry> filterOutDuplicates(List<WidgetEntry> inputEntries) {
         List<WidgetEntry> deduplicated = new ArrayList<>();
         List<WidgetEntry> hidden = new ArrayList<>();
         for(int ind1 = 0; ind1 < inputEntries.size(); ind1++) {

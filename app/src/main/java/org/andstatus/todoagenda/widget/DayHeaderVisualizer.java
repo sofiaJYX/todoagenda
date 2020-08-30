@@ -13,6 +13,7 @@ import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
+import org.andstatus.todoagenda.util.MyClock;
 
 import java.util.Collections;
 import java.util.List;
@@ -80,7 +81,9 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
             case END_OF_LIST_HEADER:
                 return getContext().getString(R.string.end_of_list_header);
             default:
-                return getSettings().dayHeaderDateFormatter().formatDate(entry.entryDate);
+                return MyClock.isDateDefined(entry.entryDate)
+                        ? getSettings().dayHeaderDateFormatter().formatDate(entry.entryDate)
+                        : "??? " + entry.entryPosition;
         }
     }
 

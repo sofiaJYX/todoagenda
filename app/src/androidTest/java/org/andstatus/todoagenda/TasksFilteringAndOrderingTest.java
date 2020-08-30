@@ -105,6 +105,32 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
     }
 
     @Test
+    public void dateDueFilteredHideNoDates() {
+        final String method = "dateDueFilteredHideNoDates";
+        List<String> names = Arrays.asList(
+                WidgetEntryPosition.DAY_HEADER.value,
+                "task5 ",
+                WidgetEntryPosition.DAY_HEADER.value,
+                "a Today's event at midnight", "Today's event at 4AM", "Today's event at 8:05",
+                "task3 ",
+                "Today's event later at 9:05PM",
+                "task1 ",
+                "", "task12 ",
+                "", "Test event that",
+                "", "task17 ",
+                "", "task16 ",
+                WidgetEntryPosition.END_OF_LIST_HEADER.value,
+                "task8 ", "task2 ");
+
+        UnaryOperator<InstanceSettings> setter = settings ->
+                settings.setTaskScheduling(TaskScheduling.DATE_DUE)
+                        .setTaskWithoutDates(TasksWithoutDates.HIDE)
+                        .setFilterMode(FilterMode.DEBUG_FILTER);
+
+        oneCase(method, setter, names);
+    }
+
+    @Test
     public void dateStartedNoFilters() {
         final String method = "dateStartedNoFilters";
         List<String> names = Arrays.asList(

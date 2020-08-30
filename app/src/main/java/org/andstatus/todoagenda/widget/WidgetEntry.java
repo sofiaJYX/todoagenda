@@ -188,7 +188,7 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
     }
 
     public CharSequence formatEntryDate() {
-        return settings.getEntryDateFormat().type == DateFormatType.HIDDEN
+        return settings.getEntryDateFormat().type == DateFormatType.HIDDEN || !MyClock.isDateDefined(entryDate)
                 ? ""
                 : settings.entryDateFormatter().formatDate(entryDate);
     }
@@ -209,5 +209,9 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
 
     public WidgetEvent getEvent() {
         return null;
+    }
+
+    public boolean notHidden() {
+        return entryPosition != WidgetEntryPosition.HIDDEN;
     }
 }

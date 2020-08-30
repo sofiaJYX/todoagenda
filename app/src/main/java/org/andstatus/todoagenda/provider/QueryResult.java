@@ -71,9 +71,9 @@ public class QueryResult {
                 new DateTime(json.getLong(KEY_EXECUTED_AT), dateTimeZoneFromJson(json))
         );
         result.uri = Uri.parse(json.getString(KEY_URI));
-        result.projection = jsonToArrayOfStings(json.getJSONArray(KEY_PROJECTION));
+        result.projection = jsonToArrayOfStrings(json.getJSONArray(KEY_PROJECTION));
         result.selection = json.getString(KEY_SELECTION);
-        result.selectionArgs = jsonToArrayOfStings(json.getJSONArray(KEY_SELECTION_ARGS));
+        result.selectionArgs = jsonToArrayOfStrings(json.getJSONArray(KEY_SELECTION_ARGS));
         result.sortOrder = json.getString(KEY_SORT_ORDER);
 
         JSONArray jsonArray = json.getJSONArray(KEY_ROWS);
@@ -90,7 +90,7 @@ public class QueryResult {
         return DateTimeZone.forID(TextUtils.isEmpty(zoneId) ? "UTC" : zoneId);
     }
 
-    private static String[] jsonToArrayOfStings(JSONArray jsonArray) throws JSONException {
+    private static String[] jsonToArrayOfStrings(JSONArray jsonArray) throws JSONException {
         String[] array = new String[jsonArray != null ? jsonArray.length() : 0];
         if (jsonArray != null) {
             for (int ind = 0; ind < jsonArray.length(); ind++) {
@@ -108,10 +108,11 @@ public class QueryResult {
         return executedAt;
     }
 
-    Cursor query(String[] projection) {
-        MatrixCursor cursor = new MatrixCursor(projection);
+    Cursor query(String[] projectionIn) {
+        String[] currentProjection = projectionIn == null ? projection : projectionIn ;
+        MatrixCursor cursor = new MatrixCursor(currentProjection);
         for (QueryRow row : rows) {
-            cursor.addRow(row.getArray(projection));
+            cursor.addRow(row.getArray(currentProjection));
         }
         return cursor;
     }
@@ -139,6 +140,9 @@ public class QueryResult {
     }
 
     public void addRow(QueryRow row) {
+        if (projection == null && row != null) {
+            projection = row.getColumnNames();
+        }
         rows.add(row);
     }
 

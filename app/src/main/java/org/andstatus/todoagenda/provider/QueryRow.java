@@ -212,6 +212,10 @@ public class QueryRow {
         return setColumn(CalendarContract.Instances.DISPLAY_COLOR, obj);
     }
 
+    public String[] getColumnNames() {
+        return mRow.keySet().toArray(new String[0]);
+    }
+
     public Object[] getArray(String[] projection) {
         Object[] values = new Object[projection.length];
         for (int ind = 0; ind < projection.length; ind++) {
