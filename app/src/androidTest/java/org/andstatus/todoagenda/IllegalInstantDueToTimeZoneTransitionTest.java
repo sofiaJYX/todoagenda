@@ -3,10 +3,12 @@ package org.andstatus.todoagenda;
 import android.util.Log;
 
 import org.andstatus.todoagenda.calendar.CalendarEvent;
+import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.provider.QueryRow;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
+import org.json.JSONException;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -36,13 +38,19 @@ public class IllegalInstantDueToTimeZoneTransitionTest extends BaseWidgetTest {
      * I couldn't reproduce the problem though.
      */
     @Test
-    public void testIllegalInstantDueToTimeZoneOffsetTransition() {
+    public void testIllegalInstantDueToTimeZoneOffsetTransition() throws JSONException {
         reproducedTimeZoneOffsetTransitionException();
         oneTimeDst("2014-09-07T00:00:00+00:00");
         oneTimeDst("2015-03-29T00:00:00+00:00");
         oneTimeDst("2015-10-25T00:00:00+00:00");
         oneTimeDst("2011-03-27T00:00:00+00:00");
         oneTimeDst("1980-04-06T00:00:00+00:00");
+
+        if (provider.getFirstActiveEventSource() == OrderedEventSource.EMPTY) {
+            Log.e(TAG, getSettings().toJson().toString(2));
+            fail("No active event sources");
+        }
+
         provider.addRow(new CalendarEvent(getSettings(), provider.getContext(), provider.getWidgetId(), false)
             .setStartDate(getSettings().clock().startOfTomorrow())
             .setEventSource(provider.getFirstActiveEventSource())
@@ -71,8 +79,7 @@ public class IllegalInstantDueToTimeZoneTransitionTest extends BaseWidgetTest {
                 .withDayOfMonth(27)
                 .withHourOfDay(2);
 
-        // this is just here to illustrate I'm solving the problem;
-        // don't need in operational code
+        // This code is here to illustrate that the problem exists
         try {
             DateTime myDateBroken = localDateTime.toDateTime(dateTimeZone);
             fail("No exception for " + localDateTime + " -> " + myDateBroken);

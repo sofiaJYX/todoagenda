@@ -10,16 +10,15 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.andstatus.todoagenda.calendar.CalendarEvent;
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
+import org.andstatus.todoagenda.prefs.EventSource;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.prefs.SettingsStorage;
 import org.andstatus.todoagenda.prefs.SnapshotMode;
 import org.andstatus.todoagenda.util.RawResourceUtils;
 import org.joda.time.DateTime;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -123,13 +122,26 @@ public class MockCalendarContentProvider {
 
     public void addRow(QueryRow queryRow) {
         EventProviderType providerType = EventProviderType.CALENDAR;
-        QueryResult result = results.findLast(providerType).orElseGet( () -> {
-            QueryResult r2 = new QueryResult(providerType, getSettings().getWidgetId(),
-                    getSettings().clock().now());
-            results.addResult(r2);
-            return r2;
-        });
+        QueryResult result = results.findLast(providerType).orElseGet( () -> addFirstQueryResult(providerType));
         result.addRow(queryRow);
+    }
+
+    private QueryResult addFirstQueryResult(EventProviderType providerType) {
+        ensureOneActiveEventSource(providerType);
+        QueryResult r2 = new QueryResult(providerType, settings.getWidgetId(), settings.clock().now());
+        results.addResult(r2);
+        return r2;
+    }
+
+    private void ensureOneActiveEventSource(EventProviderType type) {
+        if (settings.getActiveEventSources().stream().noneMatch(source -> source.source.providerType == type)) {
+            int sourceId = settings.getActiveEventSources().size() + 1;
+            EventSource source = new EventSource(type, sourceId,
+                    "(Mocked " + type + " #" + sourceId + ")",
+                    "", 0, true);
+            OrderedEventSource newSource = new OrderedEventSource(source, 1);
+            settings.getActiveEventSources().add(newSource);
+        }
     }
 
     @NonNull

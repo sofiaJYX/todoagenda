@@ -30,10 +30,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import static org.andstatus.todoagenda.prefs.SettingsStorage.saveJson;
@@ -148,7 +148,7 @@ public class InstanceSettings {
     // ----------------------------------------------------------------------------------
     // Calendars and task lists
     static final String PREF_ACTIVE_SOURCES = "activeSources";
-    private List<OrderedEventSource> activeEventSources = Collections.emptyList();
+    private List<OrderedEventSource> activeEventSources = new CopyOnWriteArrayList<>();
 
     // ----------------------------------------------------------------------------------
     // Other
