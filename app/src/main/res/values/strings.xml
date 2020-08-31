@@ -68,7 +68,10 @@
     <string name="app_description_4000_chars_max_part14">Android 7+ supported. Supports Android tablets.</string>
 
     <!-- Preference frame: Layout -->
-    <string name="layout_prefs_desc">Place, show and hide widget elements</string>
+    <string name="compact_layout_title">Compact layout</string>
+    <string name="compact_layout_off_desc">Normal space between widget parts</string>
+    <string name="compact_layout_on_desc">Minimum space between widget parts, thin borders</string>
+    <string name="layout_prefs_desc">Place, show and hide widget parts</string>
     <string name="layout_prefs_title">Layout</string>
     <string name="widget_header_layout">Widget header layout</string>
     <string name="pref_event_entry_layout_title">Event entry layout</string>

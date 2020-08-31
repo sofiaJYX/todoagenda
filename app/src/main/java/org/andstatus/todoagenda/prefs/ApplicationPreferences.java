@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ACTIVE_SOURCES;
+import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_COMPACT_LAYOUT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_ALIGNMENT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT_DEFAULT;
@@ -119,6 +120,7 @@ public class ApplicationPreferences {
             for (Map.Entry<TextShadingPref, TextShading> entry: settings.shadings.entrySet()) {
                 setString(context, entry.getKey().preferenceName, entry.getValue().name());
             }
+            setBoolean(context, PREF_COMPACT_LAYOUT, settings.isCompactLayout());
             setString(context, PREF_WIDGET_HEADER_LAYOUT, settings.getWidgetHeaderLayout().value);
             setString(context, PREF_TEXT_SIZE_SCALE, settings.getTextSizeScale().preferenceValue);
             setString(context, PREF_DAY_HEADER_ALIGNMENT, settings.getDayHeaderAlignment());
@@ -406,6 +408,10 @@ public class ApplicationPreferences {
 
     public static String getWidgetInstanceName(Context context) {
         return getString(context, PREF_WIDGET_INSTANCE_NAME, "");
+    }
+
+    public static boolean isCompactLayout(Context context) {
+        return getBoolean(context, PREF_COMPACT_LAYOUT, false);
     }
 
     public static WidgetHeaderLayout getWidgetHeaderLayout(Context context) {

@@ -53,6 +53,8 @@ public class InstanceSettings {
 
     // ----------------------------------------------------------------------------------
     // Layout
+    static final String PREF_COMPACT_LAYOUT = "compactLayout";
+    private boolean compactLayout = false;
     static final String PREF_WIDGET_HEADER_LAYOUT = "widgetHeaderLayout";
     private WidgetHeaderLayout widgetHeaderLayout = WidgetHeaderLayout.defaultValue;
     private static final String PREF_SHOW_DATE_ON_WIDGET_HEADER = "showDateOnWidgetHeader";  // till v 4.0
@@ -313,6 +315,9 @@ public class InstanceSettings {
                         TextShading.fromName(json.getString(pref.preferenceName), pref.defaultShading));
                 }
             }
+            if (json.has(PREF_COMPACT_LAYOUT)) {
+                compactLayout = json.getBoolean(PREF_COMPACT_LAYOUT);
+            }
             if (json.has(PREF_WIDGET_HEADER_LAYOUT)) {
                 widgetHeaderLayout = WidgetHeaderLayout.fromValue(json.getString(PREF_WIDGET_HEADER_LAYOUT));
             }
@@ -371,6 +376,7 @@ public class InstanceSettings {
             settings.filterMode = ApplicationPreferences.getFilterMode(context);
             settings.indicateAlerts = ApplicationPreferences.getBoolean(context, PREF_INDICATE_ALERTS, true);
             settings.indicateRecurring = ApplicationPreferences.getBoolean(context, PREF_INDICATE_RECURRING, false);
+            settings.compactLayout = ApplicationPreferences.isCompactLayout(context);
             settings.widgetHeaderLayout = ApplicationPreferences.getWidgetHeaderLayout(context);
             for (TextShadingPref pref: TextShadingPref.values()) {
                 String themeName = ApplicationPreferences.getString(context, pref.preferenceName,
@@ -462,6 +468,7 @@ public class InstanceSettings {
             json.put(PREF_FILTER_MODE, filterMode.value);
             json.put(PREF_INDICATE_ALERTS, indicateAlerts);
             json.put(PREF_INDICATE_RECURRING, indicateRecurring);
+            json.put(PREF_COMPACT_LAYOUT, compactLayout);
             json.put(PREF_WIDGET_HEADER_LAYOUT, widgetHeaderLayout.value);
             for (TextShadingPref pref: TextShadingPref.values()) {
                 json.put(pref.preferenceName, getShading(pref).name());
@@ -716,6 +723,10 @@ public class InstanceSettings {
 
     public ContextThemeWrapper getShadingContext(TextShadingPref pref) {
         return new ContextThemeWrapper(context, getShading(pref).themeResId);
+    }
+
+    public boolean isCompactLayout() {
+        return compactLayout;
     }
 
     public WidgetHeaderLayout getWidgetHeaderLayout() {

@@ -14,6 +14,7 @@ import org.andstatus.todoagenda.prefs.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.MyClock;
+import org.andstatus.todoagenda.util.RemoteViewsUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +48,11 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
 
         ContextThemeWrapper shadingContext = getSettings().getShadingContext(TextShadingPref.forDayHeader(entry));
         setBackgroundColor(rv, R.id.event_entry, getSettings().getEntryBackgroundColor(entry));
+        if (getSettings().isCompactLayout()) {
+            RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.zero, R.dimen.zero, R.dimen.zero, R.dimen.zero);
+        } else {
+            RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.calender_padding, R.dimen.zero, R.dimen.calender_padding, R.dimen.entry_bottom_padding);
+        }
         setDayHeaderTitle(position, entry, rv, shadingContext);
         setDayHeaderSeparator(position, rv, shadingContext);
         return rv;
@@ -64,14 +70,19 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
         setTextSize(getSettings(), rv, R.id.day_header_title, R.dimen.day_header_title);
         setTextColorFromAttr(shadingContext, rv, R.id.day_header_title, R.attr.dayHeaderTitle);
 
-        int paddingTopId = horizontalLineBelowDayHeader
-                ? R.dimen.day_header_padding_bottom
-                : (position == 0 ? R.dimen.day_header_padding_top_first : R.dimen.day_header_padding_top);
-        int paddingBottomId = horizontalLineBelowDayHeader
-                ? R.dimen.day_header_padding_top
-                : R.dimen.day_header_padding_bottom;
-        setPadding(getSettings(), rv, R.id.day_header_title,
-                R.dimen.day_header_padding_left, paddingTopId, R.dimen.day_header_padding_right, paddingBottomId);
+        if (getSettings().isCompactLayout()) {
+            setPadding(getSettings(), rv, R.id.day_header_title,
+                    R.dimen.zero, R.dimen.zero, R.dimen.zero, R.dimen.zero);
+        } else {
+            int paddingTopId = horizontalLineBelowDayHeader
+                    ? R.dimen.day_header_padding_bottom
+                    : (position == 0 ? R.dimen.day_header_padding_top_first : R.dimen.day_header_padding_top);
+            int paddingBottomId = horizontalLineBelowDayHeader
+                    ? R.dimen.day_header_padding_top
+                    : R.dimen.day_header_padding_bottom;
+            setPadding(getSettings(), rv, R.id.day_header_title,
+                    R.dimen.day_header_padding_left, paddingTopId, R.dimen.day_header_padding_right, paddingBottomId);
+        }
     }
 
     protected CharSequence getTitleString(DayHeader entry) {

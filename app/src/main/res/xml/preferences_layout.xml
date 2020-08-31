@@ -1,6 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <org.andstatus.todoagenda.prefs.MultilineCheckBoxPreference
+        android:key="compactLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="false"
+        android:summaryOn="@string/compact_layout_on_desc"
+        android:summaryOff="@string/compact_layout_off_desc"
+        android:title="@string/compact_layout_title" />
+
     <PreferenceCategory app:title="@string/widget_header">
         <ListPreference
             android:key="widgetHeaderLayout"

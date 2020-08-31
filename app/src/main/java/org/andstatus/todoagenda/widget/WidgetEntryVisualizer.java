@@ -42,6 +42,11 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
         setTime(entry, rv);
 
         setIndicators(entry, rv);
+        if (getSettings().isCompactLayout()) {
+            RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.zero, R.dimen.zero, R.dimen.zero, R.dimen.zero);
+        } else {
+            RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.calender_padding, R.dimen.zero, R.dimen.calender_padding, R.dimen.entry_bottom_padding);
+        }
         setBackgroundColor(rv, R.id.event_entry, getSettings().getEntryBackgroundColor(entry));
         return rv;
     }
