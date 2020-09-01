@@ -7,8 +7,8 @@ android {
     useLibrary 'android.test.mock'
 
     defaultConfig {
-        versionCode 684
-        versionName '4.2.1'
+        versionCode 685
+        versionName '4.2.2'
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
 

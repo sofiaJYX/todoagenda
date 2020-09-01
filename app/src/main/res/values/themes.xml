@@ -3,11 +3,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" />
 
-    <style name="Theme.CalendarConfiguration.Dark" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorAccent">@color/colorAccent</item>
-    </style>
+    <style name="Theme.CalendarConfiguration.Dark" parent="Theme.AppCompat.DayNight" />
 
     <style name="Theme.Calendar.Black" parent="Theme.AppCompat">
         <item name="header">@color/header_current_date_black</item>

@@ -90,13 +90,16 @@ If the problem is still present:
 In a case the widget doesn't work properly even after this, please
  [search, read and follow up on similar issues here](https://github.com/andstatus/todoagenda/issues?q=is%3Aissue+sort%3Aupdated-desc).
 
-### 2020-08-31 <a id="v4.2"/> v4.2.1 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
+### 2020-09-01 <a id="v4.2"/> v4.2.2 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
 * Support of "[Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme)"
  not only gives us another app to manage tasks, but also allows to see Google tasks in our widget and manage them via the Tasks app.
  Please note that this works only with "[Tasks app v.10+](https://github.com/tasks/tasks/blob/main/CHANGELOG.md)"
  [#2](https://github.com/andstatus/todoagenda/issues/2).
 * [Compact layout](https://github.com/andstatus/todoagenda/issues/15) option added.
  When it's turned on, most of spaces between widget parts are removed.
+* [Dark theme support](https://github.com/andstatus/todoagenda/issues/15) added for the Widget's Settings screens.
+ Theme of Settings screens switches automatically with [Android system-wide "Dark theme" switch](https://hackernoon.com/how-to-enable-dark-mode-on-android-10-uks30yi).
+ This feature works in Android 10+.
 
 ### 2020-03-01 <a id="v4.0"/> v4.0.8 Three powerful date format preferences.
 * This version is for Android 7+ only. Versions for older devices are still available e.g.
