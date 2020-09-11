@@ -18,18 +18,16 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
     private static final String SPACE = " ";
     static final String SPACE_DASH_SPACE = " - ";
 
-    private boolean allDay;
     private CalendarEvent event;
 
     public static CalendarEntry fromEvent(InstanceSettings settings, CalendarEvent event, DateTime entryDate) {
-        CalendarEntry entry = new CalendarEntry(settings, entryDate, event.getEndDate());
-        entry.allDay = event.isAllDay();
-        entry.event = event;
-        return entry;
+        return new CalendarEntry(settings, event, entryDate);
     }
 
-    private CalendarEntry(InstanceSettings settings, DateTime entryDate, DateTime endDate) {
-        super(settings, WidgetEntry.getEntryPosition(settings, entryDate, endDate), entryDate, endDate);
+    private CalendarEntry(InstanceSettings settings, CalendarEvent event, DateTime entryDate) {
+        super(settings, WidgetEntry.getEntryPosition(settings, entryDate, event.getEndDate()), entryDate,
+                event.isAllDay(), event.getEndDate());
+        this.event = event;
     }
 
     @Override
@@ -43,10 +41,6 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
 
     public int getColor() {
         return event.getColor();
-    }
-
-    public boolean isAllDay() {
-        return allDay;
     }
 
     @Override
@@ -89,7 +83,7 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
 
     private boolean hideEventTime() {
         return spansOneFullDay() && !(isStartOfMultiDayEvent() || isEndOfMultiDayEvent()) ||
-                isAllDay();
+                allDay;
     }
 
     private String getTimeSpanString() {

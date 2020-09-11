@@ -50,7 +50,7 @@ public class LastEntry extends WidgetEntry<LastEntry> {
     public final LastEntryType type;
 
     public LastEntry(InstanceSettings settings, LastEntryType type, DateTime date) {
-        super(settings, LIST_FOOTER, date, null);
+        super(settings, LIST_FOOTER, date, true, null);
         this.type = type;
     }
 }

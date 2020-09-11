@@ -2,6 +2,9 @@ package org.andstatus.todoagenda.task.astrid;
 
 import android.net.Uri;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 interface AstridCloneTaskSource {
 
   AstridCloneTaskSource GOOGLE_TASKS = new AstridCloneTaskSource() {
@@ -31,7 +34,7 @@ interface AstridCloneTaskSource {
     }
   };
 
-  AstridCloneTaskSource TASKS = new AstridCloneTaskSource() {
+  AstridCloneTaskSource ASTRID_TASKS = new AstridCloneTaskSource() {
     @Override
     public Uri getListUri() {
       return AstridCloneTasksProvider.TASKS_LISTS_URI;
@@ -56,6 +59,20 @@ interface AstridCloneTaskSource {
     public String getListColumnAccount() {
       return "cda_name";
     }
+
+    @Override
+    public boolean isAllDay(Long dueMillisRaw) {
+      return dueMillisRaw != null && dueMillisRaw % 60000 <= 0;
+    }
+
+    @Override
+    public Long toDueMillis(Long dueMillisRaw, DateTimeZone zone) {
+      if (!isAllDay(dueMillisRaw)) return dueMillisRaw;
+
+      // Astrid tasks without due times are assigned a time of 12:00:00
+      // see https://github.com/andstatus/todoagenda/issues/2#issuecomment-688866280
+      return new DateTime(dueMillisRaw, zone).withTimeAtStartOfDay().getMillis();
+    }
   };
 
   Uri getListUri();
@@ -67,4 +84,12 @@ interface AstridCloneTaskSource {
   String getListColumnListColor();
 
   String getListColumnAccount();
+
+  default boolean isAllDay(Long dueMillisRaw) {
+    return false;
+  }
+
+  default Long toDueMillis(Long dueMillisRaw, DateTimeZone zone) {
+    return dueMillisRaw;
+  }
 }

@@ -16,6 +16,7 @@ public class TaskEvent implements WidgetEvent {
     private final InstanceSettings settings;
     private final DateTimeZone zone;
     private DateTime startDate;
+    private boolean allDay = false;
     private DateTime dueDate;
     private int color;
     private TaskStatus status = TaskStatus.UNKNOWN;
@@ -54,6 +55,14 @@ public class TaskEvent implements WidgetEvent {
 
     public DateTime getStartDate() {
         return startDate;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
     }
 
     public DateTime getDueDate() {

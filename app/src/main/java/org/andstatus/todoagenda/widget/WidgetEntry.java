@@ -26,15 +26,17 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
     public final WidgetEntryPosition entryPosition;
     public final DateTime entryDate;
     public final DateTime entryDay;
+    public final boolean allDay;
     public final DateTime endDate;
     public final TimeSection timeSection;
 
-    protected WidgetEntry(InstanceSettings settings, WidgetEntryPosition entryPosition, DateTime entryDate, DateTime endDate) {
+    protected WidgetEntry(InstanceSettings settings, WidgetEntryPosition entryPosition, DateTime entryDate, boolean allDay, DateTime endDate) {
         this.settings = settings;
         this.entryPosition = entryPosition;
-        this.endDate = endDate;
         this.entryDate = fixEntryDate(entryPosition, entryDate);
         entryDay = calcEntryDay(settings, entryPosition, this.entryDate);
+        this.allDay = allDay;
+        this.endDate = endDate;
         timeSection = calcTimeSection(settings, entryPosition, entryDay, endDate);
     }
 

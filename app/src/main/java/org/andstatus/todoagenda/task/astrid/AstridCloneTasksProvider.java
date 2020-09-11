@@ -53,7 +53,7 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
     private final AstridCloneTaskSource taskSource;
 
     public static AstridCloneTasksProvider newTasksProvider(EventProviderType type, Context context, int widgetId) {
-        return new AstridCloneTasksProvider(type, context, widgetId, AstridCloneTaskSource.TASKS);
+        return new AstridCloneTasksProvider(type, context, widgetId, AstridCloneTaskSource.ASTRID_TASKS);
     }
 
     public static AstridCloneTasksProvider newGoogleTasksProvider(EventProviderType type, Context context, int widgetId) {
@@ -123,22 +123,25 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
         task.setId(cursor.getLong(cursor.getColumnIndex(TASKS_COLUMN_ID)));
         task.setTitle(cursor.getString(cursor.getColumnIndex(TASKS_COLUMN_TITLE)));
 
-        int startDateIdx = cursor.getColumnIndex(TASKS_COLUMN_START_DATE);
-        Long startMillis = cursor.isNull(startDateIdx) ? null : cursor.getLong(startDateIdx);
-        if (Objects.equals(startMillis, 0L)) {
-            startMillis = null;
-        }
-        int dueDateIdx = cursor.getColumnIndex(TASKS_COLUMN_DUE_DATE);
-        Long dueMillis = cursor.isNull(dueDateIdx) ? null : cursor.getLong(dueDateIdx);
-        if (Objects.equals(dueMillis, 0L)) {
-            dueMillis = null;
-        }
+        Long startMillis = getNonZeroOrNull(cursor, TASKS_COLUMN_START_DATE);
+        Long dueMillisRaw = getNonZeroOrNull(cursor, TASKS_COLUMN_DUE_DATE);
+        task.setAllDay(taskSource.isAllDay(dueMillisRaw));
+        Long dueMillis = taskSource.toDueMillis(dueMillisRaw, getSettings().clock().getZone());
         task.setDates(startMillis, dueMillis);
         int priority = cursor.getInt(cursor.getColumnIndex(TASKS_COLUMN_IMPORTANCE));
         int color = context.getColor(priorityToColor(priority));
         task.setColor(getAsOpaque(color));
 
         return task;
+    }
+
+    private Long getNonZeroOrNull(Cursor cursor, String columnName) {
+        int columnIndex = cursor.getColumnIndex(columnName);
+        Long value = cursor.isNull(columnIndex) ? null : cursor.getLong(columnIndex);
+        if (Objects.equals(value, 0L)) {
+            value = null;
+        }
+        return value;
     }
 
     @Override

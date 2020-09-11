@@ -80,7 +80,7 @@ public class BirthdayTest extends BaseWidgetTest {
             assertEquals(0, birthday.entryDate.hourOfDay().get());
             assertEquals(0, birthday.entryDate.minuteOfHour().get());
             assertEquals(0, birthday.entryDate.millisOfDay().get());
-            assertEquals(true, birthday.isAllDay());
+            assertEquals(true, birthday.allDay);
         }
         LastEntry lastEntry = (LastEntry) getFactory().getWidgetEntries()
                 .get(getFactory().getWidgetEntries().size() - 1);

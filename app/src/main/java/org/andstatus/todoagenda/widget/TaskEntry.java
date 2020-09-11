@@ -17,13 +17,12 @@ public class TaskEntry extends WidgetEntry<TaskEntry> {
 
     public static TaskEntry fromEvent(InstanceSettings settings, TaskEvent event) {
         WidgetEntryPosition entryPosition = getEntryPosition(settings, event);
-        TaskEntry entry = new TaskEntry(settings, entryPosition, getEntryDate(settings, entryPosition, event), event.getDueDate());
-        entry.event = event;
-        return entry;
+        return new TaskEntry(settings, entryPosition, getEntryDate(settings, entryPosition, event), event);
     }
 
-    private TaskEntry(InstanceSettings settings, WidgetEntryPosition entryPosition, DateTime entryDate, DateTime endDate) {
-        super(settings, entryPosition, entryDate, endDate);
+    private TaskEntry(InstanceSettings settings, WidgetEntryPosition entryPosition, DateTime entryDate, TaskEvent event) {
+        super(settings, entryPosition, entryDate, event.isAllDay(), event.getDueDate());
+        this.event = event;
     }
 
     /** See https://github.com/plusonelabs/calendar-widget/issues/356#issuecomment-559910887 **/
