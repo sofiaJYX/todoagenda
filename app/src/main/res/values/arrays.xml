@@ -254,4 +254,12 @@
         <item>snapshot_time</item>
         <item>snapshot_now</item>
     </string-array>
+    <string-array name="pref_all_day_events_placement_entries">
+        <item>@string/all_day_events_placement_top_of_the_days_events</item>
+        <item>@string/all_day_events_placement_bottom_of_the_days_events</item>
+    </string-array>
+    <string-array name="pref_all_day_events_placement_values" tools:ignore="MissingTranslation">
+        <item>top_day</item>
+        <item>bottom_day</item>
+    </string-array>
 </resources>

@@ -12,6 +12,7 @@ public class DmfsOpenTasksContract {
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_DUE_DATE = "due";
+        public static final String COLUMN_IS_ALLDAY = "is_allday";
         public static final String COLUMN_START_DATE = "dtstart";
         public static final String COLUMN_COLOR = "list_color";
         public static final String COLUMN_STATUS = "status";

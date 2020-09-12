@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ACTIVE_SOURCES;
+import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ALL_DAY_EVENTS_PLACEMENT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_COMPACT_LAYOUT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_ALIGNMENT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT;
@@ -345,6 +346,14 @@ public class ApplicationPreferences {
 
     public static void setHideDuplicates(Context context, boolean value) {
         setBoolean(context, PREF_HIDE_DUPLICATES, value);
+    }
+
+    public static void setAllDayEventsPlacement(Context context, AllDayEventsPlacement value) {
+        setString(context, PREF_ALL_DAY_EVENTS_PLACEMENT, value.value);
+    }
+
+    public static AllDayEventsPlacement getAllDayEventsPlacement(Context context) {
+        return AllDayEventsPlacement.fromValue(getString(context, PREF_ALL_DAY_EVENTS_PLACEMENT, ""));
     }
 
     public static TaskScheduling getTaskScheduling(Context context) {

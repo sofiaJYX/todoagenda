@@ -29,6 +29,7 @@ public class EventFiltersPreferencesFragment extends PreferenceFragmentCompat
         showEventsEnded();
         showEvenRange();
         showHideBasedOnKeywords();
+        showAllDayEventsPlacement();
         showTaskScheduling();
         showTasksWithoutDates();
         showFilterMode();
@@ -51,6 +52,13 @@ public class EventFiltersPreferencesFragment extends PreferenceFragmentCompat
             preference.setSummary(R.string.this_option_is_turned_off);
         } else {
             preference.setSummary(filter.toString());
+        }
+    }
+
+    private void showAllDayEventsPlacement() {
+        Preference preference = findPreference(InstanceSettings.PREF_ALL_DAY_EVENTS_PLACEMENT);
+        if (preference != null) {
+            preference.setSummary(ApplicationPreferences.getAllDayEventsPlacement(getActivity()).valueResId);
         }
     }
 

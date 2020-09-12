@@ -8,8 +8,6 @@ import org.andstatus.todoagenda.util.MyClock;
 import org.joda.time.DateTime;
 
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.END_OF_LIST;
-import static org.andstatus.todoagenda.widget.WidgetEntryPosition.ENTRY_DATE;
-import static org.andstatus.todoagenda.widget.WidgetEntryPosition.PAST_AND_DUE;
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.START_OF_TODAY;
 
 public class TaskEntry extends WidgetEntry<TaskEntry> {
@@ -29,10 +27,6 @@ public class TaskEntry extends WidgetEntry<TaskEntry> {
     private static WidgetEntryPosition getEntryPosition(InstanceSettings settings, TaskEvent event) {
         if (!event.hasStartDate() && !event.hasDueDate()) return settings.getTaskWithoutDates().widgetEntryPosition;
 
-        if (event.hasDueDate() && settings.clock().isBeforeToday(event.getDueDate())) {
-            return settings.getShowPastEventsUnderOneHeader() ? PAST_AND_DUE : ENTRY_DATE;
-        }
-
         DateTime mainDate = mainDate(settings, event);
         if (mainDate != null) {
             if (mainDate.isAfter(settings.getEndOfTimeRange())) return END_OF_LIST;
@@ -47,10 +41,10 @@ public class TaskEntry extends WidgetEntry<TaskEntry> {
             }
         } else {
             if (!event.hasStartDate() || settings.clock().isBeforeToday(event.getStartDate())) {
-                    return START_OF_TODAY;
+                if (!settings.clock().isBeforeToday(event.getDueDate())) return START_OF_TODAY;
             }
         }
-        return WidgetEntry.getEntryPosition(settings, mainDate, otherDate);
+        return WidgetEntry.getEntryPosition(settings, event.isAllDay(), mainDate, otherDate);
     }
 
     private static DateTime mainDate(InstanceSettings settings, TaskEvent event) {
@@ -68,6 +62,7 @@ public class TaskEntry extends WidgetEntry<TaskEntry> {
     private static DateTime getEntryDate(InstanceSettings settings, WidgetEntryPosition entryPosition, TaskEvent event) {
         switch (entryPosition) {
             case END_OF_TODAY:
+            case END_OF_DAY:
             case END_OF_LIST:
             case END_OF_LIST_HEADER:
             case LIST_FOOTER:

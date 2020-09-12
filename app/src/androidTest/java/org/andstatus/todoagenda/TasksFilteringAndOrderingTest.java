@@ -262,7 +262,7 @@ public class TasksFilteringAndOrderingTest extends BaseWidgetTest {
                     assertThat("ind=" + ind, widgetEntries.get(ind).getTitle(), startsWith(names.get(ind)));
                     break;
                 default:
-                    assertEquals("ind=" + ind, widgetEntries.get(ind).entryPosition, entryPosition);
+                    assertEquals("ind=" + ind, entryPosition, widgetEntries.get(ind).entryPosition);
                     break;
             }
         }

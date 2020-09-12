@@ -56,6 +56,9 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
             case START_OF_DAY:
                 throwIfNull(entryPosition, entryDate);
                 return entryDate.withTimeAtStartOfDay();
+            case END_OF_DAY:
+                throwIfNull(entryPosition, entryDate);
+                return entryDate.withTimeAtStartOfDay().plusDays(1).minusMillis(1);
             case END_OF_TODAY:
             case END_OF_LIST_HEADER:
             case END_OF_LIST:
@@ -120,7 +123,7 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
                 endDate.isBefore(MyClock.startOfNextDay(this.entryDate));
     }
 
-    public static WidgetEntryPosition getEntryPosition(InstanceSettings settings, DateTime mainDate, DateTime otherDate) {
+    public static WidgetEntryPosition getEntryPosition(InstanceSettings settings, boolean allDay, DateTime mainDate, DateTime otherDate) {
         if (mainDate == null && otherDate == null) return settings.getTaskWithoutDates().widgetEntryPosition;
 
         DateTime refDate = mainDate == null ? otherDate : mainDate;
@@ -128,6 +131,7 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
             return PAST_AND_DUE;
         }
         if (refDate.isAfter(settings.getEndOfTimeRange())) return END_OF_LIST;
+        if (allDay) return settings.getAllDayEventsPlacement().widgetEntryPosition;
         return ENTRY_DATE;
     }
 
@@ -206,6 +210,7 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
                 (entryDate == MyClock.DATETIME_MIN ? "min" :
                         (entryDate == MyClock.DATETIME_MAX) ? "max" : entryDate) +
                 ", endDate=" + endDate +
+                (allDay ? ", allDay" : "") +
             "]";
     }
 

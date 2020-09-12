@@ -25,8 +25,8 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
     }
 
     private CalendarEntry(InstanceSettings settings, CalendarEvent event, DateTime entryDate) {
-        super(settings, WidgetEntry.getEntryPosition(settings, entryDate, event.getEndDate()), entryDate,
-                event.isAllDay(), event.getEndDate());
+        super(settings, WidgetEntry.getEntryPosition(settings, event.isAllDay(), entryDate, event.getEndDate()),
+                entryDate, event.isAllDay(), event.getEndDate());
         this.event = event;
     }
 

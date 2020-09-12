@@ -140,6 +140,8 @@ public class InstanceSettings {
     private boolean showOnlyClosestInstanceOfRecurringEvent = false;
     static final String PREF_HIDE_DUPLICATES = "hideDuplicates";
     private boolean hideDuplicates = false;
+    static final String PREF_ALL_DAY_EVENTS_PLACEMENT = "allDayEventsPlacement";
+    private AllDayEventsPlacement allDayEventsPlacement = AllDayEventsPlacement.defaultValue;
     static final String PREF_TASK_SCHEDULING = "taskScheduling";
     private TaskScheduling taskScheduling = TaskScheduling.defaultValue;
     static final String PREF_TASK_WITHOUT_DATES = "taskWithoutDates";
@@ -294,6 +296,9 @@ public class InstanceSettings {
             if (json.has(PREF_HIDE_DUPLICATES)) {
                 hideDuplicates = json.getBoolean(PREF_HIDE_DUPLICATES);
             }
+            if (json.has(PREF_ALL_DAY_EVENTS_PLACEMENT)) {
+                allDayEventsPlacement = AllDayEventsPlacement.fromValue(json.getString(PREF_ALL_DAY_EVENTS_PLACEMENT));
+            }
             if (json.has(PREF_TASK_SCHEDULING)) {
                 taskScheduling = TaskScheduling.fromValue(json.getString(PREF_TASK_SCHEDULING));
             }
@@ -371,6 +376,7 @@ public class InstanceSettings {
             settings.showOnlyClosestInstanceOfRecurringEvent = ApplicationPreferences
                     .getShowOnlyClosestInstanceOfRecurringEvent(context);
             settings.hideDuplicates = ApplicationPreferences.getHideDuplicates(context);
+            settings.setAllDayEventsPlacement(ApplicationPreferences.getAllDayEventsPlacement(context));
             settings.taskScheduling = ApplicationPreferences.getTaskScheduling(context);
             settings.taskWithoutDates = ApplicationPreferences.getTasksWithoutDates(context);
             settings.filterMode = ApplicationPreferences.getFilterMode(context);
@@ -463,6 +469,7 @@ public class InstanceSettings {
             json.put(PREF_MULTILINE_DETAILS, multilineDetails);
             json.put(PREF_SHOW_ONLY_CLOSEST_INSTANCE_OF_RECURRING_EVENT, showOnlyClosestInstanceOfRecurringEvent);
             json.put(PREF_HIDE_DUPLICATES, hideDuplicates);
+            json.put(PREF_ALL_DAY_EVENTS_PLACEMENT, allDayEventsPlacement.value);
             json.put(PREF_TASK_SCHEDULING, taskScheduling.value);
             json.put(PREF_TASK_WITHOUT_DATES, taskWithoutDates.value);
             json.put(PREF_FILTER_MODE, filterMode.value);
@@ -660,8 +667,17 @@ public class InstanceSettings {
         return hideDuplicates;
     }
 
+    public AllDayEventsPlacement getAllDayEventsPlacement() {
+        return allDayEventsPlacement;
+    }
+
     public TaskScheduling getTaskScheduling() {
         return taskScheduling;
+    }
+
+    public InstanceSettings setAllDayEventsPlacement(AllDayEventsPlacement allDayEventsPlacement) {
+        this.allDayEventsPlacement = allDayEventsPlacement;
+        return this;
     }
 
     public InstanceSettings setTaskScheduling(TaskScheduling taskScheduling) {

@@ -48,7 +48,7 @@ Note on Tasks support: As there is no unified way to access tasks created in dif
 each application needs its own implementation. Currently supported:
 * [OpenTasks (by dmfs GmbH)](https://github.com/dmfs/opentasks#readme).
 * [Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme), Google Tasks can be used via it.
-* Tasks of Samsung Calendar ([looks like a deprecating feature...](
+* Partially supported: Tasks of Samsung Calendar ([looks like a deprecating feature...](
   https://eu.community.samsung.com/t5/Galaxy-S9-S9/New-Update-Calendar-Issues/td-p/940866)). 
 
 ## Collaborate
@@ -90,6 +90,11 @@ If the problem is still present:
 In a case the widget doesn't work properly even after this, please
  [search, read and follow up on similar issues here](https://github.com/andstatus/todoagenda/issues?q=is%3Aissue+sort%3Aupdated-desc).
 In particular, [if buttons don't work, look here](https://github.com/andstatus/todoagenda/issues/45).
+
+### 2020-09-12 <a id="v4.3"/> v4.3.0 All day events.
+* All day tasks are supported.
+* [All day events placement](https://github.com/andstatus/todoagenda/issues/49) option added.
+ It allows to place All day events at the top or at the bottom of the day's entries.
 
 ### 2020-09-02 <a id="v4.2"/> v4.2.3 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
 * Support of "[Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme)"

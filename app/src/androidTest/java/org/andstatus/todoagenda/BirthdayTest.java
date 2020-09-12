@@ -1,5 +1,6 @@
 package org.andstatus.todoagenda;
 
+import org.andstatus.todoagenda.prefs.AllDayEventsPlacement;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.CalendarEntry;
@@ -20,6 +21,7 @@ public class BirthdayTest extends BaseWidgetTest {
                 org.andstatus.todoagenda.tests.R.raw.birthday);
 
         provider.startEditingPreferences();
+        ApplicationPreferences.setAllDayEventsPlacement(provider.getContext(), AllDayEventsPlacement.TOP_DAY);
         ApplicationPreferences.setEventsEnded(provider.getContext(), EndedSomeTimeAgo.NONE);
         ApplicationPreferences.setShowPastEventsWithDefaultColor(provider.getContext(), false);
         ApplicationPreferences.setEventRange(provider.getContext(), 30);
