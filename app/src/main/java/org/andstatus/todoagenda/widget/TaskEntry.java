@@ -4,30 +4,35 @@ import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.prefs.TaskScheduling;
 import org.andstatus.todoagenda.task.TaskEvent;
+import org.andstatus.todoagenda.util.DateUtil;
 import org.andstatus.todoagenda.util.MyClock;
 import org.joda.time.DateTime;
 
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.END_OF_LIST;
+import static org.andstatus.todoagenda.widget.WidgetEntryPosition.ENTRY_DATE;
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.START_OF_TODAY;
 
 public class TaskEntry extends WidgetEntry<TaskEntry> {
     private TaskEvent event;
+    private final DateTime mainDate;
 
     public static TaskEntry fromEvent(InstanceSettings settings, TaskEvent event) {
-        WidgetEntryPosition entryPosition = getEntryPosition(settings, event);
-        return new TaskEntry(settings, entryPosition, getEntryDate(settings, entryPosition, event), event);
+        DateTime mainDate = calcMainDate(settings, event);
+        WidgetEntryPosition entryPosition = getEntryPosition(settings, mainDate, event);
+        return new TaskEntry(settings, entryPosition, mainDate, getEntryDate(settings, entryPosition, event), event);
     }
 
-    private TaskEntry(InstanceSettings settings, WidgetEntryPosition entryPosition, DateTime entryDate, TaskEvent event) {
+    private TaskEntry(InstanceSettings settings, WidgetEntryPosition entryPosition, DateTime mainDate,
+                      DateTime entryDate, TaskEvent event) {
         super(settings, entryPosition, entryDate, event.isAllDay(), event.getDueDate());
         this.event = event;
+        this.mainDate = mainDate;
     }
 
     /** See https://github.com/plusonelabs/calendar-widget/issues/356#issuecomment-559910887 **/
-    private static WidgetEntryPosition getEntryPosition(InstanceSettings settings, TaskEvent event) {
+    private static WidgetEntryPosition getEntryPosition(InstanceSettings settings, DateTime mainDate, TaskEvent event) {
         if (!event.hasStartDate() && !event.hasDueDate()) return settings.getTaskWithoutDates().widgetEntryPosition;
 
-        DateTime mainDate = mainDate(settings, event);
         if (mainDate != null) {
             if (mainDate.isAfter(settings.getEndOfTimeRange())) return END_OF_LIST;
         }
@@ -47,7 +52,7 @@ public class TaskEntry extends WidgetEntry<TaskEntry> {
         return WidgetEntry.getEntryPosition(settings, event.isAllDay(), mainDate, otherDate);
     }
 
-    private static DateTime mainDate(InstanceSettings settings, TaskEvent event) {
+    private static DateTime calcMainDate(InstanceSettings settings, TaskEvent event) {
         return settings.getTaskScheduling() == TaskScheduling.DATE_DUE
                 ? event.getDueDate()
                 : event.getStartDate();
@@ -102,6 +107,13 @@ public class TaskEntry extends WidgetEntry<TaskEntry> {
 
     public TaskEvent getEvent() {
         return event;
+    }
+
+    @Override
+    public String getEventTimeString() {
+        return allDay || entryPosition != ENTRY_DATE
+                ? ""
+                : DateUtil.formatTime(() -> settings, mainDate);
     }
 
     @Override

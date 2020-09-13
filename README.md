@@ -71,9 +71,9 @@ We can even see all the replayed timelines on an Android device (or an emulator)
 Create a widget with a name ending with "Test replay" and Tests will start showing in this widget. 
 Source code of these tests is in the repository also.
 
-## <a id="changelog"/> Changelog
+<a id="changelog"/>
 
-### <a id="troubleshooting"/> Troubleshooting after installation or an update
+## <a id="troubleshooting"/> Troubleshooting after installation or an update
 
 Due to Android design, widgets may misbehave or even may not work at all  
  after installation or an update. In this case, try the below:
@@ -91,12 +91,18 @@ In a case the widget doesn't work properly even after this, please
  [search, read and follow up on similar issues here](https://github.com/andstatus/todoagenda/issues?q=is%3Aissue+sort%3Aupdated-desc).
 In particular, [if buttons don't work, look here](https://github.com/andstatus/todoagenda/issues/45).
 
-### 2020-09-12 <a id="v4.3"/> v4.3.0 All day events.
-* All day tasks are supported.
-* [All day events placement](https://github.com/andstatus/todoagenda/issues/49) option added.
- It allows to place All day events at the top or at the bottom of the day's entries.
+<a id="changelog"/>
+## Changelog
 
-### 2020-09-02 <a id="v4.2"/> v4.2.3 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
+<a id="v4.2.4"/>
+### 2020-09-13 v4.2.4 All day events improvements.
+* All day tasks are supported.
+* [All day events placement](https://github.com/andstatus/todoagenda/issues/48) option added.
+ It allows to place All day events at the top or at the bottom of the day's entries.
+* Show time for tasks that do have time set AND that are shown in the list according to their date and time.
+ This means that time is not shown for All day tasks, and e.g. for overdue tasks that are shown Today.
+
+### <a id="v4.2"/> 2020-09-02 v4.2.3 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
 * Support of "[Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme)"
  not only gives us another app to manage tasks, but also allows to see Google tasks in our widget and manage them via the Tasks app.
  Please note that this works only with "[Tasks app v.10+](https://github.com/tasks/tasks/blob/main/CHANGELOG.md)"
@@ -107,7 +113,7 @@ In particular, [if buttons don't work, look here](https://github.com/andstatus/t
  Theme of Settings screens switches automatically with [Android system-wide "Dark theme" switch](https://hackernoon.com/how-to-enable-dark-mode-on-android-10-uks30yi).
  This feature works in Android 10+.
 
-### 2020-03-01 <a id="v4.0"/> v4.0.8 Three powerful date format preferences.
+### <a id="v4.0"/> 2020-03-01 v4.0.8 Three powerful date format preferences.
 * This version is for Android 7+ only. Versions for older devices are still available e.g.
  [here](https://github.com/andstatus/todoagenda/issues/3).
 * Created "[Date format preference dialog](https://github.com/andstatus/todoagenda/issues/7)" allowing to select

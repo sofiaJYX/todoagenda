@@ -8,6 +8,7 @@ import org.andstatus.todoagenda.calendar.CalendarEvent;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.util.DateUtil;
+import org.andstatus.todoagenda.util.StringUtil;
 import org.joda.time.DateTime;
 
 import static org.andstatus.todoagenda.util.MyClock.isDateDefined;
@@ -131,10 +132,12 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
 
     @Override
     public String toString() {
+        String timeString = getEventTimeString();
+        String locationString = getLocationString();
         return super.toString() + " CalendarEntry ["
-                + "allDay=" + allDay
-                + ", time=" + getEventTimeString()
-                + ", location=" + getLocationString()
+                + (allDay ? "allDay" : "")
+                + (StringUtil.nonEmpty(timeString) ? ", time=" + timeString : "")
+                + (StringUtil.nonEmpty(locationString) ? ", location=" + locationString : "")
                 + ", event=" + event
                 + "]";
     }
