@@ -101,6 +101,7 @@ In particular, [if buttons don't work, look here](https://github.com/andstatus/t
  It allows to place All day events at the top or at the bottom of the day's entries.
 * Show time for tasks that do have time set AND that are shown in the list according to their date and time.
  This means that time is not shown for All day tasks, and e.g. for overdue tasks that are shown Today.
+* Fixed [weird "??? DAY_HEADER"](https://github.com/andstatus/todoagenda/issues/49) for Astrid Clone Tasks app.
 
 ### <a id="v4.2"/> 2020-09-02 v4.2.3 Integration with "Tasks: Astrid To-Do List Clone" and with Google Tasks via it.
 * Support of "[Tasks: Astrid To-Do List Clone v.10+](https://github.com/tasks/tasks#readme)"
