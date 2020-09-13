@@ -7,9 +7,15 @@ import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.provider.MockCalendarContentProvider;
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.util.LazyVal;
+import org.andstatus.todoagenda.widget.WidgetEntry;
+import org.andstatus.todoagenda.widget.WidgetEntryPosition;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author yvolk@yurivolkov.com
@@ -131,5 +137,10 @@ public class BaseWidgetTest {
         InstanceSettings settings = getSettings();
         settings.setFilterMode(FilterMode.NO_FILTERING);
         provider.addResults(inputs);
+    }
+
+    protected void assertPosition(int ind, WidgetEntryPosition position) {
+        List<? extends WidgetEntry> widgetEntries = getFactory().getWidgetEntries();
+        assertEquals(widgetEntries.get(ind).toString(), position, widgetEntries.get(ind).entryPosition);
     }
 }

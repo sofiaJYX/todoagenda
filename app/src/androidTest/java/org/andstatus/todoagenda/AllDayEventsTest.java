@@ -2,13 +2,8 @@ package org.andstatus.todoagenda;
 
 import org.andstatus.todoagenda.prefs.AllDayEventsPlacement;
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
-import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.andstatus.todoagenda.widget.WidgetEntryPosition;
 import org.junit.Test;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author yvolk@yurivolkov.com
@@ -35,10 +30,5 @@ public class AllDayEventsTest extends BaseWidgetTest {
         assertPosition(2, WidgetEntryPosition.START_OF_DAY);
         assertPosition(10, WidgetEntryPosition.DAY_HEADER);
         assertPosition(11, WidgetEntryPosition.START_OF_DAY);
-    }
-
-    private void assertPosition(int ind, WidgetEntryPosition position) {
-        List<? extends WidgetEntry> widgetEntries = getFactory().getWidgetEntries();
-        assertEquals(widgetEntries.get(ind).toString(), position, widgetEntries.get(ind).entryPosition);
     }
 }

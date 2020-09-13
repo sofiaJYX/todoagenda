@@ -71,6 +71,13 @@ public class EventProvider {
         return argb(255, red(color), green(color), blue(color));
     }
 
+    public static Long getPositiveLongOrNull(Cursor cursor, String columnName) {
+        return getColumnIndex(cursor, columnName)
+                .map(cursor::getLong)
+                .filter(value -> value > 0)
+                .orElse(null);
+    }
+
     public static Optional<Integer> getColumnIndex(Cursor cursor, String columnName) {
         return Optional.of(cursor.getColumnIndex(columnName))
                 .filter(ind -> ind >=0)

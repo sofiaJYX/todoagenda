@@ -22,7 +22,6 @@ import org.andstatus.todoagenda.util.IntentUtil;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -123,8 +122,8 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
         task.setId(cursor.getLong(cursor.getColumnIndex(TASKS_COLUMN_ID)));
         task.setTitle(cursor.getString(cursor.getColumnIndex(TASKS_COLUMN_TITLE)));
 
-        Long startMillis = getNonZeroOrNull(cursor, TASKS_COLUMN_START_DATE);
-        Long dueMillisRaw = getNonZeroOrNull(cursor, TASKS_COLUMN_DUE_DATE);
+        Long startMillis = getPositiveLongOrNull(cursor, TASKS_COLUMN_START_DATE);
+        Long dueMillisRaw = getPositiveLongOrNull(cursor, TASKS_COLUMN_DUE_DATE);
         task.setAllDay(taskSource.isAllDay(dueMillisRaw));
         Long dueMillis = taskSource.toDueMillis(dueMillisRaw, getSettings().clock().getZone());
         task.setDates(startMillis, dueMillis);
@@ -133,15 +132,6 @@ public class AstridCloneTasksProvider extends AbstractTaskProvider {
         task.setColor(getAsOpaque(color));
 
         return task;
-    }
-
-    private Long getNonZeroOrNull(Cursor cursor, String columnName) {
-        int columnIndex = cursor.getColumnIndex(columnName);
-        Long value = cursor.isNull(columnIndex) ? null : cursor.getLong(columnIndex);
-        if (Objects.equals(value, 0L)) {
-            value = null;
-        }
-        return value;
     }
 
     @Override
