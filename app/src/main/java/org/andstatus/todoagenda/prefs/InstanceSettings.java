@@ -2,6 +2,7 @@ package org.andstatus.todoagenda.prefs;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
@@ -92,6 +93,9 @@ public class InstanceSettings {
 
     // ----------------------------------------------------------------------------------
     // Colors
+    static final String PREF_DIFFERENT_COLORS_FOR_DARK = "differentColorsForDark";
+    private boolean differentColorsForDark = false;
+
     final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
 
     static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
@@ -221,6 +225,11 @@ public class InstanceSettings {
             if (json.has(PREF_HIDE_BASED_ON_KEYWORDS)) {
                 hideBasedOnKeywords = json.getString(PREF_HIDE_BASED_ON_KEYWORDS);
             }
+
+            // Colors
+            if (json.has(PREF_DIFFERENT_COLORS_FOR_DARK)) {
+                differentColorsForDark = json.getBoolean(PREF_DIFFERENT_COLORS_FOR_DARK);
+            }
             if (json.has(PREF_WIDGET_HEADER_BACKGROUND_COLOR)) {
                 widgetHeaderBackgroundColor = json.getInt(PREF_WIDGET_HEADER_BACKGROUND_COLOR);
             }
@@ -233,6 +242,7 @@ public class InstanceSettings {
             if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
                 eventsBackgroundColor = json.getInt(PREF_EVENTS_BACKGROUND_COLOR);
             }
+
             if (json.has(PREF_SHOW_DAYS_WITHOUT_EVENTS)) {
                 showDaysWithoutEvents = json.getBoolean(PREF_SHOW_DAYS_WITHOUT_EVENTS);
             }
@@ -354,6 +364,9 @@ public class InstanceSettings {
             settings.eventsEnded = ApplicationPreferences.getEventsEnded(context);
             settings.fillAllDayEvents = ApplicationPreferences.getFillAllDayEvents(context);
             settings.hideBasedOnKeywords = ApplicationPreferences.getHideBasedOnKeywords(context);
+
+            // Colors
+            settings.differentColorsForDark = ApplicationPreferences.areDifferentColorsForDark(context);
             settings.widgetHeaderBackgroundColor = ApplicationPreferences.getWidgetHeaderBackgroundColor(context);
             settings.pastEventsBackgroundColor = ApplicationPreferences.getPastEventsBackgroundColor(context);
             settings.todaysEventsBackgroundColor = ApplicationPreferences.getTodaysEventsBackgroundColor(context);
@@ -446,10 +459,14 @@ public class InstanceSettings {
             json.put(PREF_EVENTS_ENDED, eventsEnded.save());
             json.put(PREF_FILL_ALL_DAY, fillAllDayEvents);
             json.put(PREF_HIDE_BASED_ON_KEYWORDS, hideBasedOnKeywords);
+
+            // Colors
+            json.put(PREF_DIFFERENT_COLORS_FOR_DARK, differentColorsForDark);
             json.put(PREF_WIDGET_HEADER_BACKGROUND_COLOR, widgetHeaderBackgroundColor);
             json.put(PREF_PAST_EVENTS_BACKGROUND_COLOR, pastEventsBackgroundColor);
             json.put(PREF_TODAYS_EVENTS_BACKGROUND_COLOR, todaysEventsBackgroundColor);
             json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
+
             json.put(PREF_SHOW_DAYS_WITHOUT_EVENTS, showDaysWithoutEvents);
             json.put(PREF_SHOW_DAY_HEADERS, showDayHeaders);
             json.put(PREF_DAY_HEADER_DATE_FORMAT, dayHeaderDateFormat.save());
@@ -547,6 +564,14 @@ public class InstanceSettings {
         return hideBasedOnKeywords;
     }
 
+    /** See https://developer.android.com/guide/topics/ui/look-and-feel/darktheme */
+    public static boolean canHaveDifferentColorsForDark() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+    }
+
+    public boolean areDifferentColorsForDark(Context context) {
+        return differentColorsForDark;
+    }
 
     public int getWidgetHeaderBackgroundColor() {
         return widgetHeaderBackgroundColor;

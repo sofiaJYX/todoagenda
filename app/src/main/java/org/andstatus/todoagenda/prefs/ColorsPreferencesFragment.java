@@ -25,29 +25,38 @@ import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;
 public class ColorsPreferencesFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private boolean hidePast;
-
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences_colors);
+        removeUnavailablePreferences();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        removeUnavailablePreferences();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        hidePast = ApplicationPreferences.noPastEvents(getActivity());
         showShadings();
     }
 
-    private void showShadings() {
-        if (hidePast) {
+    private void removeUnavailablePreferences() {
+        if (!InstanceSettings.canHaveDifferentColorsForDark()) {
+            PreferenceScreen screen = getPreferenceScreen();
+            Preference preference = findPreference(InstanceSettings.PREF_DIFFERENT_COLORS_FOR_DARK);
+            if (screen != null && preference != null) {
+                screen.removePreference(preference);
+            }
+        }
+        if (ApplicationPreferences.noPastEvents(getActivity())) {
             PreferenceScreen screen = getPreferenceScreen();
             Preference preference = findPreference(TimeSection.PAST.preferenceCategoryKey);
             if (screen != null && preference != null) {
                 screen.removePreference(preference);
             }
         }
+    }
+
+    private void showShadings() {
         for (TextShadingPref shadingPref : TextShadingPref.values()) {
             showShading(shadingPref);
         }

@@ -21,6 +21,7 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_COMPACT_LAYOU
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_ALIGNMENT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT_DEFAULT;
+import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DIFFERENT_COLORS_FOR_DARK;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ENTRY_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ENTRY_DATE_FORMAT_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENTS_BACKGROUND_COLOR;
@@ -191,6 +192,10 @@ public class ApplicationPreferences {
 
     private static void setHideBasedOnKeywords(Context context, String value) {
         setString(context, PREF_HIDE_BASED_ON_KEYWORDS, value);
+    }
+
+    public static boolean areDifferentColorsForDark(Context context) {
+        return getBoolean(context, PREF_DIFFERENT_COLORS_FOR_DARK, false);
     }
 
     public static int getWidgetHeaderBackgroundColor(Context context) {
@@ -428,7 +433,8 @@ public class ApplicationPreferences {
     }
 
     public static boolean noPastEvents(Context context) {
-        return !getShowPastEventsWithDefaultColor(context) &&
+        return context != null &&
+                !getShowPastEventsWithDefaultColor(context) &&
                 getEventsEnded(context) == EndedSomeTimeAgo.NONE &&
                 noTaskSources(context);
     }

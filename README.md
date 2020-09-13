@@ -93,6 +93,16 @@ In particular, [if buttons don't work, look here](https://github.com/andstatus/t
 
 ## Changelog
 
+<a id="v4.3"/>
+
+### 2020-09-13 v4.3.0 Android system Dark theme support.
+* [Different colors for Android system Dark theme](https://github.com/andstatus/todoagenda/issues/28)
+ option added for Android 10+.
+ When the option is turned on, the widget uses different sets of colors for Dark and Light themes.<br />
+ Both sets of colors are configured in the same "Colors" settings section.
+ Colors for "Dark theme" are configured, when Dark theme is turned on.
+ Colors for "Light theme" are configured, when Dark theme is turned off.
+
 <a id="v4.2.4"/>
 
 ### 2020-09-13 v4.2.4 All day events improvements.
