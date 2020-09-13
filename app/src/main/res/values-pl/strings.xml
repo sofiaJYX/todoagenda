@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">Otwórz ustawienia widżetu kalendarza</string>
     <string name="go_to_today">Przejdź do Dzisiaj</string>
     <string name="add_event_desc">Dodaj nowe wydarzenie w kalendarzu</string>
+    <string name="add_task_desc">Dodaj nowe zadanie</string>
     <string name="indicator_alarm">Wskaźnik pokazujący czy został ustawiony alarm</string>
     <string name="indicator_recurring">Wskaźnik pokazujący wydarzenia cykliczne</string>
     <string name="no_title">(brak tytułu)</string>
@@ -52,6 +53,9 @@
     <string name="app_description_4000_chars_max_part17">Tworzenie kopii zapasowej ustawień, kopiowanie widżetu na to samo lub inne urządzenia.</string>
     <string name="app_description_4000_chars_max_part14">Wsparcie dla Androida 7+. Wsparcie również dla tabletów z Androidem.</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">Układ kompaktowy</string>
+    <string name="compact_layout_off_desc">Normalny odstęp między częściami widżetu</string>
+    <string name="compact_layout_on_desc">Minimalny odstęp między częściami widżetów, cienkie ramki</string>
     <string name="layout_prefs_desc">Pokaż lub ukryj elementy nagłówka</string>
     <string name="layout_prefs_title">Układ</string>
     <string name="widget_header_layout">Układ nagłówka</string>

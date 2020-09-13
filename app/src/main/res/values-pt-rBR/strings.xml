@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">Configurações do widget do calendário</string>
     <string name="go_to_today">Ir para Hoje</string>
     <string name="add_event_desc">Adicionar novo evento</string>
+    <string name="add_task_desc">Adicionar nova tarefa</string>
     <string name="indicator_alarm">Indicador se um alarme foi definido</string>
     <string name="indicator_recurring">Indicador se um evento é recorrente</string>
     <string name="no_title">(Sem título)</string>
@@ -60,6 +61,9 @@
         clonando widgets aqui ou em outro aparelho.</string>
     <string name="app_description_4000_chars_max_part14">Suporte a Android 4+. Suporta tablets Android.</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">Layout compacto</string>
+    <string name="compact_layout_off_desc">Espaço normal entre partes do widget</string>
+    <string name="compact_layout_on_desc">Espaço mínimo entre partes do widget, bordas finas</string>
     <string name="layout_prefs_desc">Posicione, mostre e oculte elementos do widget</string>
     <string name="layout_prefs_title">Layout</string>
     <string name="widget_header_layout">Layout do cabeçalho do widget</string>

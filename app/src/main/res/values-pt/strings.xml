@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">Configurações do widget calendário</string>
     <string name="go_to_today">Ir para Hoje</string>
     <string name="add_event_desc">Adicionar novo evento no calendário</string>
+    <string name="add_task_desc">Adicionar nova tarefa</string>
     <string name="indicator_alarm">Indicador se um lembrete foi definido</string>
     <string name="indicator_recurring">Indicador se o evento é recorrente</string>
     <string name="no_title">(Sem título)</string>
@@ -44,10 +45,21 @@ sejam eles no passado ou no futuro.</string>
     <string name="app_description_4000_chars_max_part04">Atualização automática sempre que adiciona, elimina ou modifica um evento.</string>
     <string name="app_description_4000_chars_max_part05">Selecione apenas os calendários e lista
  de tarefas que pretende ver no widget.</string>
+    <string name="app_description_4000_chars_max_part07">Personalizar cor de fundo e transparência das 
+diversas partes do widget, sombra a preto e branco para texto.</string>
+    <string name="app_description_4000_chars_max_part08">Percorrer lista de eventos.
+Utilize o botão \"Ir para Hoje\" para regressar ao dia atual.</string>
+    <string name="app_description_4000_chars_max_part09">Personalizar tamanho do texto do widget.</string>
+    <string name="app_description_4000_chars_max_part10">Widget redimensionável com disposições alternativas.</string>
     <string name="app_description_4000_chars_max_part11">Indicador para alertas e eventos recorrentes</string>
     <string name="app_description_4000_chars_max_part12">Bloquear fuso horário ao viajar para zonas horárias diferentes</string>
     <string name="app_description_4000_chars_max_part16">Ocultação de eventos duplicados.</string>
+    <string name="app_description_4000_chars_max_part14">Apenas para >= Android 7. Também disponível para tablets.</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">Disposição compacta</string>
+    <string name="compact_layout_off_desc">Espaço normal entre as partes do widget</string>
+    <string name="compact_layout_on_desc">Espaço mínimo entre as partes do widget, limites finos</string>
+    <string name="layout_prefs_desc">Colocar, mostrar e ocultar partes do widget</string>
     <string name="layout_prefs_title">Disposição</string>
     <string name="widget_header_layout">Disposição do cabeçalho do widget</string>
     <string name="pref_event_entry_layout_title">Disposição da entrada do evento</string>
@@ -71,13 +83,18 @@ sejam eles no passado ou no futuro.</string>
     <string name="appearance_show_day_headers_desc">Mostrar os cabeçalhos do dia em todos os</string>
     <string name="day_header_date_format">Formato de data para o cabeçalho do dia</string>
     <string name="show_past_events_under_one_header_title">Título para os eventos passados/vencidos</string>
+    <string name="show_past_events_under_one_header_desc">Mostrar eventos passados/vencidos com o cabeçalho \"Passado e vencido\"</string>
     <string name="show_event_icon_title">Mostrar ícone Evento</string>
+    <string name="entry_date_format">Formato da data</string>
     <string name="multiline_details_title">Detalhes em várias linhas</string>
+    <string name="multiline_details_desc">Mostrar hora e localização dos eventos em várias linhas</string>
     <!-- Date format preference -->
     <string name="simple_options">Opções básicas</string>
     <string name="date_format_default_weekday">Padrão com dia da semana</string>
     <string name="date_format_default_ytt">Padrão com ontem, hoje e amanhã</string>
     <string name="date_format_default_days">Padrão com número de dias até ao evento</string>
+    <string name="appearance_abbreviate_dates_title">Abreviar datas com dia da semana</string>
+    <string name="appearance_abbreviate_dates_desc">Utilizar formato 3 letras para as datas</string>
     <string name="date_format_number_of_days_to_event">Número de dias até ao evento</string>
     <string name="date_format_day_in_month">Dia do mês</string>
     <string name="date_format_month_day">Mês-Dia</string>
@@ -99,6 +116,9 @@ sejam eles no passado ou no futuro.</string>
     <string name="todays_events_background_color_desc">Ajustar cor de fundo dos eventos do dia</string>
     <string name="appearance_header_theme_title">Sombra do texto do cabeçalho do widget</string>
     <string name="appearance_header_theme_desc">Mostrar o cabeçalho do widget com sombra clara ou escura</string>
+    <string name="widget_header_background_color_desc">Ajustar cor do cabeçalho do widget. Por definição é transparente</string>
+    <string name="widget_header_background_color_title">Cor de fundo do cabeçalho do widget</string>
+    <string name="day_header_theme_title">Sombra do texto do cabeçalho do dia</string>
     <string name="appearance_entries_theme_title">Sombra do texto do evento</string>
     <string name="appearance_entries_theme_desc">Mostrar o texto do evento com sombra clara ou escura</string>
     <string name="appearance_theme_black">Branco</string>
@@ -204,7 +224,11 @@ sejam eles no passado ou no futuro.</string>
     <string name="feedback_play_store_desc">Avaliar e comentar na Google Play Store</string>
     <string name="feedback_play_store_title">Visitar o widget na Google Play Store</string>
     <string name="refresh_desc">Recarregar</string>
+    <string name="share_events_for_debugging_desc">Criar relatório de erro apara nos ajudar a resolver os problemas.
+Antes de o partilhar, deve filtrar os eventos para proteger a sua privacidade.</string>
+    <string name="share_events_for_debugging_title">Partilhar eventos e definições para depuração</string>
     <string name="backup_settings_title">Definições de backup</string>
+    <string name="backup_settings_desc">Igual a \"Partilhar eventos para depuração\", mas não contém eventos</string>
     <string name="restore_settings_title">Restaurar definições de um backup</string>
     <string name="restore_settings_desc">As definições de cada widget devem ser restauras separadamente</string>
 </resources>

@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">Открыть настройки виджета календаря</string>
     <string name="go_to_today">Перейти к сегодняшней дате</string>
     <string name="add_event_desc">Добавить событие</string>
+    <string name="add_task_desc">Добавить новую задачу</string>
     <string name="indicator_alarm">Индикатор оповещения</string>
     <string name="indicator_recurring">Индикатор повторяющегося события</string>
     <string name="no_title">(Без заголовка)</string>
@@ -51,6 +52,9 @@
     <string name="app_description_4000_chars_max_part17">Резервное копирование и восстановление настроек, клонирование виджетов на том же или на других устройствах.</string>
     <string name="app_description_4000_chars_max_part14">Поддержка Android версий 4+. Поддержка планшетов.</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">Компактный макет</string>
+    <string name="compact_layout_off_desc">Обычные промежутки между частями виджета</string>
+    <string name="compact_layout_on_desc">Минимальные промежутки между частями виджета, тонкие границы</string>
     <string name="layout_prefs_desc">Разместить, показать и скрыть элементы виджета</string>
     <string name="layout_prefs_title">Макет / раскладка</string>
     <string name="widget_header_layout">Макет заголовка виджета</string>
@@ -168,6 +172,9 @@
     <string name="pref_hide_based_on_keywords_title">Скрыть при начичии ключевых слов в названии</string>
     <string name="show_only_closest_instance_of_recurring_event">Показать только ближайший экземпляр повторяющегося события</string>
     <string name="hide_duplicates">Убрать дубликаты</string>
+    <string name="all_day_events_placement_title">Размещение событий \"Весь день\" (у которых нех времени)</string>
+    <string name="all_day_events_placement_top_of_the_days_events">В верхней части дня события</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">В нижней части дня события</string>
     <string name="task_scheduling_title">Планирование задач</string>
     <string name="task_scheduling_date_due">Показать задачи на дату выполнения</string>
     <string name="task_scheduling_date_started">Показать задачи на дату начала</string>

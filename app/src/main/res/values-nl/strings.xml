@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">Open de instellingen van de agenda widget</string>
     <string name="go_to_today">Ga naar vandaag</string>
     <string name="add_event_desc">Nieuwe gebeurtenis aan de agenda toevoegen</string>
+    <string name="add_task_desc">Voeg een nieuwe taak toe</string>
     <string name="indicator_alarm">Indicator als een alarm is ingesteld</string>
     <string name="indicator_recurring">Indicator bij terugkerende gebeurtenis</string>
     <string name="no_title">(Geen titel)</string>
@@ -60,6 +61,9 @@
         kopieer widgets op hetzelfde of andere apparaten.</string>
     <string name="app_description_4000_chars_max_part14">Android 7+ ondersteund. Ondersteunt Android tablets.</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">Compacte lay-out</string>
+    <string name="compact_layout_off_desc">Normale ruimte tussen widgetonderdelen</string>
+    <string name="compact_layout_on_desc">Minimale ruimte tussen widgetonderdelen, dunne randen</string>
     <string name="layout_prefs_desc">Plaats, toon en verberg widget-elementen</string>
     <string name="layout_prefs_title">Indeling</string>
     <string name="widget_header_layout">Widget header lay-out</string>

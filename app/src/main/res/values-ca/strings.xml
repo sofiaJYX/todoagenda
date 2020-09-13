@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">Obrir la configuració del widget del calendari</string>
     <string name="go_to_today">Ves a avui</string>
     <string name="add_event_desc">Afegir un nou esdeveniment</string>
+    <string name="add_task_desc">Afegeix una tasca nova</string>
     <string name="indicator_alarm">Indicador de si s\'ha creat una alarma</string>
     <string name="indicator_recurring">Indicador de si l\'esdeveniment és recurrent</string>
     <string name="no_title">(Sense títol)</string>
@@ -60,6 +61,9 @@
         clonació de ginys en dispositius iguals o diferents.</string>
     <string name="app_description_4000_chars_max_part14">Compatible amb Android 4+. Admet les tauletes Android.</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">Disseny compacte</string>
+    <string name="compact_layout_off_desc">Espai normal entre les parts de l\'enginy</string>
+    <string name="compact_layout_on_desc">Espai mínim entre les parts de l\'enginy, vores fines</string>
     <string name="layout_prefs_desc">Col·loca, mostra o oculta elements del giny</string>
     <string name="layout_prefs_title">Disposició</string>
     <string name="widget_header_layout">Disposició de la capçalera del giny</string>
