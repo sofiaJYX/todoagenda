@@ -1,0 +1,160 @@
+package org.andstatus.todoagenda.prefs;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+
+import androidx.annotation.ColorInt;
+
+import org.andstatus.todoagenda.TextShading;
+import org.andstatus.todoagenda.widget.WidgetEntry;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Colors part of settings for one theme, of one Widget
+ * @author yvolk@yurivolkov.com
+ */
+public class ThemeColors {
+    private static final String TAG = ThemeColors.class.getSimpleName();
+    final static ThemeColors EMPTY = new ThemeColors(null);
+    private final Context context;
+
+    final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
+
+    static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
+    @ColorInt
+    static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = Color.TRANSPARENT;
+    private int widgetHeaderBackgroundColor = PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
+    static final String PREF_PAST_EVENTS_BACKGROUND_COLOR = "pastEventsBackgroundColor";
+    @ColorInt static final int PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xBF78782C;
+    private int pastEventsBackgroundColor = PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
+    static final String PREF_TODAYS_EVENTS_BACKGROUND_COLOR = "todaysEventsBackgroundColor";
+    @ColorInt static final int PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xDAFFFFFF;
+    private int todaysEventsBackgroundColor = PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
+    static final String PREF_EVENTS_BACKGROUND_COLOR = "backgroundColor";
+    @ColorInt static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
+    private int eventsBackgroundColor = PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
+
+    public static ThemeColors fromJson(Context context, JSONObject json) {
+        return new ThemeColors(context).setFromJson(json);
+    }
+
+    private ThemeColors setFromJson(JSONObject json) {
+        try {
+            if (json.has(PREF_WIDGET_HEADER_BACKGROUND_COLOR)) {
+                widgetHeaderBackgroundColor = json.getInt(PREF_WIDGET_HEADER_BACKGROUND_COLOR);
+            }
+            if (json.has(PREF_PAST_EVENTS_BACKGROUND_COLOR)) {
+                pastEventsBackgroundColor = json.getInt(PREF_PAST_EVENTS_BACKGROUND_COLOR);
+            }
+            if (json.has(PREF_TODAYS_EVENTS_BACKGROUND_COLOR)) {
+                todaysEventsBackgroundColor = json.getInt(PREF_TODAYS_EVENTS_BACKGROUND_COLOR);
+            }
+            if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
+                eventsBackgroundColor = json.getInt(PREF_EVENTS_BACKGROUND_COLOR);
+            }
+
+            for (TextShadingPref pref: TextShadingPref.values()) {
+                if (json.has(pref.preferenceName)) {
+                    shadings.put(pref,
+                            TextShading.fromName(json.getString(pref.preferenceName), pref.defaultShading));
+                }
+            }
+        } catch (JSONException e) {
+            Log.w(TAG, "setFromJson failed\n" + json);
+            return this;
+        }
+        return this;
+    }
+
+    ThemeColors setFromApplicationPreferences() {
+        widgetHeaderBackgroundColor = ApplicationPreferences.getWidgetHeaderBackgroundColor(context);
+        pastEventsBackgroundColor = ApplicationPreferences.getPastEventsBackgroundColor(context);
+        todaysEventsBackgroundColor = ApplicationPreferences.getTodaysEventsBackgroundColor(context);
+        eventsBackgroundColor = ApplicationPreferences.getEventsBackgroundColor(context);
+        for (TextShadingPref pref: TextShadingPref.values()) {
+            String themeName = ApplicationPreferences.getString(context, pref.preferenceName,
+                    pref.defaultShading.name());
+            shadings.put(pref, TextShading.fromName(themeName, pref.defaultShading));
+        }
+        return this;
+    }
+
+    public ThemeColors(Context context) {
+        this.context = context;
+    }
+
+    public JSONObject toJson(JSONObject json) {
+        try {
+            json.put(PREF_WIDGET_HEADER_BACKGROUND_COLOR, widgetHeaderBackgroundColor);
+            json.put(PREF_PAST_EVENTS_BACKGROUND_COLOR, pastEventsBackgroundColor);
+            json.put(PREF_TODAYS_EVENTS_BACKGROUND_COLOR, todaysEventsBackgroundColor);
+            json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
+            for (TextShadingPref pref: TextShadingPref.values()) {
+                json.put(pref.preferenceName, getShading(pref).name());
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException("Saving settings to JSON", e);
+        }
+        return json;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    /** See https://developer.android.com/guide/topics/ui/look-and-feel/darktheme */
+    public static boolean canHaveDifferentColorsForDark() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+    }
+
+    public int getWidgetHeaderBackgroundColor() {
+        return widgetHeaderBackgroundColor;
+    }
+
+    public int getPastEventsBackgroundColor() {
+        return pastEventsBackgroundColor;
+    }
+
+    public int getTodaysEventsBackgroundColor() {
+        return todaysEventsBackgroundColor;
+    }
+
+    public int getEventsBackgroundColor() {
+        return eventsBackgroundColor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ThemeColors settings = (ThemeColors) o;
+        return toJson(new JSONObject()).toString().equals(settings.toJson(new JSONObject()).toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return toJson(new JSONObject()).toString().hashCode();
+    }
+
+    public TextShading getShading(TextShadingPref pref) {
+        TextShading shading = shadings.get(pref);
+        return shading == null ? pref.defaultShading : shading;
+    }
+
+    public int getEntryBackgroundColor(WidgetEntry<?> entry) {
+        return entry.timeSection
+                .select(getPastEventsBackgroundColor(), getTodaysEventsBackgroundColor(), getEventsBackgroundColor());
+    }
+
+    public ContextThemeWrapper getShadingContext(TextShadingPref pref) {
+        return new ContextThemeWrapper(context, getShading(pref).themeResId);
+    }
+}

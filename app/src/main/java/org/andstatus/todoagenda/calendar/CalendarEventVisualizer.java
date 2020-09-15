@@ -78,8 +78,8 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
         if (showIndication) {
             rv.setViewVisibility(viewId, View.VISIBLE);
             TextShadingPref pref = TextShadingPref.forTitle(entry);
-            setImageFromAttr(getSettings().getShadingContext(pref), rv, viewId, imageAttrId);
-            TextShading textShading = getSettings().getShading(pref);
+            setImageFromAttr(getSettings().colors().getShadingContext(pref), rv, viewId, imageAttrId);
+            TextShading textShading = getSettings().colors().getShading(pref);
             int alpha = 255;
             if (textShading == TextShading.DARK || textShading == TextShading.LIGHT) {
                 alpha = 128;

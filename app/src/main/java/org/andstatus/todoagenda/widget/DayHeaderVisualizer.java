@@ -46,8 +46,8 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
                 ? R.layout.day_header_separator_below : R.layout.day_header_separator_above);
         rv.setInt(R.id.day_header_title_wrapper, "setGravity", alignment.gravity);
 
-        ContextThemeWrapper shadingContext = getSettings().getShadingContext(TextShadingPref.forDayHeader(entry));
-        setBackgroundColor(rv, R.id.event_entry, getSettings().getEntryBackgroundColor(entry));
+        ContextThemeWrapper shadingContext = getSettings().colors().getShadingContext(TextShadingPref.forDayHeader(entry));
+        setBackgroundColor(rv, R.id.event_entry, getSettings().colors().getEntryBackgroundColor(entry));
         if (getSettings().isCompactLayout()) {
             RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.zero, R.dimen.zero, R.dimen.zero, R.dimen.zero);
         } else {

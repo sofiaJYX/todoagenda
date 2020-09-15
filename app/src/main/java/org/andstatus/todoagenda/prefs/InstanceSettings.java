@@ -1,17 +1,14 @@
 package org.andstatus.todoagenda.prefs;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.Alignment;
 import org.andstatus.todoagenda.EndedSomeTimeAgo;
-import org.andstatus.todoagenda.TextShading;
 import org.andstatus.todoagenda.TextSizeScale;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatType;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
@@ -22,7 +19,6 @@ import org.andstatus.todoagenda.util.InstanceId;
 import org.andstatus.todoagenda.util.MyClock;
 import org.andstatus.todoagenda.util.StringUtil;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
-import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.andstatus.todoagenda.widget.WidgetHeaderLayout;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -32,8 +28,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -94,23 +88,10 @@ public class InstanceSettings {
     // ----------------------------------------------------------------------------------
     // Colors
     static final String PREF_DIFFERENT_COLORS_FOR_DARK = "differentColorsForDark";
+    private ThemeColors defaultColors;
     private boolean differentColorsForDark = false;
-
-    final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
-
-    static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
-    @ColorInt
-    static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = Color.TRANSPARENT;
-    private int widgetHeaderBackgroundColor = PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
-    static final String PREF_PAST_EVENTS_BACKGROUND_COLOR = "pastEventsBackgroundColor";
-    @ColorInt static final int PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xBF78782C;
-    private int pastEventsBackgroundColor = PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
-    static final String PREF_TODAYS_EVENTS_BACKGROUND_COLOR = "todaysEventsBackgroundColor";
-    @ColorInt static final int PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xDAFFFFFF;
-    private int todaysEventsBackgroundColor = PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
-    static final String PREF_EVENTS_BACKGROUND_COLOR = "backgroundColor";
-    @ColorInt static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
-    private int eventsBackgroundColor = PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
+    static final String PREF_DARK_THEME = "darkTheme";
+    private ThemeColors darkColors = ThemeColors.EMPTY;
 
     // ----------------------------------------------------------------------------------
     // Event details
@@ -226,21 +207,10 @@ public class InstanceSettings {
                 hideBasedOnKeywords = json.getString(PREF_HIDE_BASED_ON_KEYWORDS);
             }
 
-            // Colors
-            if (json.has(PREF_DIFFERENT_COLORS_FOR_DARK)) {
-                differentColorsForDark = json.getBoolean(PREF_DIFFERENT_COLORS_FOR_DARK);
-            }
-            if (json.has(PREF_WIDGET_HEADER_BACKGROUND_COLOR)) {
-                widgetHeaderBackgroundColor = json.getInt(PREF_WIDGET_HEADER_BACKGROUND_COLOR);
-            }
-            if (json.has(PREF_PAST_EVENTS_BACKGROUND_COLOR)) {
-                pastEventsBackgroundColor = json.getInt(PREF_PAST_EVENTS_BACKGROUND_COLOR);
-            }
-            if (json.has(PREF_TODAYS_EVENTS_BACKGROUND_COLOR)) {
-                todaysEventsBackgroundColor = json.getInt(PREF_TODAYS_EVENTS_BACKGROUND_COLOR);
-            }
-            if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
-                eventsBackgroundColor = json.getInt(PREF_EVENTS_BACKGROUND_COLOR);
+            defaultColors = ThemeColors.fromJson(context, json);
+            differentColorsForDark = canHaveDifferentColorsForDark() && json.has(PREF_DARK_THEME);
+            if (differentColorsForDark) {
+                darkColors = ThemeColors.fromJson(context, json.getJSONObject(PREF_DARK_THEME));
             }
 
             if (json.has(PREF_SHOW_DAYS_WITHOUT_EVENTS)) {
@@ -324,12 +294,6 @@ public class InstanceSettings {
             if (json.has(PREF_INDICATE_RECURRING)) {
                 indicateRecurring = json.getBoolean(PREF_INDICATE_RECURRING);
             }
-            for (TextShadingPref pref: TextShadingPref.values()) {
-                if (json.has(pref.preferenceName)) {
-                    shadings.put(pref,
-                        TextShading.fromName(json.getString(pref.preferenceName), pref.defaultShading));
-                }
-            }
             if (json.has(PREF_COMPACT_LAYOUT)) {
                 compactLayout = json.getBoolean(PREF_COMPACT_LAYOUT);
             }
@@ -358,62 +322,69 @@ public class InstanceSettings {
             InstanceSettings settings = new InstanceSettings(context, widgetId,
                     ApplicationPreferences.getString(context, PREF_WIDGET_INSTANCE_NAME,
                             ApplicationPreferences.getString(context, PREF_WIDGET_INSTANCE_NAME, "")));
-            settings.widgetHeaderDateFormat = ApplicationPreferences.getWidgetHeaderDateFormat(context);
-            settings.setActiveEventSources(ApplicationPreferences.getActiveEventSources(context));
-            settings.eventRange = ApplicationPreferences.getEventRange(context);
-            settings.eventsEnded = ApplicationPreferences.getEventsEnded(context);
-            settings.fillAllDayEvents = ApplicationPreferences.getFillAllDayEvents(context);
-            settings.hideBasedOnKeywords = ApplicationPreferences.getHideBasedOnKeywords(context);
-
-            // Colors
-            settings.differentColorsForDark = ApplicationPreferences.areDifferentColorsForDark(context);
-            settings.widgetHeaderBackgroundColor = ApplicationPreferences.getWidgetHeaderBackgroundColor(context);
-            settings.pastEventsBackgroundColor = ApplicationPreferences.getPastEventsBackgroundColor(context);
-            settings.todaysEventsBackgroundColor = ApplicationPreferences.getTodaysEventsBackgroundColor(context);
-            settings.eventsBackgroundColor = ApplicationPreferences.getEventsBackgroundColor(context);
-            settings.showDaysWithoutEvents = ApplicationPreferences.getShowDaysWithoutEvents(context);
-            settings.showDayHeaders = ApplicationPreferences.getShowDayHeaders(context);
-            settings.dayHeaderDateFormat = ApplicationPreferences.getDayHeaderDateFormat(context);
-            settings.horizontalLineBelowDayHeader = ApplicationPreferences.getHorizontalLineBelowDayHeader(context);
-            settings.showPastEventsUnderOneHeader = ApplicationPreferences.getShowPastEventsUnderOneHeader(context);
-            settings.showPastEventsWithDefaultColor = ApplicationPreferences.getShowPastEventsWithDefaultColor(context);
-            settings.showEventIcon = ApplicationPreferences.getShowEventIcon(context);
-            settings.entryDateFormat = ApplicationPreferences.getEntryDateFormat(context);
-            settings.showEndTime = ApplicationPreferences.getShowEndTime(context);
-            settings.showLocation = ApplicationPreferences.getShowLocation(context);
-            settings.timeFormat = ApplicationPreferences.getTimeFormat(context);
-            settings.setRefreshPeriodMinutes(ApplicationPreferences.getRefreshPeriodMinutes(context));
-            settings.setEventEntryLayout(ApplicationPreferences.getEventEntryLayout(context));
-            settings.multilineTitle = ApplicationPreferences.isMultilineTitle(context);
-            settings.multilineDetails = ApplicationPreferences.isMultilineDetails(context);
-            settings.showOnlyClosestInstanceOfRecurringEvent = ApplicationPreferences
-                    .getShowOnlyClosestInstanceOfRecurringEvent(context);
-            settings.hideDuplicates = ApplicationPreferences.getHideDuplicates(context);
-            settings.setAllDayEventsPlacement(ApplicationPreferences.getAllDayEventsPlacement(context));
-            settings.taskScheduling = ApplicationPreferences.getTaskScheduling(context);
-            settings.taskWithoutDates = ApplicationPreferences.getTasksWithoutDates(context);
-            settings.filterMode = ApplicationPreferences.getFilterMode(context);
-            settings.indicateAlerts = ApplicationPreferences.getBoolean(context, PREF_INDICATE_ALERTS, true);
-            settings.indicateRecurring = ApplicationPreferences.getBoolean(context, PREF_INDICATE_RECURRING, false);
-            settings.compactLayout = ApplicationPreferences.isCompactLayout(context);
-            settings.widgetHeaderLayout = ApplicationPreferences.getWidgetHeaderLayout(context);
-            for (TextShadingPref pref: TextShadingPref.values()) {
-                String themeName = ApplicationPreferences.getString(context, pref.preferenceName,
-                        pref.defaultShading.name());
-                settings.shadings.put(pref, TextShading.fromName(themeName, pref.defaultShading));
-            }
-            settings.textSizeScale = TextSizeScale.fromPreferenceValue(
-                    ApplicationPreferences.getString(context, PREF_TEXT_SIZE_SCALE, ""));
-            settings.dayHeaderAlignment = ApplicationPreferences.getString(context, PREF_DAY_HEADER_ALIGNMENT,
-                    PREF_DAY_HEADER_ALIGNMENT_DEFAULT);
-
-            settings.clock().setLockedTimeZoneId(ApplicationPreferences.getLockedTimeZoneId(context));
-            if (settingsStored != null && settingsStored.hasResults()) {
-                settings.setResultsStorage(settingsStored.getResultsStorage());
-            }
-            settings.clock().setSnapshotMode(ApplicationPreferences.getSnapshotMode(context), settings);
-            return settings;
+            return settings.setFromApplicationPreferences(settingsStored);
         }
+    }
+
+    private InstanceSettings setFromApplicationPreferences(InstanceSettings settingsStored) {
+        widgetHeaderDateFormat = ApplicationPreferences.getWidgetHeaderDateFormat(context);
+        setActiveEventSources(ApplicationPreferences.getActiveEventSources(context));
+        eventRange = ApplicationPreferences.getEventRange(context);
+        eventsEnded = ApplicationPreferences.getEventsEnded(context);
+        fillAllDayEvents = ApplicationPreferences.getFillAllDayEvents(context);
+        hideBasedOnKeywords = ApplicationPreferences.getHideBasedOnKeywords(context);
+
+        differentColorsForDark = canHaveDifferentColorsForDark() && ApplicationPreferences.areDifferentColorsForDark(context);
+        if (differentColorsForDark) {
+            if (isDarkThemeCurrent()) {
+                defaultColors = settingsStored.defaultColors;
+                darkColors = new ThemeColors(context).setFromApplicationPreferences();
+            } else {
+                defaultColors = new ThemeColors(context).setFromApplicationPreferences();
+                darkColors = settingsStored.darkColors;
+            }
+        } else {
+            defaultColors = new ThemeColors(context).setFromApplicationPreferences();
+            darkColors = ThemeColors.EMPTY;
+        }
+
+        showDaysWithoutEvents = ApplicationPreferences.getShowDaysWithoutEvents(context);
+        showDayHeaders = ApplicationPreferences.getShowDayHeaders(context);
+        dayHeaderDateFormat = ApplicationPreferences.getDayHeaderDateFormat(context);
+        horizontalLineBelowDayHeader = ApplicationPreferences.getHorizontalLineBelowDayHeader(context);
+        showPastEventsUnderOneHeader = ApplicationPreferences.getShowPastEventsUnderOneHeader(context);
+        showPastEventsWithDefaultColor = ApplicationPreferences.getShowPastEventsWithDefaultColor(context);
+        showEventIcon = ApplicationPreferences.getShowEventIcon(context);
+        entryDateFormat = ApplicationPreferences.getEntryDateFormat(context);
+        showEndTime = ApplicationPreferences.getShowEndTime(context);
+        showLocation = ApplicationPreferences.getShowLocation(context);
+        timeFormat = ApplicationPreferences.getTimeFormat(context);
+        setRefreshPeriodMinutes(ApplicationPreferences.getRefreshPeriodMinutes(context));
+        setEventEntryLayout(ApplicationPreferences.getEventEntryLayout(context));
+        multilineTitle = ApplicationPreferences.isMultilineTitle(context);
+        multilineDetails = ApplicationPreferences.isMultilineDetails(context);
+        showOnlyClosestInstanceOfRecurringEvent = ApplicationPreferences
+                .getShowOnlyClosestInstanceOfRecurringEvent(context);
+        hideDuplicates = ApplicationPreferences.getHideDuplicates(context);
+        setAllDayEventsPlacement(ApplicationPreferences.getAllDayEventsPlacement(context));
+        taskScheduling = ApplicationPreferences.getTaskScheduling(context);
+        taskWithoutDates = ApplicationPreferences.getTasksWithoutDates(context);
+        filterMode = ApplicationPreferences.getFilterMode(context);
+        indicateAlerts = ApplicationPreferences.getBoolean(context, PREF_INDICATE_ALERTS, true);
+        indicateRecurring = ApplicationPreferences.getBoolean(context, PREF_INDICATE_RECURRING, false);
+        compactLayout = ApplicationPreferences.isCompactLayout(context);
+        widgetHeaderLayout = ApplicationPreferences.getWidgetHeaderLayout(context);
+        textSizeScale = TextSizeScale.fromPreferenceValue(
+                ApplicationPreferences.getString(context, PREF_TEXT_SIZE_SCALE, ""));
+        dayHeaderAlignment = ApplicationPreferences.getString(context, PREF_DAY_HEADER_ALIGNMENT,
+                PREF_DAY_HEADER_ALIGNMENT_DEFAULT);
+
+        clock().setLockedTimeZoneId(ApplicationPreferences.getLockedTimeZoneId(context));
+        if (settingsStored != null && settingsStored.hasResults()) {
+            setResultsStorage(settingsStored.getResultsStorage());
+        }
+        clock().setSnapshotMode(ApplicationPreferences.getSnapshotMode(context), this);
+        return this;
     }
 
     @NonNull
@@ -424,7 +395,8 @@ public class InstanceSettings {
     public InstanceSettings(Context context, int widgetId, String proposedInstanceName) {
         this.context = context;
         this.widgetId = widgetId;
-        this.widgetInstanceName = AllSettings.uniqueInstanceName(context, widgetId, proposedInstanceName);
+        widgetInstanceName = AllSettings.uniqueInstanceName(context, widgetId, proposedInstanceName);
+        defaultColors = new ThemeColors(context);
     }
 
     public boolean isEmpty() {
@@ -460,12 +432,10 @@ public class InstanceSettings {
             json.put(PREF_FILL_ALL_DAY, fillAllDayEvents);
             json.put(PREF_HIDE_BASED_ON_KEYWORDS, hideBasedOnKeywords);
 
-            // Colors
-            json.put(PREF_DIFFERENT_COLORS_FOR_DARK, differentColorsForDark);
-            json.put(PREF_WIDGET_HEADER_BACKGROUND_COLOR, widgetHeaderBackgroundColor);
-            json.put(PREF_PAST_EVENTS_BACKGROUND_COLOR, pastEventsBackgroundColor);
-            json.put(PREF_TODAYS_EVENTS_BACKGROUND_COLOR, todaysEventsBackgroundColor);
-            json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
+            defaultColors.toJson(json);
+            if (differentColorsForDark) {
+                json.put(PREF_DARK_THEME, darkColors.toJson(new JSONObject()));
+            }
 
             json.put(PREF_SHOW_DAYS_WITHOUT_EVENTS, showDaysWithoutEvents);
             json.put(PREF_SHOW_DAY_HEADERS, showDayHeaders);
@@ -494,9 +464,6 @@ public class InstanceSettings {
             json.put(PREF_INDICATE_RECURRING, indicateRecurring);
             json.put(PREF_COMPACT_LAYOUT, compactLayout);
             json.put(PREF_WIDGET_HEADER_LAYOUT, widgetHeaderLayout.value);
-            for (TextShadingPref pref: TextShadingPref.values()) {
-                json.put(pref.preferenceName, getShading(pref).name());
-            }
             json.put(PREF_TEXT_SIZE_SCALE, textSizeScale.preferenceValue);
             json.put(PREF_DAY_HEADER_ALIGNMENT, dayHeaderAlignment);
             if (resultsStorage != null) {
@@ -564,29 +531,23 @@ public class InstanceSettings {
         return hideBasedOnKeywords;
     }
 
+    public ThemeColors colors() {
+        return isDarkThemeCurrent() && darkColors != ThemeColors.EMPTY
+                ? darkColors
+                : defaultColors;
+    }
+
     /** See https://developer.android.com/guide/topics/ui/look-and-feel/darktheme */
     public static boolean canHaveDifferentColorsForDark() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
     }
 
-    public boolean areDifferentColorsForDark(Context context) {
-        return differentColorsForDark;
-    }
+    private boolean isDarkThemeCurrent() {
+        if (!differentColorsForDark) return false;
 
-    public int getWidgetHeaderBackgroundColor() {
-        return widgetHeaderBackgroundColor;
-    }
-
-    public int getPastEventsBackgroundColor() {
-        return pastEventsBackgroundColor;
-    }
-
-    public int getTodaysEventsBackgroundColor() {
-        return todaysEventsBackgroundColor;
-    }
-
-    public int getEventsBackgroundColor() {
-        return eventsBackgroundColor;
+        Configuration configuration = context.getApplicationContext().getResources().getConfiguration();
+        int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public boolean getShowDaysWithoutEvents() {
@@ -750,20 +711,6 @@ public class InstanceSettings {
 
     public boolean getIndicateRecurring() {
         return indicateRecurring;
-    }
-
-    public TextShading getShading(TextShadingPref pref) {
-        TextShading shading = shadings.get(pref);
-        return shading == null ? pref.defaultShading : shading;
-    }
-
-    public int getEntryBackgroundColor(WidgetEntry<?> entry) {
-        return entry.timeSection
-                .select(getPastEventsBackgroundColor(), getTodaysEventsBackgroundColor(), getEventsBackgroundColor());
-    }
-
-    public ContextThemeWrapper getShadingContext(TextShadingPref pref) {
-        return new ContextThemeWrapper(context, getShading(pref).themeResId);
     }
 
     public boolean isCompactLayout() {

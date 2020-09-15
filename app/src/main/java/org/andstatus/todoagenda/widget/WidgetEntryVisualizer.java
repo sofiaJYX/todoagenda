@@ -47,7 +47,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
         } else {
             RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.calender_padding, R.dimen.zero, R.dimen.calender_padding, R.dimen.entry_bottom_padding);
         }
-        setBackgroundColor(rv, R.id.event_entry, getSettings().getEntryBackgroundColor(entry));
+        setBackgroundColor(rv, R.id.event_entry, getSettings().colors().getEntryBackgroundColor(entry));
         return rv;
     }
 
@@ -75,7 +75,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
         int viewId = R.id.event_entry_title;
         rv.setTextViewText(viewId, getTitleString(entry));
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_title);
-        setTextColorFromAttr(getSettings().getShadingContext(TextShadingPref.forTitle(entry)),
+        setTextColorFromAttr(getSettings().colors().getShadingContext(TextShadingPref.forTitle(entry)),
                 rv, viewId, R.attr.eventEntryTitle);
         setMultiline(rv, viewId, getSettings().isMultilineTitle());
     }
@@ -101,7 +101,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
             rv.setViewVisibility(viewId, View.VISIBLE);
             rv.setTextViewText(viewId, eventDetails);
             setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_details);
-            setTextColorFromAttr(getSettings().getShadingContext(TextShadingPref.forDetails(entry)),
+            setTextColorFromAttr(getSettings().colors().getShadingContext(TextShadingPref.forDetails(entry)),
                     rv, viewId, R.attr.dayHeaderTitle);
             setMultiline(rv, viewId, getSettings().isMultilineDetails());
         }
@@ -128,7 +128,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
                     ? R.dimen.days_to_event_width
                     : R.dimen.days_to_event_right_width);
             setTextSize(getSettings(), rv, viewToShow, R.dimen.event_entry_details);
-            setTextColorFromAttr(getSettings().getShadingContext(TextShadingPref.forDetails(entry)),
+            setTextColorFromAttr(getSettings().colors().getShadingContext(TextShadingPref.forDetails(entry)),
                     rv, viewToShow, R.attr.dayHeaderTitle);
         }
     }
@@ -142,7 +142,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
                 .SPACE_DASH_SPACE, "\n"));
         setViewWidth(getSettings(), rv, viewId, R.dimen.event_time_width);
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_details);
-        setTextColorFromAttr(getSettings().getShadingContext(TextShadingPref.forDetails(entry)),
+        setTextColorFromAttr(getSettings().colors().getShadingContext(TextShadingPref.forDetails(entry)),
                 rv, viewId, R.attr.dayHeaderTitle);
     }
 

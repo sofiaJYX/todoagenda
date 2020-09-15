@@ -24,8 +24,6 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DA
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DIFFERENT_COLORS_FOR_DARK;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ENTRY_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ENTRY_DATE_FORMAT_DEFAULT;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENTS_ENDED;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENT_ENTRY_LAYOUT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENT_RANGE;
@@ -43,8 +41,6 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_MULTILINE_DET
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_MULTILINE_DETAILS_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_MULTILINE_TITLE;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_MULTILINE_TITLE_DEFAULT;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_PAST_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_REFRESH_PERIOD_MINUTES;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_REFRESH_PERIOD_MINUTES_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_SHOW_DAYS_WITHOUT_EVENTS;
@@ -63,15 +59,19 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_TASK_WITHOUT_
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_TEXT_SIZE_SCALE;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_TIME_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_TIME_FORMAT_DEFAULT;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_TODAYS_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_DATE_FORMAT_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_LAYOUT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_ID;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_INSTANCE_NAME;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.util.StringUtil.isEmpty;
 
 public class ApplicationPreferences {
@@ -91,10 +91,10 @@ public class ApplicationPreferences {
             setEventsEnded(context, settings.getEventsEnded());
             setFillAllDayEvents(context, settings.getFillAllDayEvents());
             setHideBasedOnKeywords(context, settings.getHideBasedOnKeywords());
-            setInt(context, PREF_WIDGET_HEADER_BACKGROUND_COLOR, settings.getWidgetHeaderBackgroundColor());
-            setInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR, settings.getPastEventsBackgroundColor());
-            setInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR, settings.getTodaysEventsBackgroundColor());
-            setInt(context, PREF_EVENTS_BACKGROUND_COLOR, settings.getEventsBackgroundColor());
+            setInt(context, PREF_WIDGET_HEADER_BACKGROUND_COLOR, settings.colors().getWidgetHeaderBackgroundColor());
+            setInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR, settings.colors().getPastEventsBackgroundColor());
+            setInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR, settings.colors().getTodaysEventsBackgroundColor());
+            setInt(context, PREF_EVENTS_BACKGROUND_COLOR, settings.colors().getEventsBackgroundColor());
             setShowDaysWithoutEvents(context, settings.getShowDaysWithoutEvents());
             setShowDayHeaders(context, settings.getShowDayHeaders());
             setDateFormat(context, PREF_DAY_HEADER_DATE_FORMAT, settings.getDayHeaderDateFormat());
@@ -119,7 +119,7 @@ public class ApplicationPreferences {
             setString(context, PREF_FILTER_MODE, settings.getFilterMode().value);
             setBoolean(context, PREF_INDICATE_ALERTS, settings.getIndicateAlerts());
             setBoolean(context, PREF_INDICATE_RECURRING, settings.getIndicateRecurring());
-            for (Map.Entry<TextShadingPref, TextShading> entry: settings.shadings.entrySet()) {
+            for (Map.Entry<TextShadingPref, TextShading> entry: settings.colors().shadings.entrySet()) {
                 setString(context, entry.getKey().preferenceName, entry.getValue().name());
             }
             setBoolean(context, PREF_COMPACT_LAYOUT, settings.isCompactLayout());
@@ -141,6 +141,10 @@ public class ApplicationPreferences {
 
     public static void setWidgetId(Context context, int value) {
         setInt(context, PREF_WIDGET_ID, value);
+    }
+
+    public static void setWidgetHeaderDateFormat(Context context, DateFormatValue dateFormatValue) {
+        setDateFormat(context, PREF_WIDGET_HEADER_DATE_FORMAT, dateFormatValue);
     }
 
     public static boolean noTaskSources(Context context) {
