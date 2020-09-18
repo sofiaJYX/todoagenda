@@ -19,6 +19,8 @@ public class RemoteViewsService extends android.widget.RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
         Log.d(TAG, widgetId + " onGetViewFactory, intent:" + intent);
-        return new org.andstatus.todoagenda.RemoteViewsFactory(this, widgetId, true);
+        org.andstatus.todoagenda.RemoteViewsFactory factory = new org.andstatus.todoagenda.RemoteViewsFactory(this, widgetId, true);
+        org.andstatus.todoagenda.RemoteViewsFactory.factories.put(widgetId, factory);
+        return factory;
     }
 }
