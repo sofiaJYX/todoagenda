@@ -174,6 +174,9 @@ Utilize o botão \"Ir para Hoje\" para regressar ao dia atual.</string>
     <string name="pref_hide_based_on_keywords_title">Ocultar tendo por base palavras-chave</string>
     <string name="show_only_closest_instance_of_recurring_event">Mostrar apenas o evento mais próximo de um evento recorrente</string>
     <string name="hide_duplicates">Ocultar duplicados</string>
+    <string name="all_day_events_placement_title">Colocação para eventos de dia completo</string>
+    <string name="all_day_events_placement_top_of_the_days_events">Acima dos eventos do dia atual</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">Abaixo dos eventos do dia atual</string>
     <string name="task_scheduling_title">Agendamento de tarefas</string>
     <string name="task_scheduling_date_due">Mostrar tarefas para baixo da data limite</string>
     <string name="task_scheduling_date_started">Mostrar tarefas por baixo da data inicial</string>

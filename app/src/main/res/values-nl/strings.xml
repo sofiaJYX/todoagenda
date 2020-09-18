@@ -175,6 +175,9 @@
     <string name="ended_two_weeks_ago">Eindigde twee weken geleden</string>
     <string name="pref_hide_based_on_keywords_title">Verbergen op basis van zoekwoorden in een titel</string>
     <string name="show_only_closest_instance_of_recurring_event">Toon alleen de eerstvolgende van een terugkerende afspraak</string>
+    <string name="all_day_events_placement_title">Plaatsing van gehele dag activiteiten</string>
+    <string name="all_day_events_placement_top_of_the_days_events">Bovenaan de activiteiten van de dag</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">Onderaan de activiteiten van de dag</string>
     <!-- Preference frame: Calendars and Task Lists -->
     <string name="calendars_prefs">Agenda\'s</string>
     <string name="calendars_prefs_desc">Selecteer de weer te geven agenda\'s</string>

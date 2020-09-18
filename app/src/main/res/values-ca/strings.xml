@@ -181,6 +181,9 @@
     <string name="pref_hide_based_on_keywords_title">Amagar en funció de les paraules clau al títol</string>
     <string name="show_only_closest_instance_of_recurring_event">Mostrar només el cas més proper d\'un esdeveniment periòdic</string>
     <string name="hide_duplicates">Oculta duplicats</string>
+    <string name="all_day_events_placement_title">Col·locació d’esdeveniments durant tot el dia</string>
+    <string name="all_day_events_placement_top_of_the_days_events">Al capdamunt dels esdeveniments del dia</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">Al final dels esdeveniments del dia</string>
     <string name="task_scheduling_title">Calendaritzar tasques</string>
     <string name="task_scheduling_date_due">Mostra les tasques en venciment de la data</string>
     <string name="task_scheduling_date_started">Mostra les tasques a la data d’inici</string>

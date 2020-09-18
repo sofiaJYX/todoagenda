@@ -119,6 +119,9 @@
     <string name="ended_today">ЗавършиssfvvcdsazaSли днес</string>
     <string name="ended_yesterday">Приключени вчера</string>
     <string name="pref_hide_based_on_keywords_title">Скриване на базата на ключови думи в заглавие</string>
+    <string name="all_day_events_placement_title">Разположение на целодневни събития</string>
+    <string name="all_day_events_placement_top_of_the_days_events">Разположение отгоре на целодневни събития</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">Разположение долу на целодневни събития</string>
     <string name="task_scheduling_date_due">Показване задачи в срок до</string>
     <!-- Preference frame: Calendars and Task Lists -->
     <string name="calendars_prefs">Календари</string>
