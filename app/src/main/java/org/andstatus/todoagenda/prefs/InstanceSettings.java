@@ -2,7 +2,6 @@ package org.andstatus.todoagenda.prefs;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -87,9 +86,7 @@ public class InstanceSettings {
 
     // ----------------------------------------------------------------------------------
     // Colors
-    static final String PREF_DIFFERENT_COLORS_FOR_DARK = "differentColorsForDark";
     private ThemeColors defaultColors;
-    private boolean differentColorsForDark = false;
     static final String PREF_DARK_THEME = "darkTheme";
     private ThemeColors darkColors = ThemeColors.EMPTY;
 
@@ -207,11 +204,12 @@ public class InstanceSettings {
                 hideBasedOnKeywords = json.getString(PREF_HIDE_BASED_ON_KEYWORDS);
             }
 
-            defaultColors = ThemeColors.fromJson(context, json);
-            differentColorsForDark = canHaveDifferentColorsForDark() && json.has(PREF_DARK_THEME);
-            if (differentColorsForDark) {
-                darkColors = ThemeColors.fromJson(context, json.getJSONObject(PREF_DARK_THEME));
-            }
+            boolean differentColorsForDark = ColorThemeType.canHaveDifferentColorsForDark() && json.has(PREF_DARK_THEME);
+            defaultColors = ThemeColors.fromJson(context,
+                    differentColorsForDark ? ColorThemeType.LIGHT : ColorThemeType.SINGLE, json);
+            darkColors = differentColorsForDark
+                    ? ThemeColors.fromJson(context, ColorThemeType.DARK, json.getJSONObject(PREF_DARK_THEME))
+                    : ThemeColors.EMPTY;
 
             if (json.has(PREF_SHOW_DAYS_WITHOUT_EVENTS)) {
                 showDaysWithoutEvents = json.getBoolean(PREF_SHOW_DAYS_WITHOUT_EVENTS);
@@ -334,18 +332,25 @@ public class InstanceSettings {
         fillAllDayEvents = ApplicationPreferences.getFillAllDayEvents(context);
         hideBasedOnKeywords = ApplicationPreferences.getHideBasedOnKeywords(context);
 
-        differentColorsForDark = canHaveDifferentColorsForDark() && ApplicationPreferences.areDifferentColorsForDark(context);
-        if (differentColorsForDark) {
-            if (isDarkThemeCurrent()) {
-                defaultColors = settingsStored.defaultColors;
-                darkColors = new ThemeColors(context).setFromApplicationPreferences();
-            } else {
-                defaultColors = new ThemeColors(context).setFromApplicationPreferences();
-                darkColors = settingsStored.darkColors;
-            }
-        } else {
-            defaultColors = new ThemeColors(context).setFromApplicationPreferences();
-            darkColors = ThemeColors.EMPTY;
+        switch (ApplicationPreferences.getEditingColorThemeType(context)) {
+            case DARK:
+                darkColors = new ThemeColors(context, ColorThemeType.DARK).setFromApplicationPreferences();
+                defaultColors = settingsStored.defaultColors.copy(context, ColorThemeType.LIGHT);
+                break;
+            case LIGHT:
+                darkColors = settingsStored.darkColors.isEmpty()
+                        ? settingsStored.defaultColors.copy(context, ColorThemeType.DARK)
+                        : settingsStored.darkColors.copy(context, ColorThemeType.DARK);
+                defaultColors = new ThemeColors(context, ColorThemeType.LIGHT).setFromApplicationPreferences();
+                break;
+            case SINGLE:
+                darkColors = ThemeColors.EMPTY;
+                defaultColors = new ThemeColors(context, ColorThemeType.SINGLE).setFromApplicationPreferences();
+                break;
+            case NONE:
+                darkColors = ThemeColors.EMPTY;
+                defaultColors = settingsStored.defaultColors.copy(context, ColorThemeType.SINGLE);
+                break;
         }
 
         showDaysWithoutEvents = ApplicationPreferences.getShowDaysWithoutEvents(context);
@@ -396,7 +401,7 @@ public class InstanceSettings {
         this.context = context;
         this.widgetId = widgetId;
         widgetInstanceName = AllSettings.uniqueInstanceName(context, widgetId, proposedInstanceName);
-        defaultColors = new ThemeColors(context);
+        defaultColors = context == null ? ThemeColors.EMPTY : new ThemeColors(context, ColorThemeType.SINGLE);
     }
 
     public boolean isEmpty() {
@@ -433,7 +438,7 @@ public class InstanceSettings {
             json.put(PREF_HIDE_BASED_ON_KEYWORDS, hideBasedOnKeywords);
 
             defaultColors.toJson(json);
-            if (differentColorsForDark) {
+            if (!darkColors.isEmpty()) {
                 json.put(PREF_DARK_THEME, darkColors.toJson(new JSONObject()));
             }
 
@@ -532,19 +537,12 @@ public class InstanceSettings {
     }
 
     public ThemeColors colors() {
-        return isDarkThemeCurrent() && darkColors != ThemeColors.EMPTY
+        return !darkColors.isEmpty() && isDarkThemeOn(context)
                 ? darkColors
                 : defaultColors;
     }
 
-    /** See https://developer.android.com/guide/topics/ui/look-and-feel/darktheme */
-    public static boolean canHaveDifferentColorsForDark() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
-    }
-
-    private boolean isDarkThemeCurrent() {
-        if (!differentColorsForDark) return false;
-
+    public static boolean isDarkThemeOn(Context context) {
         Configuration configuration = context.getApplicationContext().getResources().getConfiguration();
         int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return currentNightMode == Configuration.UI_MODE_NIGHT_YES;

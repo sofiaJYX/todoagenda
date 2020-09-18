@@ -21,7 +21,6 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_COMPACT_LAYOU
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_ALIGNMENT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DAY_HEADER_DATE_FORMAT_DEFAULT;
-import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_DIFFERENT_COLORS_FOR_DARK;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ENTRY_DATE_FORMAT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ENTRY_DATE_FORMAT_DEFAULT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_EVENTS_ENDED;
@@ -75,6 +74,8 @@ import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_WIDGET_HEADER_BACK
 import static org.andstatus.todoagenda.util.StringUtil.isEmpty;
 
 public class ApplicationPreferences {
+    static final String PREF_DIFFERENT_COLORS_FOR_DARK = "differentColorsForDark";
+    private static final String PREF_COLOR_THEME_TYPE = "colorThemeType";
 
     private ApplicationPreferences() {
         // prohibit instantiation
@@ -91,10 +92,18 @@ public class ApplicationPreferences {
             setEventsEnded(context, settings.getEventsEnded());
             setFillAllDayEvents(context, settings.getFillAllDayEvents());
             setHideBasedOnKeywords(context, settings.getHideBasedOnKeywords());
-            setInt(context, PREF_WIDGET_HEADER_BACKGROUND_COLOR, settings.colors().getWidgetHeaderBackgroundColor());
-            setInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR, settings.colors().getPastEventsBackgroundColor());
-            setInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR, settings.colors().getTodaysEventsBackgroundColor());
-            setInt(context, PREF_EVENTS_BACKGROUND_COLOR, settings.colors().getEventsBackgroundColor());
+
+            ThemeColors colors = settings.colors();
+            setString(context, PREF_COLOR_THEME_TYPE, colors.colorThemeType.value);
+            setBoolean(context, PREF_DIFFERENT_COLORS_FOR_DARK, colors.colorThemeType != ColorThemeType.SINGLE);
+            setInt(context, PREF_WIDGET_HEADER_BACKGROUND_COLOR, colors.getWidgetHeaderBackgroundColor());
+            setInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR, colors.getPastEventsBackgroundColor());
+            setInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR, colors.getTodaysEventsBackgroundColor());
+            setInt(context, PREF_EVENTS_BACKGROUND_COLOR, colors.getEventsBackgroundColor());
+            for (Map.Entry<TextShadingPref, TextShading> entry: colors.shadings.entrySet()) {
+                setString(context, entry.getKey().preferenceName, entry.getValue().name());
+            }
+
             setShowDaysWithoutEvents(context, settings.getShowDaysWithoutEvents());
             setShowDayHeaders(context, settings.getShowDayHeaders());
             setDateFormat(context, PREF_DAY_HEADER_DATE_FORMAT, settings.getDayHeaderDateFormat());
@@ -119,9 +128,6 @@ public class ApplicationPreferences {
             setString(context, PREF_FILTER_MODE, settings.getFilterMode().value);
             setBoolean(context, PREF_INDICATE_ALERTS, settings.getIndicateAlerts());
             setBoolean(context, PREF_INDICATE_RECURRING, settings.getIndicateRecurring());
-            for (Map.Entry<TextShadingPref, TextShading> entry: settings.colors().shadings.entrySet()) {
-                setString(context, entry.getKey().preferenceName, entry.getValue().name());
-            }
             setBoolean(context, PREF_COMPACT_LAYOUT, settings.isCompactLayout());
             setString(context, PREF_WIDGET_HEADER_LAYOUT, settings.getWidgetHeaderLayout().value);
             setString(context, PREF_TEXT_SIZE_SCALE, settings.getTextSizeScale().preferenceValue);
@@ -200,6 +206,14 @@ public class ApplicationPreferences {
 
     public static boolean areDifferentColorsForDark(Context context) {
         return getBoolean(context, PREF_DIFFERENT_COLORS_FOR_DARK, false);
+    }
+
+    static ColorThemeType getEditingColorThemeType(Context context) {
+        return getColorThemeType(context).fromEditor(context, areDifferentColorsForDark(context));
+    }
+
+    public static ColorThemeType getColorThemeType(Context context) {
+        return ColorThemeType.fromValue(getString(context, PREF_COLOR_THEME_TYPE, ""));
     }
 
     public static int getWidgetHeaderBackgroundColor(Context context) {

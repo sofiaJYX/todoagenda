@@ -2,7 +2,6 @@ package org.andstatus.todoagenda.prefs;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
@@ -22,10 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThemeColors {
     private static final String TAG = ThemeColors.class.getSimpleName();
-    final static ThemeColors EMPTY = new ThemeColors(null);
+    final static ThemeColors EMPTY = new ThemeColors(null, ColorThemeType.SINGLE);
     private final Context context;
-
-    final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
+    public final ColorThemeType colorThemeType;
 
     static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
     @ColorInt
@@ -41,8 +39,22 @@ public class ThemeColors {
     @ColorInt static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
     private int eventsBackgroundColor = PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
 
-    public static ThemeColors fromJson(Context context, JSONObject json) {
-        return new ThemeColors(context).setFromJson(json);
+    final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
+
+    public static ThemeColors fromJson(Context context, ColorThemeType colorThemeType, JSONObject json) {
+        return new ThemeColors(context, colorThemeType).setFromJson(json);
+    }
+
+    public ThemeColors(Context context, ColorThemeType colorThemeType) {
+        this.context = context;
+        this.colorThemeType = colorThemeType;
+    }
+
+    public ThemeColors copy(Context context, ColorThemeType colorThemeType) {
+        ThemeColors themeColors = new ThemeColors(context, colorThemeType);
+        return isEmpty()
+                ? themeColors
+                : themeColors.setFromJson(toJson(new JSONObject()));
     }
 
     private ThemeColors setFromJson(JSONObject json) {
@@ -86,10 +98,6 @@ public class ThemeColors {
         return this;
     }
 
-    public ThemeColors(Context context) {
-        this.context = context;
-    }
-
     public JSONObject toJson(JSONObject json) {
         try {
             json.put(PREF_WIDGET_HEADER_BACKGROUND_COLOR, widgetHeaderBackgroundColor);
@@ -109,11 +117,6 @@ public class ThemeColors {
         return context;
     }
 
-    /** See https://developer.android.com/guide/topics/ui/look-and-feel/darktheme */
-    public static boolean canHaveDifferentColorsForDark() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
-    }
-
     public int getWidgetHeaderBackgroundColor() {
         return widgetHeaderBackgroundColor;
     }
@@ -128,6 +131,10 @@ public class ThemeColors {
 
     public int getEventsBackgroundColor() {
         return eventsBackgroundColor;
+    }
+
+    public boolean isEmpty() {
+        return context == null;
     }
 
     @Override

@@ -127,6 +127,8 @@
         for Dark/Light theme correspondingly.</string>
     <string name="colors_prefs_desc">Colors and opacity of texts and backgrounds</string>
     <string name="appearance_group_color_title">Colors</string>
+    <string name="colors_light">Colors for Light theme</string>
+    <string name="colors_dark">Colors for Dark theme</string>
     <string name="appearance_background_color_title">Background color</string>
     <string name="appearance_background_color_desc">Adjust the color of the background</string>
     <string name="appearance_past_events_background_color_title">Past events background color</string>

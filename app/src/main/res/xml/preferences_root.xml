@@ -4,6 +4,8 @@
         android:summary="@string/layout_prefs_desc"
         android:title="@string/layout_prefs_title" />
     <Preference
+        android:key="ColorsPreferencesFragment"
+        android:persistent="false"
         android:fragment="org.andstatus.todoagenda.prefs.ColorsPreferencesFragment"
         android:summary="@string/colors_prefs_desc"
         android:title="@string/appearance_group_color_title" />

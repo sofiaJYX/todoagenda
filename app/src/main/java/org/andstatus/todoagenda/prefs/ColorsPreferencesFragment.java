@@ -1,9 +1,11 @@
 package org.andstatus.todoagenda.prefs;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -12,11 +14,13 @@ import androidx.preference.PreferenceScreen;
 import com.rarepebble.colorpicker.ColorPreference;
 import com.rarepebble.colorpicker.ColorPreferenceDialog;
 
+import org.andstatus.todoagenda.MainActivity;
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.TextShading;
 import org.andstatus.todoagenda.widget.TimeSection;
 
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;
+import static org.andstatus.todoagenda.prefs.ApplicationPreferences.PREF_DIFFERENT_COLORS_FOR_DARK;
 
 /** AndroidX version created by yvolk@yurivolkov.com
  *   based on this answer: https://stackoverflow.com/a/53290775/297710
@@ -27,27 +31,39 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setTitle();
         addPreferencesFromResource(R.xml.preferences_colors);
         removeUnavailablePreferences();
+    }
+
+    private void setTitle() {
+        ApplicationPreferences.getEditingColorThemeType(getActivity()).setTitle(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        setTitle();
         removeUnavailablePreferences();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         showShadings();
     }
 
     private void removeUnavailablePreferences() {
-        if (!InstanceSettings.canHaveDifferentColorsForDark()) {
+        Context context = getActivity();
+        if (context == null) return;
+
+        ColorThemeType colorThemeType = ApplicationPreferences.getColorThemeType(context);
+        if (!ColorThemeType.canHaveDifferentColorsForDark() ||
+                colorThemeType == ColorThemeType.LIGHT ||
+                colorThemeType == ColorThemeType.SINGLE && !InstanceSettings.isDarkThemeOn(context)) {
             PreferenceScreen screen = getPreferenceScreen();
-            Preference preference = findPreference(InstanceSettings.PREF_DIFFERENT_COLORS_FOR_DARK);
+            Preference preference = findPreference(PREF_DIFFERENT_COLORS_FOR_DARK);
             if (screen != null && preference != null) {
                 screen.removePreference(preference);
             }
         }
-        if (ApplicationPreferences.noPastEvents(getActivity())) {
+        if (ApplicationPreferences.noPastEvents(context)) {
             PreferenceScreen screen = getPreferenceScreen();
             Preference preference = findPreference(TimeSection.PAST.preferenceCategoryKey);
             if (screen != null && preference != null) {
@@ -70,6 +86,17 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (PREF_DIFFERENT_COLORS_FOR_DARK.equals(key)){
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                if (ApplicationPreferences.getEditingColorThemeType(activity) == ColorThemeType.NONE) {
+                    activity.startActivity(MainActivity.intentToConfigure(activity, ApplicationPreferences.getWidgetId(activity)));
+                    activity.finish();
+                    return;
+                };
+                setTitle();
+            }
+        }
         showShadings();
     }
 
