@@ -335,13 +335,17 @@ public class InstanceSettings {
         switch (ApplicationPreferences.getEditingColorThemeType(context)) {
             case DARK:
                 darkColors = new ThemeColors(context, ColorThemeType.DARK).setFromApplicationPreferences();
-                defaultColors = settingsStored.defaultColors.copy(context, ColorThemeType.LIGHT);
+                defaultColors = settingsStored == null
+                        ? darkColors
+                        : settingsStored.defaultColors.copy(context, ColorThemeType.LIGHT);
                 break;
             case LIGHT:
-                darkColors = settingsStored.darkColors.isEmpty()
+                defaultColors = new ThemeColors(context, ColorThemeType.LIGHT).setFromApplicationPreferences();
+                darkColors = settingsStored == null
+                    ? defaultColors
+                    : settingsStored.darkColors.isEmpty()
                         ? settingsStored.defaultColors.copy(context, ColorThemeType.DARK)
                         : settingsStored.darkColors.copy(context, ColorThemeType.DARK);
-                defaultColors = new ThemeColors(context, ColorThemeType.LIGHT).setFromApplicationPreferences();
                 break;
             case SINGLE:
                 darkColors = ThemeColors.EMPTY;
@@ -349,7 +353,9 @@ public class InstanceSettings {
                 break;
             case NONE:
                 darkColors = ThemeColors.EMPTY;
-                defaultColors = settingsStored.defaultColors.copy(context, ColorThemeType.SINGLE);
+                defaultColors = settingsStored == null
+                        ? darkColors
+                        : settingsStored.defaultColors.copy(context, ColorThemeType.SINGLE);
                 break;
         }
 
