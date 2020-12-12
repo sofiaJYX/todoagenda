@@ -112,8 +112,14 @@
     <string name="N_days_ago">%d dias atrás</string>
     <string name="in_N_days">em %d dias</string>
     <!-- Preference frame: Colors -->
+    <string name="different_colors_for_dark_title">Cores diferentes para o tema escuro do sistema Android</string>
+    <string name="different_colors_for_dark_off_desc">As cores são as mesmas</string>
+    <string name="different_colors_for_dark_on_desc">Ativar/desativar o tema escuro do sistema Android escuro para definir 
+        as cores do tema Escuro/Claro de forma apropriada.</string>
     <string name="colors_prefs_desc">Cor e opacidade dos textos e dos fundos</string>
     <string name="appearance_group_color_title">Cores</string>
+    <string name="colors_light">Cores do tema Claro</string>
+    <string name="colors_dark">Cores do tema Escuro</string>
     <string name="appearance_background_color_title">Cor do fundo</string>
     <string name="appearance_background_color_desc">Ajustar a cor de fundo</string>
     <string name="appearance_past_events_background_color_title">Cor de fundo de eventos passados</string>
@@ -181,6 +187,9 @@
     <string name="pref_hide_based_on_keywords_title">Ocultar baseado em palavras-chave em um título</string>
     <string name="show_only_closest_instance_of_recurring_event">Mostrar apenas a instância mais próxima de um evento recorrente</string>
     <string name="hide_duplicates">Ocultar duplicados</string>
+    <string name="all_day_events_placement_title">Colocação de eventos de dia inteiro</string>
+    <string name="all_day_events_placement_top_of_the_days_events">No topo dos eventos do dia</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">No final dos eventos do dia</string>
     <string name="task_scheduling_title">Agendamento de tarefas</string>
     <string name="task_scheduling_date_due">Mostrar tarefas na data limite</string>
     <string name="task_scheduling_date_started">Mostrar tarefas na data iniciada</string>

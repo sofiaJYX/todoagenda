@@ -112,8 +112,14 @@
     <string name="N_days_ago">fa %d dies</string>
     <string name="in_N_days">en %d dies</string>
     <!-- Preference frame: Colors -->
+    <string name="different_colors_for_dark_title">Diferents colors per al sistema Android Tema fosc</string>
+    <string name="different_colors_for_dark_off_desc">Els colors són els mateixos</string>
+    <string name="different_colors_for_dark_on_desc">Activa/desactiva el tema fosc del sistema Android per definir els colors
+        per al tema Fosc/Clar corresponent.</string>
     <string name="colors_prefs_desc">Colors i opacitat dels textos i fons</string>
     <string name="appearance_group_color_title">Colors</string>
+    <string name="colors_light">Colors per al tema Clar</string>
+    <string name="colors_dark">Colors per al tema Fosc</string>
     <string name="appearance_background_color_title">Color de fons</string>
     <string name="appearance_background_color_desc">Ajusteu el color del fons</string>
     <string name="appearance_past_events_background_color_title">Color de fons dels esdeveniments passats</string>

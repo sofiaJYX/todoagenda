@@ -12,6 +12,7 @@
     <string name="open_prefs_desc">カレンダーウィジェットの設定を開きます</string>
     <string name="go_to_today">今日に移動</string>
     <string name="add_event_desc">新しいカレンダーイベントを追加します</string>
+    <string name="add_task_desc">新しいタスクを追加</string>
     <string name="indicator_alarm">アラームが設定されていたらインジケータ</string>
     <string name="indicator_recurring">イベントが繰り返しだったらインジケータ</string>
     <string name="no_title">(タイトルなし)</string>
@@ -60,6 +61,9 @@
          同じまたは異なるデバイスでウィジェットを複製します。</string>
     <string name="app_description_4000_chars_max_part14">Android 4 以降をサポートしています。Android タブレットをサポートしています。</string>
     <!-- Preference frame: Layout -->
+    <string name="compact_layout_title">コンパクトレイアウト</string>
+    <string name="compact_layout_off_desc">ウィジェット部品の間は通常の間隔</string>
+    <string name="compact_layout_on_desc">ウィジェット部品の間は最小間隔、細い枠</string>
     <string name="layout_prefs_desc">ウィジェット要素の配置、表示、非表示</string>
     <string name="layout_prefs_title">レイアウト</string>
     <string name="widget_header_layout">ウィジェット ヘッダーのレイアウト</string>
@@ -106,10 +110,16 @@
     <string name="sample_date">サンプル日付 (yyyy-MM-dd 形式)</string>
     <string name="result_formatted_date">結果。表示形式の日付</string>
     <string name="N_days_ago">%d 日前</string>
-    <string name="in_N_days">%d 日内</string>
+    <string name="in_N_days">%d 日後</string>
     <!-- Preference frame: Colors -->
+    <string name="different_colors_for_dark_title">Android システムダークテーマ用の異なる色</string>
+    <string name="different_colors_for_dark_off_desc">色は同じ</string>
+    <string name="different_colors_for_dark_on_desc">Android システムのダークテーマのオン/オフを切り替えて、
+ダーク/ライトテーマに合わせて色を設定します。</string>
     <string name="colors_prefs_desc">テキストと背景の色と透明度</string>
     <string name="appearance_group_color_title">色</string>
+    <string name="colors_light">ライトテーマの色</string>
+    <string name="colors_dark">ダークテーマの色</string>
     <string name="appearance_background_color_title">背景の透明度</string>
     <string name="appearance_background_color_desc">背景の透明度を調整します</string>
     <string name="appearance_past_events_background_color_title">過去のイベントの背景色</string>
@@ -177,6 +187,9 @@
     <string name="pref_hide_based_on_keywords_title">タイトルのキーワードに基づいて非表示にする</string>
     <string name="show_only_closest_instance_of_recurring_event">繰り返しイベントの最も近いインスタンスのみを表示</string>
     <string name="hide_duplicates">重複タスクを非表示</string>
+    <string name="all_day_events_placement_title">終日のイベントの配置</string>
+    <string name="all_day_events_placement_top_of_the_days_events">その日のイベントの最上部に</string>
+    <string name="all_day_events_placement_bottom_of_the_days_events">その日のイベントの一番下に</string>
     <string name="task_scheduling_title">タスクスケジュール</string>
     <string name="task_scheduling_date_due">期限内のタスクを表示</string>
     <string name="task_scheduling_date_started">開始日前のタスクを表示</string>

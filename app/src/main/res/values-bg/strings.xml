@@ -66,7 +66,12 @@
     <string name="sample_date">Примерен формат на датата (yyyy-MM-dd)</string>
     <string name="result_formatted_date">Резултат от форматирането на датата</string>
     <!-- Preference frame: Colors -->
+    <string name="different_colors_for_dark_title">Собствен цвят за тъмната тема от Андройд</string>
+    <string name="different_colors_for_dark_off_desc">Еднакви цветове</string>
+    <string name="different_colors_for_dark_on_desc">Превключване на тъмната Андроид тема</string>
     <string name="appearance_group_color_title">Цветове</string>
+    <string name="colors_light">Цветове за светлата тема</string>
+    <string name="colors_dark">Цветове за тъмната тема</string>
     <string name="appearance_background_color_title">Цвят на фона</string>
     <string name="appearance_background_color_desc">Настройка за цвета на фона</string>
     <string name="appearance_past_events_background_color_title">Цвята на фона за отминали събития</string>

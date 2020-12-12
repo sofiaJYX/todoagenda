@@ -7,14 +7,14 @@ android {
     useLibrary 'android.test.mock'
 
     defaultConfig {
-        versionCode 689
-        versionName '4.3.1'
+        versionCode 690
+        versionName '4.3.2'
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
 
         testApplicationId "org.andstatus.todoagenda.tests"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        project.ext.archivesBaseName = "TodoAgenda-$versionName".toString()
+        archivesBaseName = "TodoAgenda-$versionName".toString()
 
         buildConfigField "String", "ORG_TASKS_AUTHORITY", "\"org.tasks\""
     }

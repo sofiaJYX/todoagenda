@@ -106,8 +106,14 @@ Utilize o botão \"Ir para Hoje\" para regressar ao dia atual.</string>
     <string name="N_days_ago">Há %d dias</string>
     <string name="in_N_days">daqui a %d dias</string>
     <!-- Preference frame: Colors -->
+    <string name="different_colors_for_dark_title">Cores diferentes para o tema escuro Android</string>
+    <string name="different_colors_for_dark_off_desc">Cores iguais</string>
+    <string name="different_colors_for_dark_on_desc">Alternar ativação do tema escuro do Andoid para definir
+as cores dos temas escuro/claro.</string>
     <string name="colors_prefs_desc">Cores e opacidade do texto e do fundo</string>
     <string name="appearance_group_color_title">Cores</string>
+    <string name="colors_light">Cores para o tema claro</string>
+    <string name="colors_dark">Cores para o tema escuro</string>
     <string name="appearance_background_color_title">Cor de fundo</string>
     <string name="appearance_background_color_desc">Ajustar a cor de fundo</string>
     <string name="appearance_past_events_background_color_title">Cor de fundo dos eventos passados</string>
