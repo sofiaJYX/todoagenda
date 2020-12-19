@@ -4,7 +4,7 @@ import android.util.Log;
 
 import org.andstatus.todoagenda.prefs.FilterMode;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
-import org.andstatus.todoagenda.provider.MockCalendarContentProvider;
+import org.andstatus.todoagenda.provider.FakeCalendarContentProvider;
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.util.LazyVal;
 import org.andstatus.todoagenda.widget.WidgetEntry;
@@ -25,18 +25,18 @@ public class BaseWidgetTest {
     private static final int MAX_MILLIS_TO_WAIT_FOR_LAUNCHER = 2000;
     private static final int MAX_MILLIS_TO_WAIT_FOR_FACTORY_CREATION = 40000;
 
-    protected MockCalendarContentProvider provider = null;
+    protected FakeCalendarContentProvider provider = null;
     protected LazyVal<RemoteViewsFactory> factory = LazyVal.of(
             () -> new RemoteViewsFactory(provider.getContext(), provider.getWidgetId(), false));
 
     @Before
     public void setUp() throws Exception {
-        provider = MockCalendarContentProvider.getContentProvider();
+        provider = FakeCalendarContentProvider.getContentProvider();
     }
 
     @After
     public void tearDown() throws Exception {
-        MockCalendarContentProvider.tearDown();
+        FakeCalendarContentProvider.tearDown();
         factory.reset();
     }
 

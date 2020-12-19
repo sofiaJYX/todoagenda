@@ -44,7 +44,7 @@ public class PermissionsUtil {
          * http://stackoverflow.com/questions/21367646/how-to-determine-if-android-application-is-started-with-junit-testing-instrument
          */
         try {
-            Class.forName("org.andstatus.todoagenda.provider.MockCalendarContentProvider");
+            Class.forName("org.andstatus.todoagenda.provider.FakeCalendarContentProvider");
             return true;
         } catch (ClassNotFoundException e) {
             return false;

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.provider.EventProviderType;
-import org.andstatus.todoagenda.provider.MockCalendarContentProvider;
+import org.andstatus.todoagenda.provider.FakeCalendarContentProvider;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunListener;
 
@@ -30,7 +30,7 @@ public class TestRunListener extends RunListener {
         Log.i(TAG, "On restore app");
         EnvironmentChangedReceiver.sleep(2000);
 
-        MockCalendarContentProvider.tearDown();
+        FakeCalendarContentProvider.tearDown();
 
         AllSettings.forget();
         EventProviderType.forget();

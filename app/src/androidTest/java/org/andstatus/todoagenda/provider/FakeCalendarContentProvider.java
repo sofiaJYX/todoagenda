@@ -32,8 +32,8 @@ import static org.junit.Assert.fail;
 /**
  * @author yvolk@yurivolkov.com
  */
-public class MockCalendarContentProvider {
-    final static String TAG = MockCalendarContentProvider.class.getSimpleName();
+public class FakeCalendarContentProvider {
+    final static String TAG = FakeCalendarContentProvider.class.getSimpleName();
     private static final int TEST_WIDGET_ID_MIN = 434892;
     private static final String[] ZONE_IDS = {"America/Los_Angeles", "Europe/Moscow", "Asia/Kuala_Lumpur", "UTC"};
     private final QueryResultsStorage results = new QueryResultsStorage();
@@ -44,13 +44,13 @@ public class MockCalendarContentProvider {
     public final boolean usesActualWidget;
     private volatile InstanceSettings settings;
 
-    public static MockCalendarContentProvider getContentProvider() {
+    public static FakeCalendarContentProvider getContentProvider() {
         Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        MockCalendarContentProvider contentProvider = new MockCalendarContentProvider(targetContext);
+        FakeCalendarContentProvider contentProvider = new FakeCalendarContentProvider(targetContext);
         return contentProvider;
     }
 
-    private MockCalendarContentProvider(Context context) {
+    private FakeCalendarContentProvider(Context context) {
         this.context = context;
         InstanceSettings instanceToReuse = AllSettings.getInstances(context).values().stream()
                 .filter(settings -> settings.getWidgetInstanceName().endsWith(InstanceSettings.TEST_REPLAY_SUFFIX)).findFirst().orElse(null);

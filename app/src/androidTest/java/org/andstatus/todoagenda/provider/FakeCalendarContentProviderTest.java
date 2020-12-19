@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
  *
  * @author yvolk@yurivolkov.com
  */
-public class MockCalendarContentProviderTest extends BaseWidgetTest {
-    private final static String TAG = MockCalendarContentProviderTest.class.getSimpleName();
+public class FakeCalendarContentProviderTest extends BaseWidgetTest {
+    private final static String TAG = FakeCalendarContentProviderTest.class.getSimpleName();
 
     private final String[] projection = CalendarEventProvider.getProjection();
     private final String sortOrder = CalendarEventProvider.EVENT_SORT_ORDER;
