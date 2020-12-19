@@ -1,4 +1,7 @@
-package org.andstatus.todoagenda;
+package org.andstatus.todoagenda.prefs;
+
+import org.andstatus.todoagenda.widget.AlarmIndicatorScaled;
+import org.andstatus.todoagenda.widget.RecurringIndicatorScaled;
 
 /**
  * @author yvolk@yurivolkov.com

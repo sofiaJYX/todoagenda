@@ -1,7 +1,9 @@
-package org.andstatus.todoagenda;
+package org.andstatus.todoagenda.prefs.colors;
 
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
+
+import org.andstatus.todoagenda.R;
 
 /**
  * @author yvolk@yurivolkov.com

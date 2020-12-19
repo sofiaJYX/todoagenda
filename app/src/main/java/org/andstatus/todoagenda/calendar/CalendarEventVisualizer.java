@@ -6,11 +6,11 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
-import org.andstatus.todoagenda.AlarmIndicatorScaled;
+import org.andstatus.todoagenda.widget.AlarmIndicatorScaled;
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.RecurringIndicatorScaled;
-import org.andstatus.todoagenda.TextShading;
-import org.andstatus.todoagenda.prefs.TextShadingPref;
+import org.andstatus.todoagenda.widget.RecurringIndicatorScaled;
+import org.andstatus.todoagenda.prefs.colors.TextShading;
+import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.widget.CalendarEntry;
 import org.andstatus.todoagenda.widget.WidgetEntry;

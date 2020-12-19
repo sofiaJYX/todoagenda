@@ -1,4 +1,4 @@
-package org.andstatus.todoagenda;
+package org.andstatus.todoagenda.prefs;
 
 import org.joda.time.DateTime;
 

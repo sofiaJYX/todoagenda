@@ -1,4 +1,4 @@
-package org.andstatus.todoagenda.prefs;
+package org.andstatus.todoagenda.prefs.colors;
 
 import android.app.Activity;
 import android.content.Context;

@@ -2,6 +2,7 @@ package org.andstatus.todoagenda;
 
 import org.andstatus.todoagenda.prefs.AllDayEventsPlacement;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
+import org.andstatus.todoagenda.prefs.EndedSomeTimeAgo;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatType;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
 import org.andstatus.todoagenda.provider.QueryResultsStorage;

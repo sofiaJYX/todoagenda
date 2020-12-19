@@ -1,4 +1,4 @@
-package org.andstatus.todoagenda.prefs;
+package org.andstatus.todoagenda.prefs.colors;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,7 +16,8 @@ import com.rarepebble.colorpicker.ColorPreferenceDialog;
 
 import org.andstatus.todoagenda.MainActivity;
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.TextShading;
+import org.andstatus.todoagenda.prefs.ApplicationPreferences;
+import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.widget.TimeSection;
 
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;

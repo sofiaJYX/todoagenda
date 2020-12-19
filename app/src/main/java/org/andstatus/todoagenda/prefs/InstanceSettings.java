@@ -6,9 +6,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import org.andstatus.todoagenda.Alignment;
-import org.andstatus.todoagenda.EndedSomeTimeAgo;
-import org.andstatus.todoagenda.TextSizeScale;
+import org.andstatus.todoagenda.widget.Alignment;
+import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
+import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatType;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatter;

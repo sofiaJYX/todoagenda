@@ -6,8 +6,10 @@ import android.text.TextUtils;
 
 import androidx.preference.PreferenceManager;
 
-import org.andstatus.todoagenda.EndedSomeTimeAgo;
-import org.andstatus.todoagenda.TextShading;
+import org.andstatus.todoagenda.prefs.colors.TextShading;
+import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
+import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
 import org.andstatus.todoagenda.widget.WidgetHeaderLayout;
@@ -63,18 +65,18 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_LAYOUT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_ID;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_INSTANCE_NAME;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.util.StringUtil.isEmpty;
 
 public class ApplicationPreferences {
-    static final String PREF_DIFFERENT_COLORS_FOR_DARK = "differentColorsForDark";
+    public static final String PREF_DIFFERENT_COLORS_FOR_DARK = "differentColorsForDark";
     private static final String PREF_COLOR_THEME_TYPE = "colorThemeType";
 
     private ApplicationPreferences() {
@@ -208,7 +210,7 @@ public class ApplicationPreferences {
         return getBoolean(context, PREF_DIFFERENT_COLORS_FOR_DARK, false);
     }
 
-    static ColorThemeType getEditingColorThemeType(Context context) {
+    public static ColorThemeType getEditingColorThemeType(Context context) {
         return getColorThemeType(context).fromEditor(context, areDifferentColorsForDark(context));
     }
 

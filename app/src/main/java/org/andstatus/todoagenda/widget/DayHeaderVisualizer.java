@@ -8,9 +8,8 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
-import org.andstatus.todoagenda.Alignment;
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.prefs.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.MyClock;

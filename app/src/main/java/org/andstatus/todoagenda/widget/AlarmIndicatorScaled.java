@@ -1,6 +1,8 @@
-package org.andstatus.todoagenda;
+package org.andstatus.todoagenda.widget;
 
 import androidx.annotation.LayoutRes;
+
+import org.andstatus.todoagenda.R;
 
 /**
  * @author yvolk@yurivolkov.com

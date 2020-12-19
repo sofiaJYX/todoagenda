@@ -7,6 +7,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import org.andstatus.todoagenda.R;
+import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
 
 import java.util.Optional;
 

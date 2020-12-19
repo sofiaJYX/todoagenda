@@ -1,4 +1,4 @@
-package org.andstatus.todoagenda.prefs;
+package org.andstatus.todoagenda.prefs.colors;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,7 +7,7 @@ import android.view.ContextThemeWrapper;
 
 import androidx.annotation.ColorInt;
 
-import org.andstatus.todoagenda.TextShading;
+import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,25 +21,24 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThemeColors {
     private static final String TAG = ThemeColors.class.getSimpleName();
-    final static ThemeColors EMPTY = new ThemeColors(null, ColorThemeType.SINGLE);
+    public final static ThemeColors EMPTY = new ThemeColors(null, ColorThemeType.SINGLE);
     private final Context context;
     public final ColorThemeType colorThemeType;
 
-    static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
-    @ColorInt
-    static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = Color.TRANSPARENT;
+    public static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
+    @ColorInt public static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = Color.TRANSPARENT;
     private int widgetHeaderBackgroundColor = PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
-    static final String PREF_PAST_EVENTS_BACKGROUND_COLOR = "pastEventsBackgroundColor";
-    @ColorInt static final int PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xBF78782C;
+    public static final String PREF_PAST_EVENTS_BACKGROUND_COLOR = "pastEventsBackgroundColor";
+    @ColorInt public static final int PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xBF78782C;
     private int pastEventsBackgroundColor = PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
-    static final String PREF_TODAYS_EVENTS_BACKGROUND_COLOR = "todaysEventsBackgroundColor";
-    @ColorInt static final int PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xDAFFFFFF;
+    public static final String PREF_TODAYS_EVENTS_BACKGROUND_COLOR = "todaysEventsBackgroundColor";
+    @ColorInt public static final int PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xDAFFFFFF;
     private int todaysEventsBackgroundColor = PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
-    static final String PREF_EVENTS_BACKGROUND_COLOR = "backgroundColor";
-    @ColorInt static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
+    public static final String PREF_EVENTS_BACKGROUND_COLOR = "backgroundColor";
+    @ColorInt public static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
     private int eventsBackgroundColor = PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
 
-    final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
+    public final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
 
     public static ThemeColors fromJson(Context context, ColorThemeType colorThemeType, JSONObject json) {
         return new ThemeColors(context, colorThemeType).setFromJson(json);
@@ -85,7 +84,7 @@ public class ThemeColors {
         return this;
     }
 
-    ThemeColors setFromApplicationPreferences() {
+    public ThemeColors setFromApplicationPreferences() {
         widgetHeaderBackgroundColor = ApplicationPreferences.getWidgetHeaderBackgroundColor(context);
         pastEventsBackgroundColor = ApplicationPreferences.getPastEventsBackgroundColor(context);
         todaysEventsBackgroundColor = ApplicationPreferences.getTodaysEventsBackgroundColor(context);

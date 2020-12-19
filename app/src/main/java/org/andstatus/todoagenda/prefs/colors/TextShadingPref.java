@@ -1,7 +1,6 @@
-package org.andstatus.todoagenda.prefs;
+package org.andstatus.todoagenda.prefs.colors;
 
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.TextShading;
 import org.andstatus.todoagenda.widget.TimeSection;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 
