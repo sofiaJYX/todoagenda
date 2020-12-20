@@ -1,5 +1,6 @@
 package org.andstatus.todoagenda.prefs.colors;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.StringRes;
 
 import org.andstatus.todoagenda.R;
@@ -9,32 +10,47 @@ import org.andstatus.todoagenda.widget.WidgetEntry;
 public enum TextColorPref {
 
     WIDGET_HEADER("headerTheme", TextShading.LIGHT, R.string.appearance_header_theme_title,
-            false, TimeSection.ALL),
+            "widgetHeaderTextColor", 0x00000000,
+            R.string.widget_header_text_color, false, TimeSection.ALL),
     DAY_HEADER_PAST("dayHeaderThemePast", TextShading.LIGHT, R.string.day_header_theme_title,
+            "dayHeaderTextColorPast", 0x00000000, R.string.day_header_text_color,
             true, TimeSection.PAST),
     ENTRY_PAST("entryThemePast", TextShading.WHITE, R.string.appearance_entries_theme_title,
+            "entryTextColorPast", 0x00000000, R.string.events_text_color,
             false, TimeSection.PAST),
     DAY_HEADER_TODAY("dayHeaderTheme", TextShading.DARK, R.string.day_header_theme_title,
+            "dayHeaderTextColorToday", 0x00000000, R.string.day_header_text_color,
             true, TimeSection.TODAY),
     ENTRY_TODAY("entryTheme", TextShading.BLACK, R.string.appearance_entries_theme_title,
+            "entryTextColorToday", 0x00000000, R.string.events_text_color,
             false, TimeSection.TODAY),
     DAY_HEADER_FUTURE("dayHeaderThemeFuture", TextShading.LIGHT, R.string.day_header_theme_title,
+            "dayHeaderTextColorFuture", 0x00000000, R.string.day_header_text_color,
             true, TimeSection.FUTURE),
     ENTRY_FUTURE("entryThemeFuture", TextShading.WHITE, R.string.appearance_entries_theme_title,
+            "entryTextColorFuture", 0x00000000, R.string.events_text_color,
             false, TimeSection.FUTURE);
 
     public final String shadingPreferenceName;
     public final TextShading defaultShading;
-    @StringRes
-    public final int titleResId;
+    @StringRes public final int shadingTitleResId;
+
+    public final String colorPreferenceName;
+    @ColorInt public final int defaultColor;
+    @StringRes public final int colorTitleResId;
+
     public final boolean dependsOnDayHeader;
     public final TimeSection timeSection;
 
-    TextColorPref(String shadingPreferenceName, TextShading defaultShading, int titleResId,
+    TextColorPref(String shadingPreferenceName, TextShading defaultShading, int shadingTitleResId,
+                  String colorPreferenceName, int defaultColor, int colorTitleResId,
                   boolean dependsOnDayHeader, TimeSection timeSection) {
         this.shadingPreferenceName = shadingPreferenceName;
         this.defaultShading = defaultShading;
-        this.titleResId = titleResId;
+        this.colorPreferenceName = colorPreferenceName;
+        this.defaultColor = defaultColor;
+        this.shadingTitleResId = shadingTitleResId;
+        this.colorTitleResId = colorTitleResId;
         this.dependsOnDayHeader = dependsOnDayHeader;
         this.timeSection = timeSection;
     }

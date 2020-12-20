@@ -107,7 +107,7 @@ public class ApplicationPreferences {
 
             setString(context, PREF_TEXT_COLOR_SOURCE, colors.textColorSource.value);
             for (Map.Entry<TextColorPref, TextShading> entry: colors.textColors.entrySet()) {
-                setString(context, entry.getKey().shadingPreferenceName, entry.getValue().name());
+                setString(context, entry.getKey().shadingPreferenceName, entry.getValue().themeName);
             }
 
             setShowDaysWithoutEvents(context, settings.getShowDaysWithoutEvents());

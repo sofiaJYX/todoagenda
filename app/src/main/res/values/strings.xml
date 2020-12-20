@@ -143,12 +143,15 @@
     <string name="todays_events_background_color_title">Today\'s events background color</string>
     <string name="todays_events_background_color_desc">Adjust background color of today\'s events</string>
     <string name="appearance_header_theme_title">Widget header text shading</string>
+    <string name="widget_header_text_color">Widget header text color</string>
     <string name="appearance_header_theme_desc">Show the header of the widget in dark or light shade</string>
     <string name="widget_header_background_color_desc">Adjust color of the widget header. Transparent by default</string>
     <string name="widget_header_background_color_title">Widget header background color</string>
     <string name="day_header_theme_title">Day header text shading</string>
     <string name="day_header_theme_desc">Show day header text in dark or light shade</string>
+    <string name="day_header_text_color">Day header text color</string>
     <string name="appearance_entries_theme_title">Event text shading</string>
+    <string name="events_text_color">Event text color</string>
     <string name="appearance_entries_theme_desc">Show event text in dark or light shade</string>
     <string name="appearance_theme_black">White</string>
     <string name="appearance_theme_dark">Light</string>

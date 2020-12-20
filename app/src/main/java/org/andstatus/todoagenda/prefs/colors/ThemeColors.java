@@ -127,7 +127,7 @@ public class ThemeColors {
             json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
             json.put(PREF_TEXT_COLOR_SOURCE, textColorSource.value);
             for (TextColorPref pref: TextColorPref.values()) {
-                json.put(pref.shadingPreferenceName, getShading(pref).name());
+                json.put(pref.shadingPreferenceName, getShading(pref).themeName);
             }
         } catch (JSONException e) {
             throw new RuntimeException("Saving settings to JSON", e);
