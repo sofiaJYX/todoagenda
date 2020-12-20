@@ -8,19 +8,19 @@ import androidx.annotation.StringRes;
 
 public enum TextShadingPref {
 
-    WIDGET_HEADER("headerTheme",   TextShading.DARK, R.string.appearance_header_theme_title,
+    WIDGET_HEADER("headerTheme",   TextShading.LIGHT, R.string.appearance_header_theme_title,
             false, TimeSection.ALL),
-    DAY_HEADER_PAST("dayHeaderThemePast", TextShading.DARK, R.string.day_header_theme_title,
+    DAY_HEADER_PAST("dayHeaderThemePast", TextShading.LIGHT, R.string.day_header_theme_title,
             true, TimeSection.PAST),
-    ENTRY_PAST("entryThemePast", TextShading.BLACK, R.string.appearance_entries_theme_title,
+    ENTRY_PAST("entryThemePast", TextShading.WHITE, R.string.appearance_entries_theme_title,
             false, TimeSection.PAST),
-    DAY_HEADER_TODAY("dayHeaderTheme", TextShading.LIGHT, R.string.day_header_theme_title,
+    DAY_HEADER_TODAY("dayHeaderTheme", TextShading.DARK, R.string.day_header_theme_title,
             true, TimeSection.TODAY),
-    ENTRY_TODAY("entryTheme", TextShading.WHITE, R.string.appearance_entries_theme_title,
+    ENTRY_TODAY("entryTheme", TextShading.BLACK, R.string.appearance_entries_theme_title,
             false, TimeSection.TODAY),
-    DAY_HEADER_FUTURE("dayHeaderThemeFuture", TextShading.DARK, R.string.day_header_theme_title,
+    DAY_HEADER_FUTURE("dayHeaderThemeFuture", TextShading.LIGHT, R.string.day_header_theme_title,
             true, TimeSection.FUTURE),
-    ENTRY_FUTURE("entryThemeFuture", TextShading.BLACK, R.string.appearance_entries_theme_title,
+    ENTRY_FUTURE("entryThemeFuture", TextShading.WHITE, R.string.appearance_entries_theme_title,
             false, TimeSection.FUTURE);
 
     public final String preferenceName;

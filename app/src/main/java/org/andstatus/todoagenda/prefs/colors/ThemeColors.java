@@ -1,7 +1,6 @@
 package org.andstatus.todoagenda.prefs.colors;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
@@ -21,22 +20,27 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThemeColors {
     private static final String TAG = ThemeColors.class.getSimpleName();
+    public static final int TRANSPARENT_WHITE = 0x00FFFFFF;
     public final static ThemeColors EMPTY = new ThemeColors(null, ColorThemeType.SINGLE);
     private final Context context;
     public final ColorThemeType colorThemeType;
 
     public static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
-    @ColorInt public static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = Color.TRANSPARENT;
-    private int widgetHeaderBackgroundColor = PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
+    @ColorInt public static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = TRANSPARENT_WHITE;
+    @ColorInt private int widgetHeaderBackgroundColor;
+    private TextShading widgetHeaderBackgroundShading;
     public static final String PREF_PAST_EVENTS_BACKGROUND_COLOR = "pastEventsBackgroundColor";
     @ColorInt public static final int PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xBF78782C;
-    private int pastEventsBackgroundColor = PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
+    @ColorInt private int pastEventsBackgroundColor;
+    private TextShading pastEventsBackgroundShading;
     public static final String PREF_TODAYS_EVENTS_BACKGROUND_COLOR = "todaysEventsBackgroundColor";
     @ColorInt public static final int PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT = 0xDAFFFFFF;
-    private int todaysEventsBackgroundColor = PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
+    @ColorInt private int todaysEventsBackgroundColor;
+    private TextShading todaysEventsBackgroundShading;
     public static final String PREF_EVENTS_BACKGROUND_COLOR = "backgroundColor";
     @ColorInt public static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
-    private int eventsBackgroundColor = PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
+    @ColorInt private int eventsBackgroundColor;
+    private TextShading eventsBackgroundShading;
 
     public static final String PREF_TEXT_COLOR_SOURCE = "textColorSource";
     public TextColorSource textColorSource = TextColorSource.defaultValue;
@@ -49,6 +53,10 @@ public class ThemeColors {
     public ThemeColors(Context context, ColorThemeType colorThemeType) {
         this.context = context;
         this.colorThemeType = colorThemeType;
+        setWidgetHeaderBackgroundColor(PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT);
+        setPastEventsBackgroundColor(PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT);
+        setTodaysEventsBackgroundColor(PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT);
+        setEventsBackgroundColor(PREF_EVENTS_BACKGROUND_COLOR_DEFAULT);
     }
 
     public ThemeColors copy(Context context, ColorThemeType colorThemeType) {
@@ -61,16 +69,16 @@ public class ThemeColors {
     private ThemeColors setFromJson(JSONObject json) {
         try {
             if (json.has(PREF_WIDGET_HEADER_BACKGROUND_COLOR)) {
-                widgetHeaderBackgroundColor = json.getInt(PREF_WIDGET_HEADER_BACKGROUND_COLOR);
+                setWidgetHeaderBackgroundColor(json.getInt(PREF_WIDGET_HEADER_BACKGROUND_COLOR));
             }
             if (json.has(PREF_PAST_EVENTS_BACKGROUND_COLOR)) {
-                pastEventsBackgroundColor = json.getInt(PREF_PAST_EVENTS_BACKGROUND_COLOR);
+                setPastEventsBackgroundColor(json.getInt(PREF_PAST_EVENTS_BACKGROUND_COLOR));
             }
             if (json.has(PREF_TODAYS_EVENTS_BACKGROUND_COLOR)) {
-                todaysEventsBackgroundColor = json.getInt(PREF_TODAYS_EVENTS_BACKGROUND_COLOR);
+                setTodaysEventsBackgroundColor(json.getInt(PREF_TODAYS_EVENTS_BACKGROUND_COLOR));
             }
             if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
-                eventsBackgroundColor = json.getInt(PREF_EVENTS_BACKGROUND_COLOR);
+                setEventsBackgroundColor(json.getInt(PREF_EVENTS_BACKGROUND_COLOR));
             }
             if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
                 textColorSource = TextColorSource.fromValue(json.getString(PREF_TEXT_COLOR_SOURCE));
@@ -82,7 +90,7 @@ public class ThemeColors {
             for (TextShadingPref pref: TextShadingPref.values()) {
                 if (json.has(pref.preferenceName)) {
                     shadings.put(pref,
-                            TextShading.fromName(json.getString(pref.preferenceName), pref.defaultShading));
+                            TextShading.fromThemeName(json.getString(pref.preferenceName), pref.defaultShading));
                 }
             }
         } catch (JSONException e) {
@@ -93,15 +101,15 @@ public class ThemeColors {
     }
 
     public ThemeColors setFromApplicationPreferences() {
-        widgetHeaderBackgroundColor = ApplicationPreferences.getWidgetHeaderBackgroundColor(context);
-        pastEventsBackgroundColor = ApplicationPreferences.getPastEventsBackgroundColor(context);
-        todaysEventsBackgroundColor = ApplicationPreferences.getTodaysEventsBackgroundColor(context);
-        eventsBackgroundColor = ApplicationPreferences.getEventsBackgroundColor(context);
+        setWidgetHeaderBackgroundColor(ApplicationPreferences.getWidgetHeaderBackgroundColor(context));
+        setPastEventsBackgroundColor(ApplicationPreferences.getPastEventsBackgroundColor(context));
+        setTodaysEventsBackgroundColor(ApplicationPreferences.getTodaysEventsBackgroundColor(context));
+        setEventsBackgroundColor(ApplicationPreferences.getEventsBackgroundColor(context));
         textColorSource = ApplicationPreferences.getTextColorSource(context);
         for (TextShadingPref pref: TextShadingPref.values()) {
             String themeName = ApplicationPreferences.getString(context, pref.preferenceName,
                     pref.defaultShading.name());
-            shadings.put(pref, TextShading.fromName(themeName, pref.defaultShading));
+            shadings.put(pref, TextShading.fromThemeName(themeName, pref.defaultShading));
         }
         return this;
     }
@@ -130,16 +138,36 @@ public class ThemeColors {
         return widgetHeaderBackgroundColor;
     }
 
+    private void setWidgetHeaderBackgroundColor(int widgetHeaderBackgroundColor) {
+        this.widgetHeaderBackgroundColor = widgetHeaderBackgroundColor;
+        widgetHeaderBackgroundShading = colorToShadingPref(widgetHeaderBackgroundColor);
+    }
+
     public int getPastEventsBackgroundColor() {
         return pastEventsBackgroundColor;
+    }
+
+    private void setPastEventsBackgroundColor(int pastEventsBackgroundColor) {
+        this.pastEventsBackgroundColor = pastEventsBackgroundColor;
+        pastEventsBackgroundShading = colorToShadingPref(pastEventsBackgroundColor);
     }
 
     public int getTodaysEventsBackgroundColor() {
         return todaysEventsBackgroundColor;
     }
 
+    private void setTodaysEventsBackgroundColor(int todaysEventsBackgroundColor) {
+        this.todaysEventsBackgroundColor = todaysEventsBackgroundColor;
+        todaysEventsBackgroundShading = colorToShadingPref(todaysEventsBackgroundColor);
+    }
+
     public int getEventsBackgroundColor() {
         return eventsBackgroundColor;
+    }
+
+    private void setEventsBackgroundColor(int eventsBackgroundColor) {
+        this.eventsBackgroundColor = eventsBackgroundColor;
+        eventsBackgroundShading = colorToShadingPref(eventsBackgroundColor);
     }
 
     public boolean isEmpty() {
@@ -161,8 +189,41 @@ public class ThemeColors {
     }
 
     public TextShading getShading(TextShadingPref pref) {
-        TextShading shading = shadings.get(pref);
-        return shading == null ? pref.defaultShading : shading;
+        switch (textColorSource) {
+            case SHADING:
+                TextShading shading = shadings.get(pref);
+                return shading == null ? pref.defaultShading : shading;
+            default:
+                switch (getBackgroundShading(pref)) {
+                    case BLACK:
+                        return TextShading.WHITE;
+                    case DARK:
+                        return TextShading.LIGHT;
+                    case LIGHT:
+                        return TextShading.DARK;
+                    case WHITE:
+                        return TextShading.BLACK;
+                }
+        }
+        throw new IllegalStateException("getShading for " + pref);
+    }
+
+    public final TextShading getBackgroundShading(TextShadingPref pref) {
+        switch (pref) {
+            case WIDGET_HEADER:
+                return widgetHeaderBackgroundShading;
+            case DAY_HEADER_PAST:
+            case ENTRY_PAST:
+                return pastEventsBackgroundShading;
+            case DAY_HEADER_TODAY:
+            case ENTRY_TODAY:
+                return todaysEventsBackgroundShading;
+            case DAY_HEADER_FUTURE:
+            case ENTRY_FUTURE:
+                return eventsBackgroundShading;
+            default:
+                throw new IllegalArgumentException("TextShadingPref: " + pref);
+        }
     }
 
     public int getEntryBackgroundColor(WidgetEntry<?> entry) {
@@ -172,5 +233,25 @@ public class ThemeColors {
 
     public ContextThemeWrapper getShadingContext(TextShadingPref pref) {
         return new ContextThemeWrapper(context, getShading(pref).themeResId);
+    }
+
+    public static TextShading colorToShadingPref(@ColorInt int color) {
+        float r = ((color >> 16) & 0xff) / 255.0f;
+        float g = ((color >>  8) & 0xff) / 255.0f;
+        float b = ((color      ) & 0xff) / 255.0f;
+
+        // The formula is from https://stackoverflow.com/a/596243/297710
+        double luminance = Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
+
+        // And this is my own guess
+        if (luminance >= 0.70) {
+            return TextShading.WHITE;
+        } else if (luminance >= 0.5) {
+            return TextShading.LIGHT;
+        } else if (luminance >= 0.30) {
+            return TextShading.DARK;
+        } else {
+            return TextShading.BLACK;
+        }
     }
 }

@@ -183,7 +183,7 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
     private void showShading(TextShadingPref pref) {
         ListPreference preference = (ListPreference) findPreference(pref.preferenceName);
         if (preference != null) {
-            TextShading shading = TextShading.fromName(preference.getValue(), pref.defaultShading);
+            TextShading shading = TextShading.fromThemeName(preference.getValue(), pref.defaultShading);
             preference.setSummary(getActivity().getString(shading.titleResId));
         }
     }
