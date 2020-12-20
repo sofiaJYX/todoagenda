@@ -34,10 +34,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
-import static org.andstatus.todoagenda.prefs.colors.ColorsPreferencesFragment.EXTRA_GOTO_COLORS_PREFERENCES;
-
 public class WidgetConfigurationActivity extends AppCompatActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+    public static final String EXTRA_GOTO_PREFERENCES_SECTION = RemoteViewsFactory.PACKAGE + ".extra.GOTO_COLORS_PREFERENCES";
+    public static final String EXTRA_GOTO_SECTION_COLORS = "colors";
     private static final String TAG = WidgetConfigurationActivity.class.getSimpleName();
     public static final String FRAGMENT_TAG = "settings_fragment";
 
@@ -91,7 +91,8 @@ public class WidgetConfigurationActivity extends AppCompatActivity implements
             ft.replace(R.id.settings_container, fragment, FRAGMENT_TAG);
             ft.commit();
 
-            if (getIntent().getBooleanExtra(EXTRA_GOTO_COLORS_PREFERENCES, false)) {
+            String gotoSection = getIntent().getStringExtra(EXTRA_GOTO_PREFERENCES_SECTION);
+            if (EXTRA_GOTO_SECTION_COLORS.equals(gotoSection)) {
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.settings_container, new ColorsPreferencesFragment(), FRAGMENT_TAG);
                 ft.commit();

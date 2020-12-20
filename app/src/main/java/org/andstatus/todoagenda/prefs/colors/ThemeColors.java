@@ -7,6 +7,7 @@ import android.view.ContextThemeWrapper;
 import androidx.annotation.ColorInt;
 
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
+import org.andstatus.todoagenda.util.StringUtil;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,13 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThemeColors {
     private static final String TAG = ThemeColors.class.getSimpleName();
+    public static final int TRANSPARENT_BLACK = 0;
     public static final int TRANSPARENT_WHITE = 0x00FFFFFF;
     public final static ThemeColors EMPTY = new ThemeColors(null, ColorThemeType.SINGLE);
     private final Context context;
     public final ColorThemeType colorThemeType;
 
     public static final String PREF_WIDGET_HEADER_BACKGROUND_COLOR = "widgetHeaderBackgroundColor";
-    @ColorInt public static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = TRANSPARENT_WHITE;
+    @ColorInt public static final int PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT = TRANSPARENT_BLACK;
     @ColorInt private int widgetHeaderBackgroundColor;
     private TextShading widgetHeaderBackgroundShading;
     public static final String PREF_PAST_EVENTS_BACKGROUND_COLOR = "pastEventsBackgroundColor";
@@ -106,10 +108,13 @@ public class ThemeColors {
         setTodaysEventsBackgroundColor(ApplicationPreferences.getTodaysEventsBackgroundColor(context));
         setEventsBackgroundColor(ApplicationPreferences.getEventsBackgroundColor(context));
         textColorSource = ApplicationPreferences.getTextColorSource(context);
-        for (TextShadingPref pref: TextShadingPref.values()) {
-            String themeName = ApplicationPreferences.getString(context, pref.preferenceName,
-                    pref.defaultShading.name());
-            shadings.put(pref, TextShading.fromThemeName(themeName, pref.defaultShading));
+        if (textColorSource == TextColorSource.SHADING) {
+            for (TextShadingPref pref: TextShadingPref.values()) {
+                String themeName = ApplicationPreferences.getString(context, pref.preferenceName, "");
+                if (StringUtil.nonEmpty(themeName)) {
+                    shadings.put(pref, TextShading.fromThemeName(themeName, pref.defaultShading));
+                }
+            }
         }
         return this;
     }
@@ -193,19 +198,11 @@ public class ThemeColors {
             case SHADING:
                 TextShading shading = shadings.get(pref);
                 return shading == null ? pref.defaultShading : shading;
+            case COLORS:
+                // TODO
             default:
-                switch (getBackgroundShading(pref)) {
-                    case BLACK:
-                        return TextShading.WHITE;
-                    case DARK:
-                        return TextShading.LIGHT;
-                    case LIGHT:
-                        return TextShading.DARK;
-                    case WHITE:
-                        return TextShading.BLACK;
-                }
+                return pref.getShadingForBackground(getBackgroundShading(pref));
         }
-        throw new IllegalStateException("getShading for " + pref);
     }
 
     public final TextShading getBackgroundShading(TextShadingPref pref) {

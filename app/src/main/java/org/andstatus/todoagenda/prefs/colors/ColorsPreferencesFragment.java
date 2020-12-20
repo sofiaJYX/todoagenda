@@ -18,11 +18,12 @@ import com.rarepebble.colorpicker.ColorPreferenceDialog;
 
 import org.andstatus.todoagenda.MainActivity;
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.RemoteViewsFactory;
+import org.andstatus.todoagenda.WidgetConfigurationActivity;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.widget.TimeSection;
 
+import static org.andstatus.todoagenda.WidgetConfigurationActivity.EXTRA_GOTO_SECTION_COLORS;
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;
 import static org.andstatus.todoagenda.prefs.ApplicationPreferences.PREF_DIFFERENT_COLORS_FOR_DARK;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TEXT_COLOR_SOURCE;
@@ -33,8 +34,6 @@ import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TEXT_COLOR_
  */
 public class ColorsPreferencesFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    public static final String EXTRA_GOTO_COLORS_PREFERENCES = RemoteViewsFactory.PACKAGE + ".extra.GOTO_COLORS_PREFERENCES";
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -167,8 +166,8 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
                 break;
             case PREF_TEXT_COLOR_SOURCE:
                 if (activity != null) {
-                    Intent intent = activity.getIntent();
-                    intent.putExtra(EXTRA_GOTO_COLORS_PREFERENCES, true);
+                    Intent intent = MainActivity.intentToConfigure(activity, ApplicationPreferences.getWidgetId(activity));
+                    intent.putExtra(WidgetConfigurationActivity.EXTRA_GOTO_PREFERENCES_SECTION, EXTRA_GOTO_SECTION_COLORS);
                     activity.startActivity(intent);
                     activity.finish();
                     return;

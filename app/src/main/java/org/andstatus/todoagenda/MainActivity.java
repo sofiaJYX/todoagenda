@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.andstatus.todoagenda.WidgetConfigurationActivity.EXTRA_GOTO_PREFERENCES_SECTION;
+import static org.andstatus.todoagenda.util.IntentUtil.copyStringExtra;
+
 /**
  * @author yvolk@yurivolkov.com
  */
@@ -92,7 +95,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 widgetIdToConfigure = AllSettings.getInstances(this).keySet().iterator().next();
             }
             if (widgetIdToConfigure != 0) {
-                startActivity(WidgetConfigurationActivity.intentToStartMe(this, widgetIdToConfigure));
+                Intent intent = WidgetConfigurationActivity.intentToStartMe(this, widgetIdToConfigure);
+                copyStringExtra(getIntent(), intent, EXTRA_GOTO_PREFERENCES_SECTION);
+                startActivity(intent);
                 finish();
             }
         }

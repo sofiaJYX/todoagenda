@@ -1,14 +1,14 @@
 package org.andstatus.todoagenda.prefs.colors;
 
+import androidx.annotation.StringRes;
+
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.widget.TimeSection;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 
-import androidx.annotation.StringRes;
-
 public enum TextShadingPref {
 
-    WIDGET_HEADER("headerTheme",   TextShading.LIGHT, R.string.appearance_header_theme_title,
+    WIDGET_HEADER("headerTheme", TextShading.LIGHT, R.string.appearance_header_theme_title,
             false, TimeSection.ALL),
     DAY_HEADER_PAST("dayHeaderThemePast", TextShading.LIGHT, R.string.day_header_theme_title,
             true, TimeSection.PAST),
@@ -37,6 +37,34 @@ public enum TextShadingPref {
         this.titleResId = titleResId;
         this.dependsOnDayHeader = dependsOnDayHeader;
         this.timeSection = timeSection;
+    }
+
+    public TextShading getShadingForBackground(TextShading backgroundShading) {
+        switch (this) {
+            case DAY_HEADER_PAST:
+            case DAY_HEADER_TODAY:
+            case DAY_HEADER_FUTURE:
+                switch (backgroundShading) {
+                    case BLACK:
+                    case DARK:
+                        return TextShading.LIGHT;
+                    case LIGHT:
+                    case WHITE:
+                        return TextShading.DARK;
+                }
+            default:
+                switch (backgroundShading) {
+                    case BLACK:
+                        return TextShading.LIGHT;
+                    case DARK:
+                        return TextShading.WHITE;
+                    case LIGHT:
+                        return TextShading.BLACK;
+                    case WHITE:
+                        return TextShading.DARK;
+                }
+        }
+        throw new IllegalStateException("getShadingForBackground for " + this + " and background " + backgroundShading);
     }
 
     public static TextShadingPref forDayHeader(WidgetEntry<?> entry) {
