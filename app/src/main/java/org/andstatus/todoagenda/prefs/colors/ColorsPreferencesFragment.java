@@ -112,8 +112,8 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
     }
 
     private void removeShadings() {
-        for (TextShadingPref pref : TextShadingPref.values()) {
-            removePreferenceImproved(pref.preferenceName);
+        for (TextColorPref pref : TextColorPref.values()) {
+            removePreferenceImproved(pref.shadingPreferenceName);
         }
     }
 
@@ -135,7 +135,7 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
     }
 
     private void showShadings() {
-        for (TextShadingPref shadingPref : TextShadingPref.values()) {
+        for (TextColorPref shadingPref : TextColorPref.values()) {
             showShading(shadingPref);
         }
     }
@@ -179,8 +179,8 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
         }
     }
 
-    private void showShading(TextShadingPref pref) {
-        ListPreference preference = (ListPreference) findPreference(pref.preferenceName);
+    private void showShading(TextColorPref pref) {
+        ListPreference preference = (ListPreference) findPreference(pref.shadingPreferenceName);
         if (preference != null) {
             TextShading shading = TextShading.fromThemeName(preference.getValue(), pref.defaultShading);
             preference.setSummary(getActivity().getString(shading.titleResId));

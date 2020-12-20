@@ -17,7 +17,7 @@ import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.prefs.colors.TextShading;
-import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.InstanceId;
 import org.andstatus.todoagenda.util.MyClock;
@@ -361,17 +361,17 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
                 .toUpperCase(Locale.getDefault());
         rv.setTextViewText(viewId, StringUtil.isEmpty(formattedDate) ? "                    " : formattedDate);
         setTextSize(settings, rv, viewId, R.dimen.widget_header_title);
-        setTextColorFromAttr(settings.colors().getShadingContext(TextShadingPref.WIDGET_HEADER), rv, viewId, R.attr.header);
+        setTextColorFromAttr(settings.colors().getShadingContext(TextColorPref.WIDGET_HEADER), rv, viewId, R.attr.header);
     }
 
     private static void setActionIcons(InstanceSettings settings, RemoteViews rv) {
-        ContextThemeWrapper themeContext = settings.colors().getShadingContext(TextShadingPref.WIDGET_HEADER);
+        ContextThemeWrapper themeContext = settings.colors().getShadingContext(TextColorPref.WIDGET_HEADER);
         setImageFromAttr(themeContext, rv, R.id.go_to_today, R.attr.header_action_go_to_today);
         setImageFromAttr(themeContext, rv, R.id.add_event, R.attr.header_action_add_event);
         setImageFromAttr(themeContext, rv, R.id.add_task, R.attr.header_action_add_task);
         setImageFromAttr(themeContext, rv, R.id.refresh, R.attr.header_action_refresh);
         setImageFromAttr(themeContext, rv, R.id.overflow_menu, R.attr.header_action_overflow);
-        TextShading textShading = settings.colors().getShading(TextShadingPref.WIDGET_HEADER);
+        TextShading textShading = settings.colors().getShading(TextColorPref.WIDGET_HEADER);
         int alpha = 255;
         if (textShading == TextShading.DARK || textShading == TextShading.LIGHT) {
             alpha = 154;

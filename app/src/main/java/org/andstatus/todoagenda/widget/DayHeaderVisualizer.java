@@ -9,7 +9,7 @@ import android.widget.RemoteViews;
 import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.MyClock;
@@ -45,7 +45,7 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
                 ? R.layout.day_header_separator_below : R.layout.day_header_separator_above);
         rv.setInt(R.id.day_header_title_wrapper, "setGravity", alignment.gravity);
 
-        ContextThemeWrapper shadingContext = getSettings().colors().getShadingContext(TextShadingPref.forDayHeader(entry));
+        ContextThemeWrapper shadingContext = getSettings().colors().getShadingContext(TextColorPref.forDayHeader(entry));
         setBackgroundColor(rv, R.id.event_entry, getSettings().colors().getEntryBackgroundColor(entry));
         if (getSettings().isCompactLayout()) {
             RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.zero, R.dimen.zero, R.dimen.zero, R.dimen.zero);

@@ -46,7 +46,7 @@ public class ThemeColors {
 
     public static final String PREF_TEXT_COLOR_SOURCE = "textColorSource";
     public TextColorSource textColorSource = TextColorSource.defaultValue;
-    public final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
+    public final Map<TextColorPref, TextShading> textColors = new ConcurrentHashMap<>();
 
     public static ThemeColors fromJson(Context context, ColorThemeType colorThemeType, JSONObject json) {
         return new ThemeColors(context, colorThemeType).setFromJson(json);
@@ -89,10 +89,10 @@ public class ThemeColors {
                 textColorSource = TextColorSource.SHADING;
             }
 
-            for (TextShadingPref pref: TextShadingPref.values()) {
-                if (json.has(pref.preferenceName)) {
-                    shadings.put(pref,
-                            TextShading.fromThemeName(json.getString(pref.preferenceName), pref.defaultShading));
+            for (TextColorPref pref: TextColorPref.values()) {
+                if (json.has(pref.shadingPreferenceName)) {
+                    textColors.put(pref,
+                            TextShading.fromThemeName(json.getString(pref.shadingPreferenceName), pref.defaultShading));
                 }
             }
         } catch (JSONException e) {
@@ -109,10 +109,10 @@ public class ThemeColors {
         setEventsBackgroundColor(ApplicationPreferences.getEventsBackgroundColor(context));
         textColorSource = ApplicationPreferences.getTextColorSource(context);
         if (textColorSource == TextColorSource.SHADING) {
-            for (TextShadingPref pref: TextShadingPref.values()) {
-                String themeName = ApplicationPreferences.getString(context, pref.preferenceName, "");
+            for (TextColorPref pref: TextColorPref.values()) {
+                String themeName = ApplicationPreferences.getString(context, pref.shadingPreferenceName, "");
                 if (StringUtil.nonEmpty(themeName)) {
-                    shadings.put(pref, TextShading.fromThemeName(themeName, pref.defaultShading));
+                    textColors.put(pref, TextShading.fromThemeName(themeName, pref.defaultShading));
                 }
             }
         }
@@ -126,8 +126,8 @@ public class ThemeColors {
             json.put(PREF_TODAYS_EVENTS_BACKGROUND_COLOR, todaysEventsBackgroundColor);
             json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
             json.put(PREF_TEXT_COLOR_SOURCE, textColorSource.value);
-            for (TextShadingPref pref: TextShadingPref.values()) {
-                json.put(pref.preferenceName, getShading(pref).name());
+            for (TextColorPref pref: TextColorPref.values()) {
+                json.put(pref.shadingPreferenceName, getShading(pref).name());
             }
         } catch (JSONException e) {
             throw new RuntimeException("Saving settings to JSON", e);
@@ -193,10 +193,10 @@ public class ThemeColors {
         return toJson(new JSONObject()).toString().hashCode();
     }
 
-    public TextShading getShading(TextShadingPref pref) {
+    public TextShading getShading(TextColorPref pref) {
         switch (textColorSource) {
             case SHADING:
-                TextShading shading = shadings.get(pref);
+                TextShading shading = textColors.get(pref);
                 return shading == null ? pref.defaultShading : shading;
             case COLORS:
                 // TODO
@@ -205,7 +205,7 @@ public class ThemeColors {
         }
     }
 
-    public final TextShading getBackgroundShading(TextShadingPref pref) {
+    public final TextShading getBackgroundShading(TextColorPref pref) {
         switch (pref) {
             case WIDGET_HEADER:
                 return widgetHeaderBackgroundShading;
@@ -228,7 +228,7 @@ public class ThemeColors {
                 .select(getPastEventsBackgroundColor(), getTodaysEventsBackgroundColor(), getEventsBackgroundColor());
     }
 
-    public ContextThemeWrapper getShadingContext(TextShadingPref pref) {
+    public ContextThemeWrapper getShadingContext(TextColorPref pref) {
         return new ContextThemeWrapper(context, getShading(pref).themeResId);
     }
 

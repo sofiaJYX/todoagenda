@@ -9,7 +9,7 @@ import androidx.preference.PreferenceManager;
 import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
 import org.andstatus.todoagenda.prefs.colors.TextColorSource;
 import org.andstatus.todoagenda.prefs.colors.TextShading;
-import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
@@ -106,8 +106,8 @@ public class ApplicationPreferences {
             setInt(context, PREF_EVENTS_BACKGROUND_COLOR, colors.getEventsBackgroundColor());
 
             setString(context, PREF_TEXT_COLOR_SOURCE, colors.textColorSource.value);
-            for (Map.Entry<TextShadingPref, TextShading> entry: colors.shadings.entrySet()) {
-                setString(context, entry.getKey().preferenceName, entry.getValue().name());
+            for (Map.Entry<TextColorPref, TextShading> entry: colors.textColors.entrySet()) {
+                setString(context, entry.getKey().shadingPreferenceName, entry.getValue().name());
             }
 
             setShowDaysWithoutEvents(context, settings.getShowDaysWithoutEvents());

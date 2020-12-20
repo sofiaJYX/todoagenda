@@ -10,7 +10,7 @@ import org.andstatus.todoagenda.widget.AlarmIndicatorScaled;
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.widget.RecurringIndicatorScaled;
 import org.andstatus.todoagenda.prefs.colors.TextShading;
-import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.widget.CalendarEntry;
 import org.andstatus.todoagenda.widget.WidgetEntry;
@@ -77,7 +77,7 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
     private void setIndicator(CalendarEntry entry, RemoteViews rv, boolean showIndication, int viewId, int imageAttrId) {
         if (showIndication) {
             rv.setViewVisibility(viewId, View.VISIBLE);
-            TextShadingPref pref = TextShadingPref.forTitle(entry);
+            TextColorPref pref = TextColorPref.forTitle(entry);
             setImageFromAttr(getSettings().colors().getShadingContext(pref), rv, viewId, imageAttrId);
             TextShading textShading = getSettings().colors().getShading(pref);
             int alpha = 255;

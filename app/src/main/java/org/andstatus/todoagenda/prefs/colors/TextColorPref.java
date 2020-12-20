@@ -6,7 +6,7 @@ import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.widget.TimeSection;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 
-public enum TextShadingPref {
+public enum TextColorPref {
 
     WIDGET_HEADER("headerTheme", TextShading.LIGHT, R.string.appearance_header_theme_title,
             false, TimeSection.ALL),
@@ -23,16 +23,16 @@ public enum TextShadingPref {
     ENTRY_FUTURE("entryThemeFuture", TextShading.WHITE, R.string.appearance_entries_theme_title,
             false, TimeSection.FUTURE);
 
-    public final String preferenceName;
+    public final String shadingPreferenceName;
     public final TextShading defaultShading;
     @StringRes
     public final int titleResId;
     public final boolean dependsOnDayHeader;
     public final TimeSection timeSection;
 
-    TextShadingPref(String preferenceName, TextShading defaultShading, int titleResId,
-                    boolean dependsOnDayHeader, TimeSection timeSection) {
-        this.preferenceName = preferenceName;
+    TextColorPref(String shadingPreferenceName, TextShading defaultShading, int titleResId,
+                  boolean dependsOnDayHeader, TimeSection timeSection) {
+        this.shadingPreferenceName = shadingPreferenceName;
         this.defaultShading = defaultShading;
         this.titleResId = titleResId;
         this.dependsOnDayHeader = dependsOnDayHeader;
@@ -67,15 +67,15 @@ public enum TextShadingPref {
         throw new IllegalStateException("getShadingForBackground for " + this + " and background " + backgroundShading);
     }
 
-    public static TextShadingPref forDayHeader(WidgetEntry<?> entry) {
+    public static TextColorPref forDayHeader(WidgetEntry<?> entry) {
         return entry.timeSection.select(DAY_HEADER_PAST, DAY_HEADER_TODAY, DAY_HEADER_FUTURE);
     }
 
-    public static TextShadingPref forDetails(WidgetEntry<?> entry) {
+    public static TextColorPref forDetails(WidgetEntry<?> entry) {
         return entry.timeSection.select(DAY_HEADER_PAST, DAY_HEADER_TODAY, DAY_HEADER_FUTURE);
     }
 
-    public static TextShadingPref forTitle(WidgetEntry<?> entry) {
+    public static TextColorPref forTitle(WidgetEntry<?> entry) {
         return entry.timeSection.select(ENTRY_PAST, ENTRY_TODAY, ENTRY_FUTURE);
     }
 

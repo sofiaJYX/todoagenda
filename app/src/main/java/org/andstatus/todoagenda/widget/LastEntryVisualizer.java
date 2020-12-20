@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.MainActivity;
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.joda.time.DateTime;
@@ -47,7 +47,7 @@ public class LastEntryVisualizer extends WidgetEntryVisualizer<LastEntry> {
             rv.setTextViewText(viewId, getContext().getText(R.string.no_upcoming_events));
         }
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_title);
-        setTextColorFromAttr(getSettings().colors().getShadingContext(TextShadingPref.forTitle(entry)),
+        setTextColorFromAttr(getSettings().colors().getShadingContext(TextColorPref.forTitle(entry)),
                 rv, viewId, R.attr.eventEntryTitle);
         setBackgroundColor(rv, viewId, getSettings().colors().getEntryBackgroundColor(entry));
         return rv;
