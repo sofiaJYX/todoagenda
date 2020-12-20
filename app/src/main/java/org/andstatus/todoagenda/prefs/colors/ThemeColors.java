@@ -38,6 +38,8 @@ public class ThemeColors {
     @ColorInt public static final int PREF_EVENTS_BACKGROUND_COLOR_DEFAULT = 0x80000000;
     private int eventsBackgroundColor = PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
 
+    public static final String PREF_TEXT_COLOR_SOURCE = "textColorSource";
+    public TextColorSource textColorSource = TextColorSource.defaultValue;
     public final Map<TextShadingPref, TextShading> shadings = new ConcurrentHashMap<>();
 
     public static ThemeColors fromJson(Context context, ColorThemeType colorThemeType, JSONObject json) {
@@ -70,6 +72,12 @@ public class ThemeColors {
             if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
                 eventsBackgroundColor = json.getInt(PREF_EVENTS_BACKGROUND_COLOR);
             }
+            if (json.has(PREF_EVENTS_BACKGROUND_COLOR)) {
+                textColorSource = TextColorSource.fromValue(json.getString(PREF_TEXT_COLOR_SOURCE));
+            } else {
+                // This was default before v.4.4
+                textColorSource = TextColorSource.SHADING;
+            }
 
             for (TextShadingPref pref: TextShadingPref.values()) {
                 if (json.has(pref.preferenceName)) {
@@ -89,6 +97,7 @@ public class ThemeColors {
         pastEventsBackgroundColor = ApplicationPreferences.getPastEventsBackgroundColor(context);
         todaysEventsBackgroundColor = ApplicationPreferences.getTodaysEventsBackgroundColor(context);
         eventsBackgroundColor = ApplicationPreferences.getEventsBackgroundColor(context);
+        textColorSource = ApplicationPreferences.getTextColorSource(context);
         for (TextShadingPref pref: TextShadingPref.values()) {
             String themeName = ApplicationPreferences.getString(context, pref.preferenceName,
                     pref.defaultShading.name());
@@ -103,6 +112,7 @@ public class ThemeColors {
             json.put(PREF_PAST_EVENTS_BACKGROUND_COLOR, pastEventsBackgroundColor);
             json.put(PREF_TODAYS_EVENTS_BACKGROUND_COLOR, todaysEventsBackgroundColor);
             json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
+            json.put(PREF_TEXT_COLOR_SOURCE, textColorSource.value);
             for (TextShadingPref pref: TextShadingPref.values()) {
                 json.put(pref.preferenceName, getShading(pref).name());
             }

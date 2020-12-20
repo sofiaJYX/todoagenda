@@ -129,6 +129,13 @@
     <string name="appearance_group_color_title">Colors</string>
     <string name="colors_light">Colors for Light theme</string>
     <string name="colors_dark">Colors for Dark theme</string>
+    <string name="text_color_source">How Text color is defined</string>
+    <string name="text_color_source_auto">Auto text shading</string>
+    <string name="text_color_source_auto_desc">Text shading (White, Light, Dark or Black) is set automatically based on background color</string>
+    <string name="text_color_source_shading">Manual text shading</string>
+    <string name="text_color_source_shading_desc">Text shading should be set for each part of the widget</string>
+    <string name="text_color_source_color">Custom text colors</string>
+    <string name="text_color_source_color_desc">Text color should be set for each part of the widget</string>
     <string name="appearance_background_color_title">Background color</string>
     <string name="appearance_background_color_desc">Adjust the color of the background</string>
     <string name="appearance_past_events_background_color_title">Past events background color</string>

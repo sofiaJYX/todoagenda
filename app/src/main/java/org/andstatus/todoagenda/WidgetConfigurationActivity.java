@@ -21,6 +21,7 @@ import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.RootFragment;
+import org.andstatus.todoagenda.prefs.colors.ColorsPreferencesFragment;
 import org.andstatus.todoagenda.provider.WidgetData;
 import org.andstatus.todoagenda.util.PermissionsUtil;
 import org.json.JSONException;
@@ -32,6 +33,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+
+import static org.andstatus.todoagenda.prefs.colors.ColorsPreferencesFragment.EXTRA_GOTO_COLORS_PREFERENCES;
 
 public class WidgetConfigurationActivity extends AppCompatActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
@@ -87,6 +90,13 @@ public class WidgetConfigurationActivity extends AppCompatActivity implements
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.settings_container, fragment, FRAGMENT_TAG);
             ft.commit();
+
+            if (getIntent().getBooleanExtra(EXTRA_GOTO_COLORS_PREFERENCES, false)) {
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.settings_container, new ColorsPreferencesFragment(), FRAGMENT_TAG);
+                ft.commit();
+                ft.addToBackStack(null);
+            }
         }
     }
 

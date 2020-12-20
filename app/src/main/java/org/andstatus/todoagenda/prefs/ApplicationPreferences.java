@@ -6,8 +6,9 @@ import android.text.TextUtils;
 
 import androidx.preference.PreferenceManager;
 
-import org.andstatus.todoagenda.prefs.colors.TextShading;
 import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
+import org.andstatus.todoagenda.prefs.colors.TextColorSource;
+import org.andstatus.todoagenda.prefs.colors.TextShading;
 import org.andstatus.todoagenda.prefs.colors.TextShadingPref;
 import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
@@ -69,6 +70,7 @@ import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_EVENTS_BACK
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TEXT_COLOR_SOURCE;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
@@ -102,6 +104,8 @@ public class ApplicationPreferences {
             setInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR, colors.getPastEventsBackgroundColor());
             setInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR, colors.getTodaysEventsBackgroundColor());
             setInt(context, PREF_EVENTS_BACKGROUND_COLOR, colors.getEventsBackgroundColor());
+
+            setString(context, PREF_TEXT_COLOR_SOURCE, colors.textColorSource.value);
             for (Map.Entry<TextShadingPref, TextShading> entry: colors.shadings.entrySet()) {
                 setString(context, entry.getKey().preferenceName, entry.getValue().name());
             }
@@ -236,6 +240,10 @@ public class ApplicationPreferences {
     public static int getEventsBackgroundColor(Context context) {
         return getInt(context, PREF_EVENTS_BACKGROUND_COLOR,
                 PREF_EVENTS_BACKGROUND_COLOR_DEFAULT);
+    }
+
+    public static TextColorSource getTextColorSource(Context context) {
+        return TextColorSource.fromValue(getString(context, PREF_TEXT_COLOR_SOURCE, TextColorSource.defaultValue.value));
     }
 
     public static boolean getHorizontalLineBelowDayHeader(Context context) {

@@ -76,6 +76,7 @@ public class InstanceSettings {
     static final String PREF_ENTRY_DATE_FORMAT = "entryDateFormat";
     static final DateFormatValue PREF_ENTRY_DATE_FORMAT_DEFAULT = DateFormatType.NUMBER_OF_DAYS.defaultValue();
     private DateFormatValue entryDateFormat = PREF_ENTRY_DATE_FORMAT_DEFAULT;
+    @Deprecated
     private static final String PREF_SHOW_NUMBER_OF_DAYS_TO_EVENT = "showNumberOfDaysToEvent"; // till v 4.0
     static final String PREF_MULTILINE_TITLE = "multiline_title";
     static final boolean PREF_MULTILINE_TITLE_DEFAULT = false;
