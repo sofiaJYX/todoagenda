@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setMultiline;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorFromAttr;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setViewWidth;
 import static org.andstatus.todoagenda.widget.EventEntryLayout.SPACE_PIPE_SPACE;
@@ -73,8 +73,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
         int viewId = R.id.event_entry_title;
         rv.setTextViewText(viewId, getTitleString(entry));
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_title);
-        setTextColorFromAttr(getSettings().colors().getShadingContext(TextColorPref.forTitle(entry)),
-                rv, viewId, R.attr.eventEntryTitle);
+        setTextColor(getSettings(), TextColorPref.forTitle(entry), rv, viewId, R.attr.eventEntryTitle);
         setMultiline(rv, viewId, getSettings().isMultilineTitle());
     }
 
@@ -99,8 +98,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
             rv.setViewVisibility(viewId, View.VISIBLE);
             rv.setTextViewText(viewId, eventDetails);
             setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_details);
-            setTextColorFromAttr(getSettings().colors().getShadingContext(TextColorPref.forDetails(entry)),
-                    rv, viewId, R.attr.dayHeaderTitle);
+            setTextColor(getSettings(), TextColorPref.forDetails(entry), rv, viewId, R.attr.dayHeaderTitle);
             setMultiline(rv, viewId, getSettings().isMultilineDetails());
         }
     }
@@ -126,8 +124,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
                     ? R.dimen.days_to_event_width
                     : R.dimen.days_to_event_right_width);
             setTextSize(getSettings(), rv, viewToShow, R.dimen.event_entry_details);
-            setTextColorFromAttr(getSettings().colors().getShadingContext(TextColorPref.forDetails(entry)),
-                    rv, viewToShow, R.attr.dayHeaderTitle);
+            setTextColor(getSettings(), TextColorPref.forDetails(entry), rv, viewToShow, R.attr.dayHeaderTitle);
         }
     }
 
@@ -140,8 +137,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
                 .SPACE_DASH_SPACE, "\n"));
         setViewWidth(getSettings(), rv, viewId, R.dimen.event_time_width);
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_details);
-        setTextColorFromAttr(getSettings().colors().getShadingContext(TextColorPref.forDetails(entry)),
-                rv, viewId, R.attr.dayHeaderTitle);
+        setTextColor(getSettings(), TextColorPref.forDetails(entry), rv, viewId, R.attr.dayHeaderTitle);
     }
 
     public boolean isFor(WidgetEntry entry) {

@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.getColorValue;
+
 /**
  * Colors part of settings for one theme, of one Widget
  * @author yvolk@yurivolkov.com
@@ -120,15 +122,13 @@ public class ThemeColors {
         setTodaysEventsBackgroundColor(ApplicationPreferences.getTodaysEventsBackgroundColor(context));
         setEventsBackgroundColor(ApplicationPreferences.getEventsBackgroundColor(context));
         textColorSource = ApplicationPreferences.getTextColorSource(context);
-        if (textColorSource == TextColorSource.SHADING) {
-            for (TextColorPref pref: TextColorPref.values()) {
-                TextShadingAndColor oldValue = textColors.get(pref);
-                if (oldValue == null) oldValue = new TextShadingAndColor(pref.defaultShading, pref.defaultColor);
-                String themeName = ApplicationPreferences.getString(context, pref.shadingPreferenceName, "");
-                TextShading shading = TextShading.fromThemeName(themeName, oldValue.shading);
-                int color = ApplicationPreferences.getInt(context, pref.colorPreferenceName, oldValue.color);
-                textColors.put(pref, new TextShadingAndColor(shading, color));
-            }
+        for (TextColorPref pref: TextColorPref.values()) {
+            TextShadingAndColor oldValue = textColors.get(pref);
+            if (oldValue == null) oldValue = new TextShadingAndColor(pref.defaultShading, pref.defaultColor);
+            String themeName = ApplicationPreferences.getString(context, pref.shadingPreferenceName, "");
+            TextShading shading = TextShading.fromThemeName(themeName, oldValue.shading);
+            int color = ApplicationPreferences.getInt(context, pref.colorPreferenceName, oldValue.color);
+            textColors.put(pref, new TextShadingAndColor(shading, color));
         }
         return this;
     }
@@ -141,7 +141,10 @@ public class ThemeColors {
             json.put(PREF_EVENTS_BACKGROUND_COLOR, eventsBackgroundColor);
             json.put(PREF_TEXT_COLOR_SOURCE, textColorSource.value);
             for (TextColorPref pref: TextColorPref.values()) {
-                json.put(pref.shadingPreferenceName, getShading(pref).themeName);
+                TextShadingAndColor shadingAndColor = textColors.get(pref);
+                if (shadingAndColor == null) shadingAndColor = new TextShadingAndColor(pref.defaultShading, pref.defaultColor);
+                json.put(pref.shadingPreferenceName, shadingAndColor.shading.themeName);
+                json.put(pref.colorPreferenceName, shadingAndColor.color);
             }
         } catch (JSONException e) {
             throw new RuntimeException("Saving settings to JSON", e);
@@ -205,6 +208,16 @@ public class ThemeColors {
     @Override
     public int hashCode() {
         return toJson(new JSONObject()).toString().hashCode();
+    }
+
+    public int getTextColor(TextColorPref textColorPref, int colorAttrId) {
+        if (textColorSource == TextColorSource.COLORS) {
+            TextShadingAndColor shadingAndColor = textColors.get(textColorPref);
+            return shadingAndColor == null ? textColorPref.defaultColor : shadingAndColor.color;
+        } else {
+            Context context = getShadingContext(textColorPref);
+            return getColorValue(context, colorAttrId);
+        }
     }
 
     public TextShading getShading(TextColorPref pref) {

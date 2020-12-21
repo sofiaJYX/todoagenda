@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setImageFromAttr;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorFromAttr;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
 import static org.andstatus.todoagenda.widget.LastEntry.LastEntryType.NOT_LOADED;
 import static org.andstatus.todoagenda.widget.WidgetEntryPosition.DAY_HEADER;
@@ -361,7 +361,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
                 .toUpperCase(Locale.getDefault());
         rv.setTextViewText(viewId, StringUtil.isEmpty(formattedDate) ? "                    " : formattedDate);
         setTextSize(settings, rv, viewId, R.dimen.widget_header_title);
-        setTextColorFromAttr(settings.colors().getShadingContext(TextColorPref.WIDGET_HEADER), rv, viewId, R.attr.header);
+        setTextColor(settings, TextColorPref.WIDGET_HEADER, rv, viewId, R.attr.header);
     }
 
     private static void setActionIcons(InstanceSettings settings, RemoteViews rv) {

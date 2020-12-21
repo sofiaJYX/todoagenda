@@ -23,7 +23,7 @@ import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarAt
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColorFromAttr;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setPadding;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorFromAttr;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
 
 public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
@@ -45,14 +45,15 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
                 ? R.layout.day_header_separator_below : R.layout.day_header_separator_above);
         rv.setInt(R.id.day_header_title_wrapper, "setGravity", alignment.gravity);
 
-        ContextThemeWrapper shadingContext = getSettings().colors().getShadingContext(TextColorPref.forDayHeader(entry));
+        TextColorPref textColorPref = TextColorPref.forDayHeader(entry);
+        ContextThemeWrapper shadingContext = getSettings().colors().getShadingContext(textColorPref);
         setBackgroundColor(rv, R.id.event_entry, getSettings().colors().getEntryBackgroundColor(entry));
         if (getSettings().isCompactLayout()) {
             RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.zero, R.dimen.zero, R.dimen.zero, R.dimen.zero);
         } else {
             RemoteViewsUtil.setPadding(getSettings(), rv, R.id.event_entry, R.dimen.calender_padding, R.dimen.zero, R.dimen.calender_padding, R.dimen.entry_bottom_padding);
         }
-        setDayHeaderTitle(position, entry, rv, shadingContext);
+        setDayHeaderTitle(position, entry, rv, textColorPref);
         setDayHeaderSeparator(position, rv, shadingContext);
         return rv;
     }
@@ -63,11 +64,11 @@ public class DayHeaderVisualizer extends WidgetEntryVisualizer<DayHeader> {
         return newOpenCalendarAtDayIntent(entry.entryDate);
     }
 
-    private void setDayHeaderTitle(int position, DayHeader entry, RemoteViews rv, ContextThemeWrapper shadingContext) {
+    private void setDayHeaderTitle(int position, DayHeader entry, RemoteViews rv, TextColorPref textColorPref) {
         String dateString = getTitleString(entry).toString().toUpperCase(Locale.getDefault());
         rv.setTextViewText(R.id.day_header_title, dateString);
         setTextSize(getSettings(), rv, R.id.day_header_title, R.dimen.day_header_title);
-        setTextColorFromAttr(shadingContext, rv, R.id.day_header_title, R.attr.dayHeaderTitle);
+        setTextColor(getSettings(), textColorPref, rv, R.id.day_header_title, R.attr.dayHeaderTitle);
 
         if (getSettings().isCompactLayout()) {
             setPadding(getSettings(), rv, R.id.day_header_title,

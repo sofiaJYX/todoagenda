@@ -21,7 +21,7 @@ import static org.andstatus.todoagenda.RemoteViewsFactory.ACTION_CONFIGURE;
 import static org.andstatus.todoagenda.RemoteViewsFactory.getActionPendingIntent;
 import static org.andstatus.todoagenda.util.CalendarIntentUtil.newOpenCalendarAtDayIntent;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorFromAttr;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
 
 /** @author yvolk@yurivolkov.com */
@@ -47,8 +47,7 @@ public class LastEntryVisualizer extends WidgetEntryVisualizer<LastEntry> {
             rv.setTextViewText(viewId, getContext().getText(R.string.no_upcoming_events));
         }
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_title);
-        setTextColorFromAttr(getSettings().colors().getShadingContext(TextColorPref.forTitle(entry)),
-                rv, viewId, R.attr.eventEntryTitle);
+        setTextColor(getSettings(), TextColorPref.forTitle(entry), rv, viewId, R.attr.eventEntryTitle);
         setBackgroundColor(rv, viewId, getSettings().colors().getEntryBackgroundColor(entry));
         return rv;
     }

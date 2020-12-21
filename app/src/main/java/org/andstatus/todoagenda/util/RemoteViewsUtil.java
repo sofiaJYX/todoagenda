@@ -11,6 +11,7 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.IdRes;
 
 import org.andstatus.todoagenda.prefs.InstanceSettings;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 
 public class RemoteViewsUtil {
     private static final String TAG = RemoteViewsUtil.class.getSimpleName();
@@ -56,12 +57,13 @@ public class RemoteViewsUtil {
         rv.setFloat(viewId, METHOD_SET_TEXT_SIZE, getScaledValueInScaledPixels(settings, dimenId));
     }
 
-    public static void setTextColorFromAttr(Context context, RemoteViews rv, int viewId, int colorAttrId) {
-        rv.setTextColor(viewId, getColorValue(context, colorAttrId));
+    public static void setTextColor(InstanceSettings settings, TextColorPref textColorPref,
+                                    RemoteViews rv, int viewId, int colorAttrId) {
+        int color = settings.colors().getTextColor(textColorPref, colorAttrId);
+        rv.setTextColor(viewId, color);
     }
 
-    public static void setBackgroundColorFromAttr(Context context, RemoteViews rv, int viewId,
-                                                  int colorAttrId) {
+    public static void setBackgroundColorFromAttr(Context context, RemoteViews rv, int viewId, int colorAttrId) {
         setBackgroundColor(rv, viewId, getColorValue(context, colorAttrId));
     }
 
@@ -80,7 +82,7 @@ public class RemoteViewsUtil {
         return resValue * settings.getTextSizeScale().scaleValue / density;
     }
 
-    private static int getColorValue(Context context, int attrId) {
+    public static int getColorValue(Context context, int attrId) {
         TypedValue outValue = new TypedValue();
         if (context.getTheme().resolveAttribute(attrId, outValue, true)) {
             int colorResourceId = outValue.resourceId;
