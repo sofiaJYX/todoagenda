@@ -24,8 +24,13 @@
                     android:defaultValue="DARK"
                     android:entries="@array/pref_theme_entries"
                     android:entryValues="@array/pref_theme_values"
-                    android:summary="@string/appearance_header_theme_desc"
                     android:title="@string/appearance_header_theme_title" />
+
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="widgetHeaderTextColor"
+                    android:defaultValue="#9AFFFFFF"
+                    android:title="@string/widget_header_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
 
                 <com.rarepebble.colorpicker.ColorPreference
                     android:key="widgetHeaderBackgroundColor"
@@ -43,12 +48,24 @@
                     android:entryValues="@array/pref_theme_values"
                     android:title="@string/day_header_theme_title" />
 
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="dayHeaderTextColorPast"
+                    android:defaultValue="#FFCCCCCC"
+                    android:title="@string/day_header_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
+
                 <ListPreference
                     android:key="entryThemePast"
                     android:defaultValue="BLACK"
                     android:entries="@array/pref_theme_entries"
                     android:entryValues="@array/pref_theme_values"
                     android:title="@string/appearance_entries_theme_title" />
+
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="eventTextColorPast"
+                    android:defaultValue="#FFFFFFFF"
+                    android:title="@string/event_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
 
                 <com.rarepebble.colorpicker.ColorPreference
                     android:key="pastEventsBackgroundColor"
@@ -65,12 +82,24 @@
                     android:entryValues="@array/pref_theme_values"
                     android:title="@string/day_header_theme_title" />
 
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="dayHeaderTextColorToday"
+                    android:defaultValue="#FF777777"
+                    android:title="@string/day_header_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
+
                 <ListPreference
                     android:key="entryTheme"
                     android:defaultValue="WHITE"
                     android:entries="@array/pref_theme_entries"
                     android:entryValues="@array/pref_theme_values"
                     android:title="@string/appearance_entries_theme_title" />
+
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="eventTextColorToday"
+                    android:defaultValue="#FF000000"
+                    android:title="@string/event_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
 
                 <com.rarepebble.colorpicker.ColorPreference
                     android:key="todaysEventsBackgroundColor"
@@ -87,12 +116,24 @@
                     android:entryValues="@array/pref_theme_values"
                     android:title="@string/day_header_theme_title" />
 
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="dayHeaderTextColorFuture"
+                    android:defaultValue="#FFCCCCCC"
+                    android:title="@string/day_header_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
+
                 <ListPreference
                     android:key="entryThemeFuture"
                     android:defaultValue="BLACK"
                     android:entries="@array/pref_theme_entries"
                     android:entryValues="@array/pref_theme_values"
                     android:title="@string/appearance_entries_theme_title" />
+
+                <com.rarepebble.colorpicker.ColorPreference
+                    android:key="eventTextColorFuture"
+                    android:defaultValue="#FFFFFFFF"
+                    android:title="@string/event_text_color"
+                    app:colorpicker_selectNoneButtonText="@string/default_value" />
 
                 <com.rarepebble.colorpicker.ColorPreference
                     android:key="backgroundColor"

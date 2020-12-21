@@ -151,7 +151,7 @@
     <string name="day_header_theme_desc">Show day header text in dark or light shade</string>
     <string name="day_header_text_color">Day header text color</string>
     <string name="appearance_entries_theme_title">Event text shading</string>
-    <string name="events_text_color">Event text color</string>
+    <string name="event_text_color">Event text color</string>
     <string name="appearance_entries_theme_desc">Show event text in dark or light shade</string>
     <string name="appearance_theme_black">White</string>
     <string name="appearance_theme_dark">Light</string>

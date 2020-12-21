@@ -10,25 +10,25 @@ import org.andstatus.todoagenda.widget.WidgetEntry;
 public enum TextColorPref {
 
     WIDGET_HEADER("headerTheme", TextShading.LIGHT, R.string.appearance_header_theme_title,
-            "widgetHeaderTextColor", 0x00000000,
+            "widgetHeaderTextColor", 0x9AFFFFFF,
             R.string.widget_header_text_color, false, TimeSection.ALL),
     DAY_HEADER_PAST("dayHeaderThemePast", TextShading.LIGHT, R.string.day_header_theme_title,
-            "dayHeaderTextColorPast", 0x00000000, R.string.day_header_text_color,
+            "dayHeaderTextColorPast", 0xFFCCCCCC, R.string.day_header_text_color,
             true, TimeSection.PAST),
-    ENTRY_PAST("entryThemePast", TextShading.WHITE, R.string.appearance_entries_theme_title,
-            "entryTextColorPast", 0x00000000, R.string.events_text_color,
+    EVENT_PAST("entryThemePast", TextShading.WHITE, R.string.appearance_entries_theme_title,
+            "eventTextColorPast", 0xFFFFFFFF, R.string.event_text_color,
             false, TimeSection.PAST),
     DAY_HEADER_TODAY("dayHeaderTheme", TextShading.DARK, R.string.day_header_theme_title,
-            "dayHeaderTextColorToday", 0x00000000, R.string.day_header_text_color,
+            "dayHeaderTextColorToday", 0xFF777777, R.string.day_header_text_color,
             true, TimeSection.TODAY),
-    ENTRY_TODAY("entryTheme", TextShading.BLACK, R.string.appearance_entries_theme_title,
-            "entryTextColorToday", 0x00000000, R.string.events_text_color,
+    EVENT_TODAY("entryTheme", TextShading.BLACK, R.string.appearance_entries_theme_title,
+            "eventTextColorToday", 0xFF000000, R.string.event_text_color,
             false, TimeSection.TODAY),
     DAY_HEADER_FUTURE("dayHeaderThemeFuture", TextShading.LIGHT, R.string.day_header_theme_title,
-            "dayHeaderTextColorFuture", 0x00000000, R.string.day_header_text_color,
+            "dayHeaderTextColorFuture", 0xFFCCCCCC, R.string.day_header_text_color,
             true, TimeSection.FUTURE),
-    ENTRY_FUTURE("entryThemeFuture", TextShading.WHITE, R.string.appearance_entries_theme_title,
-            "entryTextColorFuture", 0x00000000, R.string.events_text_color,
+    EVENT_FUTURE("entryThemeFuture", TextShading.WHITE, R.string.appearance_entries_theme_title,
+            "eventTextColorFuture", 0xFFFFFFFF, R.string.event_text_color,
             false, TimeSection.FUTURE);
 
     public final String shadingPreferenceName;
@@ -43,7 +43,7 @@ public enum TextColorPref {
     public final TimeSection timeSection;
 
     TextColorPref(String shadingPreferenceName, TextShading defaultShading, int shadingTitleResId,
-                  String colorPreferenceName, int defaultColor, int colorTitleResId,
+                  String colorPreferenceName,@ColorInt int defaultColor, int colorTitleResId,
                   boolean dependsOnDayHeader, TimeSection timeSection) {
         this.shadingPreferenceName = shadingPreferenceName;
         this.defaultShading = defaultShading;
@@ -92,7 +92,7 @@ public enum TextColorPref {
     }
 
     public static TextColorPref forTitle(WidgetEntry<?> entry) {
-        return entry.timeSection.select(ENTRY_PAST, ENTRY_TODAY, ENTRY_FUTURE);
+        return entry.timeSection.select(EVENT_PAST, EVENT_TODAY, EVENT_FUTURE);
     }
 
 }

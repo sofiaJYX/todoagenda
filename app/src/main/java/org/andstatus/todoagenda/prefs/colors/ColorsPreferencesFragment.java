@@ -61,17 +61,11 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
             TextColorSource textColorSource = ApplicationPreferences.getTextColorSource(context);
             Preference preference = findPreference(PREF_TEXT_COLOR_SOURCE);
             if (preference != null) {
-                preference.setSummary(context.getString(textColorSource.summaryResId));
+                preference.setSummary(context.getString(textColorSource.titleResId) + "\n" +
+                        context.getString(textColorSource.summaryResId));
             }
-            switch (textColorSource) {
-                case AUTO:
-                    break;
-                case SHADING:
-                    showShadings();
-                    break;
-                case COLORS:
-                    showTextColors();
-                    break;
+            if (textColorSource == TextColorSource.SHADING) {
+                showShadings();
             }
         }
     }
@@ -131,17 +125,19 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
     }
 
     private void removeTextColors() {
-        // TODO
+        for (TextColorPref pref : TextColorPref.values()) {
+            removePreferenceImproved(pref.colorPreferenceName);
+        }
     }
 
     private void showShadings() {
         for (TextColorPref shadingPref : TextColorPref.values()) {
-            showShading(shadingPref);
+            ListPreference preference = (ListPreference) findPreference(shadingPref.shadingPreferenceName);
+            if (preference != null) {
+                TextShading shading = TextShading.fromThemeName(preference.getValue(), shadingPref.defaultShading);
+                preference.setSummary(getActivity().getString(shading.titleResId));
+            }
         }
-    }
-
-    private void showTextColors() {
-        // TODO
     }
 
     @Override
@@ -176,14 +172,6 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
             default:
                 showTextSources();
                 break;
-        }
-    }
-
-    private void showShading(TextColorPref pref) {
-        ListPreference preference = (ListPreference) findPreference(pref.shadingPreferenceName);
-        if (preference != null) {
-            TextShading shading = TextShading.fromThemeName(preference.getValue(), pref.defaultShading);
-            preference.setSummary(getActivity().getString(shading.titleResId));
         }
     }
 

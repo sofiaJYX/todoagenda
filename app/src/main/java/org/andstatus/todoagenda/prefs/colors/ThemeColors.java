@@ -7,7 +7,6 @@ import android.view.ContextThemeWrapper;
 import androidx.annotation.ColorInt;
 
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
-import org.andstatus.todoagenda.util.StringUtil;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +45,17 @@ public class ThemeColors {
 
     public static final String PREF_TEXT_COLOR_SOURCE = "textColorSource";
     public TextColorSource textColorSource = TextColorSource.defaultValue;
-    public final Map<TextColorPref, TextShading> textColors = new ConcurrentHashMap<>();
+
+    public static class TextShadingAndColor {
+        public final TextShading shading;
+        public @ColorInt final int color;
+
+        private TextShadingAndColor(TextShading shading, int color) {
+            this.shading = shading;
+            this.color = color;
+        }
+    }
+    public final Map<TextColorPref, TextShadingAndColor> textColors = new ConcurrentHashMap<>();
 
     public static ThemeColors fromJson(Context context, ColorThemeType colorThemeType, JSONObject json) {
         return new ThemeColors(context, colorThemeType).setFromJson(json);
@@ -90,10 +99,13 @@ public class ThemeColors {
             }
 
             for (TextColorPref pref: TextColorPref.values()) {
-                if (json.has(pref.shadingPreferenceName)) {
-                    textColors.put(pref,
-                            TextShading.fromThemeName(json.getString(pref.shadingPreferenceName), pref.defaultShading));
-                }
+                TextShading textShading = json.has(pref.shadingPreferenceName)
+                    ? TextShading.fromThemeName(json.getString(pref.shadingPreferenceName), pref.defaultShading)
+                    : pref.defaultShading;
+                int color = json.has(pref.colorPreferenceName)
+                    ? json.getInt(pref.colorPreferenceName)
+                    : pref.defaultColor;
+                textColors.put(pref, new TextShadingAndColor(textShading, color));
             }
         } catch (JSONException e) {
             Log.w(TAG, "setFromJson failed\n" + json);
@@ -110,10 +122,12 @@ public class ThemeColors {
         textColorSource = ApplicationPreferences.getTextColorSource(context);
         if (textColorSource == TextColorSource.SHADING) {
             for (TextColorPref pref: TextColorPref.values()) {
+                TextShadingAndColor oldValue = textColors.get(pref);
+                if (oldValue == null) oldValue = new TextShadingAndColor(pref.defaultShading, pref.defaultColor);
                 String themeName = ApplicationPreferences.getString(context, pref.shadingPreferenceName, "");
-                if (StringUtil.nonEmpty(themeName)) {
-                    textColors.put(pref, TextShading.fromThemeName(themeName, pref.defaultShading));
-                }
+                TextShading shading = TextShading.fromThemeName(themeName, oldValue.shading);
+                int color = ApplicationPreferences.getInt(context, pref.colorPreferenceName, oldValue.color);
+                textColors.put(pref, new TextShadingAndColor(shading, color));
             }
         }
         return this;
@@ -145,7 +159,7 @@ public class ThemeColors {
 
     private void setWidgetHeaderBackgroundColor(int widgetHeaderBackgroundColor) {
         this.widgetHeaderBackgroundColor = widgetHeaderBackgroundColor;
-        widgetHeaderBackgroundShading = colorToShadingPref(widgetHeaderBackgroundColor);
+        widgetHeaderBackgroundShading = colorToShading(widgetHeaderBackgroundColor);
     }
 
     public int getPastEventsBackgroundColor() {
@@ -154,7 +168,7 @@ public class ThemeColors {
 
     private void setPastEventsBackgroundColor(int pastEventsBackgroundColor) {
         this.pastEventsBackgroundColor = pastEventsBackgroundColor;
-        pastEventsBackgroundShading = colorToShadingPref(pastEventsBackgroundColor);
+        pastEventsBackgroundShading = colorToShading(pastEventsBackgroundColor);
     }
 
     public int getTodaysEventsBackgroundColor() {
@@ -163,7 +177,7 @@ public class ThemeColors {
 
     private void setTodaysEventsBackgroundColor(int todaysEventsBackgroundColor) {
         this.todaysEventsBackgroundColor = todaysEventsBackgroundColor;
-        todaysEventsBackgroundShading = colorToShadingPref(todaysEventsBackgroundColor);
+        todaysEventsBackgroundShading = colorToShading(todaysEventsBackgroundColor);
     }
 
     public int getEventsBackgroundColor() {
@@ -172,7 +186,7 @@ public class ThemeColors {
 
     private void setEventsBackgroundColor(int eventsBackgroundColor) {
         this.eventsBackgroundColor = eventsBackgroundColor;
-        eventsBackgroundShading = colorToShadingPref(eventsBackgroundColor);
+        eventsBackgroundShading = colorToShading(eventsBackgroundColor);
     }
 
     public boolean isEmpty() {
@@ -196,10 +210,12 @@ public class ThemeColors {
     public TextShading getShading(TextColorPref pref) {
         switch (textColorSource) {
             case SHADING:
-                TextShading shading = textColors.get(pref);
-                return shading == null ? pref.defaultShading : shading;
+                TextShadingAndColor shadingAndColor = textColors.get(pref);
+                return shadingAndColor == null ? pref.defaultShading : shadingAndColor.shading;
             case COLORS:
-                // TODO
+                TextShadingAndColor shadingAndColor2 = textColors.get(pref);
+                int color = shadingAndColor2 == null ? pref.defaultColor : shadingAndColor2.color;
+                return colorToShading(color);
             default:
                 return pref.getShadingForBackground(getBackgroundShading(pref));
         }
@@ -210,13 +226,13 @@ public class ThemeColors {
             case WIDGET_HEADER:
                 return widgetHeaderBackgroundShading;
             case DAY_HEADER_PAST:
-            case ENTRY_PAST:
+            case EVENT_PAST:
                 return pastEventsBackgroundShading;
             case DAY_HEADER_TODAY:
-            case ENTRY_TODAY:
+            case EVENT_TODAY:
                 return todaysEventsBackgroundShading;
             case DAY_HEADER_FUTURE:
-            case ENTRY_FUTURE:
+            case EVENT_FUTURE:
                 return eventsBackgroundShading;
             default:
                 throw new IllegalArgumentException("TextShadingPref: " + pref);
@@ -232,7 +248,7 @@ public class ThemeColors {
         return new ContextThemeWrapper(context, getShading(pref).themeResId);
     }
 
-    public static TextShading colorToShadingPref(@ColorInt int color) {
+    public static TextShading colorToShading(@ColorInt int color) {
         float r = ((color >> 16) & 0xff) / 255.0f;
         float g = ((color >>  8) & 0xff) / 255.0f;
         float b = ((color      ) & 0xff) / 255.0f;
