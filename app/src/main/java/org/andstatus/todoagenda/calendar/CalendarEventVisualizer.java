@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import org.andstatus.todoagenda.widget.AlarmIndicatorScaled;
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.widget.RecurringIndicatorScaled;
-import org.andstatus.todoagenda.prefs.colors.TextShading;
+import org.andstatus.todoagenda.prefs.colors.Shading;
 import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.provider.EventProvider;
 import org.andstatus.todoagenda.widget.CalendarEntry;
@@ -79,9 +79,9 @@ public class CalendarEventVisualizer extends WidgetEntryVisualizer<CalendarEntry
             rv.setViewVisibility(viewId, View.VISIBLE);
             TextColorPref pref = TextColorPref.forTitle(entry);
             setImageFromAttr(getSettings().colors().getShadingContext(pref), rv, viewId, imageAttrId);
-            TextShading textShading = getSettings().colors().getShading(pref);
+            Shading shading = getSettings().colors().getShading(pref);
             int alpha = 255;
-            if (textShading == TextShading.DARK || textShading == TextShading.LIGHT) {
+            if (shading == Shading.DARK || shading == Shading.LIGHT) {
                 alpha = 128;
             }
             setAlpha(rv, viewId, alpha);

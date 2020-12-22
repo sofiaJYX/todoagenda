@@ -16,8 +16,9 @@ import androidx.annotation.NonNull;
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
-import org.andstatus.todoagenda.prefs.colors.TextShading;
+import org.andstatus.todoagenda.prefs.colors.BackgroundColorPref;
 import org.andstatus.todoagenda.prefs.colors.TextColorPref;
+import org.andstatus.todoagenda.prefs.colors.Shading;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.InstanceId;
 import org.andstatus.todoagenda.util.MyClock;
@@ -342,7 +343,8 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
                     settings.getWidgetHeaderLayout().layoutId);
             rv.addView(R.id.header_parent, headerView);
 
-            setBackgroundColor(rv, R.id.action_bar, settings.colors().getWidgetHeaderBackgroundColor());
+            setBackgroundColor(rv, R.id.action_bar,
+                    settings.colors().getBackgroundColor(BackgroundColorPref.WIDGET_HEADER));
             configureCurrentDate(settings, rv);
             setActionIcons(settings, rv);
             configureGotoToday(settings, rv);
@@ -371,9 +373,9 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         setImageFromAttr(themeContext, rv, R.id.add_task, R.attr.header_action_add_task);
         setImageFromAttr(themeContext, rv, R.id.refresh, R.attr.header_action_refresh);
         setImageFromAttr(themeContext, rv, R.id.overflow_menu, R.attr.header_action_overflow);
-        TextShading textShading = settings.colors().getShading(TextColorPref.WIDGET_HEADER);
+        Shading shading = settings.colors().getShading(TextColorPref.WIDGET_HEADER);
         int alpha = 255;
-        if (textShading == TextShading.DARK || textShading == TextShading.LIGHT) {
+        if (shading == Shading.DARK || shading == Shading.LIGHT) {
             alpha = 154;
         }
         setAlpha(rv, R.id.go_to_today, alpha);

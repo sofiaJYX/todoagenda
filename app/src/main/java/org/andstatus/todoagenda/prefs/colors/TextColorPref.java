@@ -9,53 +9,55 @@ import org.andstatus.todoagenda.widget.WidgetEntry;
 
 public enum TextColorPref {
 
-    WIDGET_HEADER("headerTheme", TextShading.LIGHT, R.string.appearance_header_theme_title,
-            "widgetHeaderTextColor", 0x9AFFFFFF,
-            R.string.widget_header_text_color, false, TimeSection.ALL),
-    DAY_HEADER_PAST("dayHeaderThemePast", TextShading.LIGHT, R.string.day_header_theme_title,
+    WIDGET_HEADER("headerTheme", Shading.LIGHT, R.string.appearance_header_theme_title,
+            "widgetHeaderTextColor", 0x9AFFFFFF, R.string.widget_header_text_color,
+            BackgroundColorPref.WIDGET_HEADER, false, TimeSection.ALL),
+    DAY_HEADER_PAST("dayHeaderThemePast", Shading.LIGHT, R.string.day_header_theme_title,
             "dayHeaderTextColorPast", 0xFFCCCCCC, R.string.day_header_text_color,
-            true, TimeSection.PAST),
-    EVENT_PAST("entryThemePast", TextShading.WHITE, R.string.appearance_entries_theme_title,
+            BackgroundColorPref.PAST_EVENTS, true, TimeSection.PAST),
+    EVENT_PAST("entryThemePast", Shading.WHITE, R.string.appearance_entries_theme_title,
             "eventTextColorPast", 0xFFFFFFFF, R.string.event_text_color,
-            false, TimeSection.PAST),
-    DAY_HEADER_TODAY("dayHeaderTheme", TextShading.DARK, R.string.day_header_theme_title,
+            BackgroundColorPref.PAST_EVENTS, false, TimeSection.PAST),
+    DAY_HEADER_TODAY("dayHeaderTheme", Shading.DARK, R.string.day_header_theme_title,
             "dayHeaderTextColorToday", 0xFF777777, R.string.day_header_text_color,
-            true, TimeSection.TODAY),
-    EVENT_TODAY("entryTheme", TextShading.BLACK, R.string.appearance_entries_theme_title,
+            BackgroundColorPref.TODAYS_EVENTS, true, TimeSection.TODAY),
+    EVENT_TODAY("entryTheme", Shading.BLACK, R.string.appearance_entries_theme_title,
             "eventTextColorToday", 0xFF000000, R.string.event_text_color,
-            false, TimeSection.TODAY),
-    DAY_HEADER_FUTURE("dayHeaderThemeFuture", TextShading.LIGHT, R.string.day_header_theme_title,
+            BackgroundColorPref.TODAYS_EVENTS, false, TimeSection.TODAY),
+    DAY_HEADER_FUTURE("dayHeaderThemeFuture", Shading.LIGHT, R.string.day_header_theme_title,
             "dayHeaderTextColorFuture", 0xFFCCCCCC, R.string.day_header_text_color,
-            true, TimeSection.FUTURE),
-    EVENT_FUTURE("entryThemeFuture", TextShading.WHITE, R.string.appearance_entries_theme_title,
+            BackgroundColorPref.FUTURE_EVENTS, true, TimeSection.FUTURE),
+    EVENT_FUTURE("entryThemeFuture", Shading.WHITE, R.string.appearance_entries_theme_title,
             "eventTextColorFuture", 0xFFFFFFFF, R.string.event_text_color,
-            false, TimeSection.FUTURE);
+            BackgroundColorPref.FUTURE_EVENTS, false, TimeSection.FUTURE);
 
     public final String shadingPreferenceName;
-    public final TextShading defaultShading;
+    public final Shading defaultShading;
     @StringRes public final int shadingTitleResId;
 
     public final String colorPreferenceName;
     @ColorInt public final int defaultColor;
     @StringRes public final int colorTitleResId;
 
+    public final BackgroundColorPref backgroundColorPref;
     public final boolean dependsOnDayHeader;
     public final TimeSection timeSection;
 
-    TextColorPref(String shadingPreferenceName, TextShading defaultShading, int shadingTitleResId,
-                  String colorPreferenceName,@ColorInt int defaultColor, int colorTitleResId,
-                  boolean dependsOnDayHeader, TimeSection timeSection) {
+    TextColorPref(String shadingPreferenceName, Shading defaultShading, int shadingTitleResId,
+                  String colorPreferenceName, @ColorInt int defaultColor, int colorTitleResId,
+                  BackgroundColorPref backgroundColorPref, boolean dependsOnDayHeader, TimeSection timeSection) {
         this.shadingPreferenceName = shadingPreferenceName;
         this.defaultShading = defaultShading;
         this.colorPreferenceName = colorPreferenceName;
         this.defaultColor = defaultColor;
         this.shadingTitleResId = shadingTitleResId;
         this.colorTitleResId = colorTitleResId;
+        this.backgroundColorPref = backgroundColorPref;
         this.dependsOnDayHeader = dependsOnDayHeader;
         this.timeSection = timeSection;
     }
 
-    public TextShading getShadingForBackground(TextShading backgroundShading) {
+    public Shading getShadingForBackground(Shading backgroundShading) {
         switch (this) {
             case DAY_HEADER_PAST:
             case DAY_HEADER_TODAY:
@@ -63,21 +65,21 @@ public enum TextColorPref {
                 switch (backgroundShading) {
                     case BLACK:
                     case DARK:
-                        return TextShading.LIGHT;
+                        return Shading.LIGHT;
                     case LIGHT:
                     case WHITE:
-                        return TextShading.DARK;
+                        return Shading.DARK;
                 }
             default:
                 switch (backgroundShading) {
                     case BLACK:
-                        return TextShading.LIGHT;
+                        return Shading.LIGHT;
                     case DARK:
-                        return TextShading.WHITE;
+                        return Shading.WHITE;
                     case LIGHT:
-                        return TextShading.BLACK;
+                        return Shading.BLACK;
                     case WHITE:
-                        return TextShading.DARK;
+                        return Shading.DARK;
                 }
         }
         throw new IllegalStateException("getShadingForBackground for " + this + " and background " + backgroundShading);

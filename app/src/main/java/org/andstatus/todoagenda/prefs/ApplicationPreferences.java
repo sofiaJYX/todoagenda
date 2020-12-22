@@ -6,9 +6,11 @@ import android.text.TextUtils;
 
 import androidx.preference.PreferenceManager;
 
+import org.andstatus.todoagenda.prefs.colors.BackgroundColorPref;
 import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
 import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.prefs.colors.TextColorSource;
+import org.andstatus.todoagenda.prefs.colors.ShadingAndColor;
 import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
@@ -65,15 +67,7 @@ import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_HEADER_LAYOUT;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_ID;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_WIDGET_INSTANCE_NAME;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_EVENTS_BACKGROUND_COLOR_DEFAULT;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TEXT_COLOR_SOURCE;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT;
 import static org.andstatus.todoagenda.util.StringUtil.isEmpty;
 
 public class ApplicationPreferences {
@@ -99,13 +93,12 @@ public class ApplicationPreferences {
             ThemeColors colors = settings.colors();
             setString(context, PREF_COLOR_THEME_TYPE, colors.colorThemeType.value);
             setBoolean(context, PREF_DIFFERENT_COLORS_FOR_DARK, colors.colorThemeType != ColorThemeType.SINGLE);
-            setInt(context, PREF_WIDGET_HEADER_BACKGROUND_COLOR, colors.getWidgetHeaderBackgroundColor());
-            setInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR, colors.getPastEventsBackgroundColor());
-            setInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR, colors.getTodaysEventsBackgroundColor());
-            setInt(context, PREF_EVENTS_BACKGROUND_COLOR, colors.getEventsBackgroundColor());
-
+            for (BackgroundColorPref pref: BackgroundColorPref.values()) {
+                ShadingAndColor shadingAndColor = colors.getBackground(pref);
+                setInt(context, pref.colorPreferenceName, shadingAndColor.color);
+            }
             setString(context, PREF_TEXT_COLOR_SOURCE, colors.textColorSource.value);
-            for (Map.Entry<TextColorPref, ThemeColors.TextShadingAndColor> entry: colors.textColors.entrySet()) {
+            for (Map.Entry<TextColorPref, ShadingAndColor> entry: colors.textColors.entrySet()) {
                 setString(context, entry.getKey().shadingPreferenceName, entry.getValue().shading.themeName);
                 setInt(context, entry.getKey().colorPreferenceName, entry.getValue().color);
             }
@@ -222,24 +215,8 @@ public class ApplicationPreferences {
         return ColorThemeType.fromValue(getString(context, PREF_COLOR_THEME_TYPE, ""));
     }
 
-    public static int getWidgetHeaderBackgroundColor(Context context) {
-        return getInt(context, PREF_WIDGET_HEADER_BACKGROUND_COLOR,
-                PREF_WIDGET_HEADER_BACKGROUND_COLOR_DEFAULT);
-    }
-
-    public static int getPastEventsBackgroundColor(Context context) {
-        return getInt(context, PREF_PAST_EVENTS_BACKGROUND_COLOR,
-                PREF_PAST_EVENTS_BACKGROUND_COLOR_DEFAULT);
-    }
-
-    public static int getTodaysEventsBackgroundColor(Context context) {
-        return getInt(context, PREF_TODAYS_EVENTS_BACKGROUND_COLOR,
-                PREF_TODAYS_EVENTS_BACKGROUND_COLOR_DEFAULT);
-    }
-
-    public static int getEventsBackgroundColor(Context context) {
-        return getInt(context, PREF_EVENTS_BACKGROUND_COLOR,
-                PREF_EVENTS_BACKGROUND_COLOR_DEFAULT);
+    public static int getBackgroundColor(BackgroundColorPref pref, Context context) {
+        return getInt(context, pref.colorPreferenceName, pref.defaultColor);
     }
 
     public static TextColorSource getTextColorSource(Context context) {

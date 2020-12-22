@@ -8,7 +8,7 @@ import org.andstatus.todoagenda.R;
 /**
  * @author yvolk@yurivolkov.com
 */
-public enum TextShading {
+public enum Shading {
 
     // For historical reasons we store theme names for text shadings i.e. "BLACK" theme for WHITE text shading
     BLACK("WHITE", R.style.Theme_ToDoAgenda_White, R.string.appearance_theme_white),
@@ -22,14 +22,14 @@ public enum TextShading {
     public final int titleResId;
     public final String themeName;
 
-    TextShading(String themeName, int themeResId, int titleResId) {
+    Shading(String themeName, int themeResId, int titleResId) {
         this.themeName = themeName;
         this.themeResId = themeResId;
         this.titleResId = titleResId;
     }
 
-    public static TextShading fromThemeName(String themeName, TextShading defaultShading) {
-        for (TextShading item : TextShading.values()) {
+    public static Shading fromThemeName(String themeName, Shading defaultShading) {
+        for (Shading item : Shading.values()) {
             if (item.themeName.equals(themeName)) {
                 return item;
             }

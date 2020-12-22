@@ -26,9 +26,7 @@ import org.andstatus.todoagenda.widget.TimeSection;
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.EXTRA_GOTO_SECTION_COLORS;
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;
 import static org.andstatus.todoagenda.prefs.ApplicationPreferences.PREF_DIFFERENT_COLORS_FOR_DARK;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TEXT_COLOR_SOURCE;
-import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
 
 /** AndroidX version created by yvolk@yurivolkov.com
  *   based on this answer: https://stackoverflow.com/a/53290775/297710
@@ -71,11 +69,11 @@ public class ColorsPreferencesFragment extends MyPreferenceFragment
             }
 
             ThemeColors colors = getSettings().colors();
-            ColorPreference colorPreference = findPreference(PREF_WIDGET_HEADER_BACKGROUND_COLOR);
+            ColorPreference colorPreference = findPreference(BackgroundColorPref.WIDGET_HEADER.colorPreferenceName);
             TextColorPref textColorPref = TextColorPref.WIDGET_HEADER;
             colorPreference.setSampleTextColor1(colors.getTextColor(textColorPref, R.attr.header));
 
-            colorPreference = findPreference(PREF_PAST_EVENTS_BACKGROUND_COLOR);
+            colorPreference = findPreference(BackgroundColorPref.PAST_EVENTS.colorPreferenceName);
             colorPreference.setSampleTextColor1(colors.getTextColor(TextColorPref.DAY_HEADER_PAST, R.attr.header));
             colorPreference.setSampleTextColor2(colors.getTextColor(TextColorPref.EVENT_PAST, R.attr.eventEntryTitle));
         }
@@ -145,7 +143,7 @@ public class ColorsPreferencesFragment extends MyPreferenceFragment
         for (TextColorPref shadingPref : TextColorPref.values()) {
             ListPreference preference = findPreference(shadingPref.shadingPreferenceName);
             if (preference != null) {
-                TextShading shading = TextShading.fromThemeName(preference.getValue(), shadingPref.defaultShading);
+                Shading shading = Shading.fromThemeName(preference.getValue(), shadingPref.defaultShading);
                 preference.setSummary(getActivity().getString(shading.titleResId));
             }
         }
