@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 
@@ -21,18 +20,21 @@ import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.WidgetConfigurationActivity;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
+import org.andstatus.todoagenda.prefs.MyPreferenceFragment;
 import org.andstatus.todoagenda.widget.TimeSection;
 
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.EXTRA_GOTO_SECTION_COLORS;
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;
 import static org.andstatus.todoagenda.prefs.ApplicationPreferences.PREF_DIFFERENT_COLORS_FOR_DARK;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_PAST_EVENTS_BACKGROUND_COLOR;
 import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_TEXT_COLOR_SOURCE;
+import static org.andstatus.todoagenda.prefs.colors.ThemeColors.PREF_WIDGET_HEADER_BACKGROUND_COLOR;
 
 /** AndroidX version created by yvolk@yurivolkov.com
  *   based on this answer: https://stackoverflow.com/a/53290775/297710
  *   and on the code of https://github.com/koji-1009/ChronoDialogPreference
  */
-public class ColorsPreferencesFragment extends PreferenceFragmentCompat
+public class ColorsPreferencesFragment extends MyPreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
@@ -67,6 +69,15 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
             if (textColorSource == TextColorSource.SHADING) {
                 showShadings();
             }
+
+            ThemeColors colors = getSettings().colors();
+            ColorPreference colorPreference = findPreference(PREF_WIDGET_HEADER_BACKGROUND_COLOR);
+            TextColorPref textColorPref = TextColorPref.WIDGET_HEADER;
+            colorPreference.setSampleTextColor1(colors.getTextColor(textColorPref, R.attr.header));
+
+            colorPreference = findPreference(PREF_PAST_EVENTS_BACKGROUND_COLOR);
+            colorPreference.setSampleTextColor1(colors.getTextColor(TextColorPref.DAY_HEADER_PAST, R.attr.header));
+            colorPreference.setSampleTextColor2(colors.getTextColor(TextColorPref.EVENT_PAST, R.attr.eventEntryTitle));
         }
     }
 
@@ -132,7 +143,7 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
 
     private void showShadings() {
         for (TextColorPref shadingPref : TextColorPref.values()) {
-            ListPreference preference = (ListPreference) findPreference(shadingPref.shadingPreferenceName);
+            ListPreference preference = findPreference(shadingPref.shadingPreferenceName);
             if (preference != null) {
                 TextShading shading = TextShading.fromThemeName(preference.getValue(), shadingPref.defaultShading);
                 preference.setSummary(getActivity().getString(shading.titleResId));
@@ -170,6 +181,7 @@ public class ColorsPreferencesFragment extends PreferenceFragmentCompat
                 }
                 break;
             default:
+                saveSettings();
                 showTextSources();
                 break;
         }

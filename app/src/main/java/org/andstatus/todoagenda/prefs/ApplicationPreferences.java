@@ -142,13 +142,13 @@ public class ApplicationPreferences {
     }
 
     public static void save(Context context, int wigdetId) {
-        if (wigdetId != 0 && wigdetId == getWidgetId(context)) {
+        if (context != null && wigdetId != 0 && wigdetId == getWidgetId(context)) {
             AllSettings.saveFromApplicationPreferences(context, wigdetId);
         }
     }
 
     public static int getWidgetId(Context context) {
-        return getInt(context, PREF_WIDGET_ID, 0);
+        return context == null ? 0 : getInt(context, PREF_WIDGET_ID, 0);
     }
 
     public static void setWidgetId(Context context, int value) {

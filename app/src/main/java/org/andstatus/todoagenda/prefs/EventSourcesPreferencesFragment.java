@@ -9,7 +9,6 @@ import android.util.Log;
 import androidx.fragment.app.Fragment;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 import org.andstatus.todoagenda.R;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EventSourcesPreferencesFragment extends PreferenceFragmentCompat {
+public class EventSourcesPreferencesFragment extends MyPreferenceFragment {
     private static final String TAG = EventSourcesPreferencesFragment.class.getSimpleName();
     private static final String SOURCE_ID = "sourceId";
 
@@ -67,11 +66,6 @@ public class EventSourcesPreferencesFragment extends PreferenceFragmentCompat {
                 }
             }
         }
-    }
-
-    private InstanceSettings getSettings() {
-        int widgetId = ApplicationPreferences.getWidgetId(getActivity());
-        return AllSettings.instanceFromId(getActivity(), widgetId);
     }
 
     private void addAsPreference(EventSource source, boolean isChecked ) {

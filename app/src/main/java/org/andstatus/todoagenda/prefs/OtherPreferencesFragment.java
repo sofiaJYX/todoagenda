@@ -7,7 +7,6 @@ import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 
 import org.andstatus.todoagenda.MainActivity;
 import org.andstatus.todoagenda.R;
@@ -20,7 +19,7 @@ import org.joda.time.DateTimeZone;
 
 import java.util.TimeZone;
 
-public class OtherPreferencesFragment extends PreferenceFragmentCompat
+public class OtherPreferencesFragment extends MyPreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
@@ -95,11 +94,6 @@ public class OtherPreferencesFragment extends PreferenceFragmentCompat
                     " " + DateUtil.formatTime(this::getSettings, settings.getResultsStorage().getExecutedAt())
                 : "...";
         return String.format(getText(valueResId).toString(), snapshotDateString);
-    }
-
-    private InstanceSettings getSettings() {
-        int widgetId = ApplicationPreferences.getWidgetId(getActivity());
-        return AllSettings.instanceFromId(getActivity(), widgetId);
     }
 
     private void showRefreshPeriod() {

@@ -24,6 +24,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.preference.DialogPreference;
 import androidx.preference.PreferenceViewHolder;
@@ -32,6 +33,10 @@ public class ColorPreference extends DialogPreference {
 	final String selectNoneButtonText;
 	Integer defaultColor;
 	private final String noneSelectedSummaryText;
+	public String sampleText1 = "5 ABC";
+	public String sampleText2 = "Abcde";
+	private Integer sampleTextColor1;
+	private Integer sampleTextColor2;
 	private final CharSequence summaryText;
 	final boolean showAlpha;
 	final boolean showHex;
@@ -66,7 +71,7 @@ public class ColorPreference extends DialogPreference {
 
 	public void onBindViewHolder(PreferenceViewHolder viewHolder) {
 		thumbnail = addThumbnail(viewHolder.itemView);
-		showColor(getPersistedIntDefaultOrNull());
+		showColor();
 		// Only call after showColor sets any summary text:
 		super.onBindViewHolder(viewHolder);
 	}
@@ -139,10 +144,15 @@ public class ColorPreference extends DialogPreference {
 		return widgetFrameView.findViewById(R.id.thumbnail);
 	}
 
-	private Integer getPersistedIntDefaultOrNull() {
+	private Integer getPersistedColorOrDefaultOrNull() {
 		return shouldPersist() && getSharedPreferences().contains(getKey())
 				? Integer.valueOf(getPersistedInt(Color.GRAY))
 				: defaultColor;
+	}
+
+
+	private void showColor() {
+		showColor(getPersistedColorOrDefaultOrNull());
 	}
 
 	private void showColor(Integer color) {
@@ -150,6 +160,21 @@ public class ColorPreference extends DialogPreference {
 		if (thumbnail != null) {
 			thumbnail.setVisibility(thumbColor == null ? View.GONE : View.VISIBLE);
 			thumbnail.findViewById(R.id.colorPreview).setBackgroundColor(thumbColor == null ? 0 : thumbColor);
+			if (sampleTextColor1 != null && sampleText1 != null) {
+				TextView textPreview = thumbnail.findViewById(sampleTextColor2 == null
+						? R.id.textPreview : R.id.textPreviewUpper);
+				if (textPreview != null) {
+					textPreview.setText(sampleText1);
+					textPreview.setTextColor(sampleTextColor1);
+				}
+				if (sampleTextColor2 != null && sampleText2 != null) {
+					TextView textPreview2 = thumbnail.findViewById(R.id.textPreviewLower);
+					if (textPreview2 != null) {
+						textPreview2.setText(sampleText2);
+						textPreview2.setTextColor(sampleTextColor2);
+					}
+				}
+			}
 		}
 		if (noneSelectedSummaryText != null) {
 			setSummary(thumbColor == null ? noneSelectedSummaryText : summaryText);
@@ -168,14 +193,23 @@ public class ColorPreference extends DialogPreference {
 	public void setColor(Integer color) {
 		if (color == null) {
 			removeSetting();
-		}
-		else {
+		} else {
 			persistInt(color);
 		}
 		showColor(color);
 	}
 
 	public Integer getColor() {
-		return getPersistedIntDefaultOrNull();
+		return getPersistedColorOrDefaultOrNull();
+	}
+
+	public void setSampleTextColor1(Integer textColor) {
+		this.sampleTextColor1 = textColor;
+		showColor();
+	}
+
+	public void setSampleTextColor2(Integer textColor) {
+		this.sampleTextColor2 = textColor;
+		showColor();
 	}
 }
