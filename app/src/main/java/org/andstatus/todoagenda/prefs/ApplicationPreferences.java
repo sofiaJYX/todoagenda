@@ -10,14 +10,12 @@ import org.andstatus.todoagenda.prefs.colors.BackgroundColorPref;
 import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
 import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.prefs.colors.TextColorSource;
-import org.andstatus.todoagenda.prefs.colors.ShadingAndColor;
 import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatValue;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
 import org.andstatus.todoagenda.widget.WidgetHeaderLayout;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ACTIVE_SOURCES;
 import static org.andstatus.todoagenda.prefs.InstanceSettings.PREF_ALL_DAY_EVENTS_PLACEMENT;
@@ -94,13 +92,12 @@ public class ApplicationPreferences {
             setString(context, PREF_COLOR_THEME_TYPE, colors.colorThemeType.value);
             setBoolean(context, PREF_DIFFERENT_COLORS_FOR_DARK, colors.colorThemeType != ColorThemeType.SINGLE);
             for (BackgroundColorPref pref: BackgroundColorPref.values()) {
-                ShadingAndColor shadingAndColor = colors.getBackground(pref);
-                setInt(context, pref.colorPreferenceName, shadingAndColor.color);
+                setInt(context, pref.colorPreferenceName, colors.getBackground(pref).color);
             }
             setString(context, PREF_TEXT_COLOR_SOURCE, colors.textColorSource.value);
-            for (Map.Entry<TextColorPref, ShadingAndColor> entry: colors.textColors.entrySet()) {
-                setString(context, entry.getKey().shadingPreferenceName, entry.getValue().shading.themeName);
-                setInt(context, entry.getKey().colorPreferenceName, entry.getValue().color);
+            for (TextColorPref pref: TextColorPref.values()) {
+                setString(context, pref.shadingPreferenceName, colors.getTextShadingStored(pref).shading.themeName);
+                setInt(context, pref.colorPreferenceName, colors.getTextColorStored(pref).color);
             }
 
             setShowDaysWithoutEvents(context, settings.getShowDaysWithoutEvents());

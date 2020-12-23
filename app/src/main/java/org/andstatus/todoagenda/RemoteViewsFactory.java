@@ -367,7 +367,7 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     }
 
     private static void setActionIcons(InstanceSettings settings, RemoteViews rv) {
-        ContextThemeWrapper themeContext = settings.colors().getShadingContext(TextColorPref.WIDGET_HEADER);
+        ContextThemeWrapper themeContext = settings.colors().getThemeContext(TextColorPref.WIDGET_HEADER);
         setImageFromAttr(themeContext, rv, R.id.go_to_today, R.attr.header_action_go_to_today);
         setImageFromAttr(themeContext, rv, R.id.add_event, R.attr.header_action_add_event);
         setImageFromAttr(themeContext, rv, R.id.add_task, R.attr.header_action_add_task);

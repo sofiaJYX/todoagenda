@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
+import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.widget.WidgetEntry;
 import org.json.JSONException;
@@ -30,7 +31,8 @@ public class ThemeColors {
     public final ConcurrentMap<BackgroundColorPref, ShadingAndColor> backgroundColors = new ConcurrentHashMap<>();
     public static final String PREF_TEXT_COLOR_SOURCE = "textColorSource";
     public TextColorSource textColorSource = TextColorSource.defaultValue;
-    public final ConcurrentMap<TextColorPref, ShadingAndColor> textColors = new ConcurrentHashMap<>();
+    final ConcurrentMap<TextColorPref, ShadingAndColor> textShadings = new ConcurrentHashMap<>();
+    final ConcurrentMap<TextColorPref, ShadingAndColor> textColors = new ConcurrentHashMap<>();
 
     public static ThemeColors fromJson(Context context, ColorThemeType colorThemeType, JSONObject json) {
         return new ThemeColors(context, colorThemeType).setFromJson(json);
@@ -68,10 +70,11 @@ public class ThemeColors {
                 Shading shading = json.has(pref.shadingPreferenceName)
                     ? Shading.fromThemeName(json.getString(pref.shadingPreferenceName), pref.defaultShading)
                     : pref.defaultShading;
+                textShadings.put(pref, new ShadingAndColor(shading));
                 int color = json.has(pref.colorPreferenceName)
                     ? json.getInt(pref.colorPreferenceName)
                     : pref.defaultColor;
-                textColors.put(pref, new ShadingAndColor(shading, color));
+                textColors.put(pref, new ShadingAndColor(color));
             }
         } catch (JSONException e) {
             Log.w(TAG, "setFromJson failed\n" + json);
@@ -86,12 +89,15 @@ public class ThemeColors {
         }
         textColorSource = ApplicationPreferences.getTextColorSource(context);
         for (TextColorPref pref: TextColorPref.values()) {
-            ShadingAndColor oldValue = textColors.get(pref);
-            if (oldValue == null) oldValue = new ShadingAndColor(pref.defaultShading, pref.defaultColor);
+            ShadingAndColor oldValue = getTextShadingStored(pref);
             String themeName = ApplicationPreferences.getString(context, pref.shadingPreferenceName, "");
             Shading shading = Shading.fromThemeName(themeName, oldValue.shading);
+            textShadings.put(pref, new ShadingAndColor(shading));
+        }
+        for (TextColorPref pref: TextColorPref.values()) {
+            ShadingAndColor oldValue = getTextColorStored(pref);
             int color = ApplicationPreferences.getInt(context, pref.colorPreferenceName, oldValue.color);
-            textColors.put(pref, new ShadingAndColor(shading, color));
+            textColors.put(pref, new ShadingAndColor(color));
         }
         return this;
     }
@@ -103,10 +109,8 @@ public class ThemeColors {
             }
             json.put(PREF_TEXT_COLOR_SOURCE, textColorSource.value);
             for (TextColorPref pref: TextColorPref.values()) {
-                ShadingAndColor shadingAndColor = textColors.get(pref);
-                if (shadingAndColor == null) shadingAndColor = new ShadingAndColor(pref.defaultShading, pref.defaultColor);
-                json.put(pref.shadingPreferenceName, shadingAndColor.shading.themeName);
-                json.put(pref.colorPreferenceName, shadingAndColor.color);
+                json.put(pref.shadingPreferenceName, getTextShadingStored(pref).shading.themeName);
+                json.put(pref.colorPreferenceName, getTextColorStored(pref).color);
             }
         } catch (JSONException e) {
             throw new RuntimeException("Saving settings to JSON", e);
@@ -151,24 +155,28 @@ public class ThemeColors {
 
     public int getTextColor(TextColorPref textColorPref, int colorAttrId) {
         if (textColorSource == TextColorSource.COLORS) {
-            return getTextShadingAndColor(textColorPref).color;
+            return getTextColorStored(textColorPref).color;
+        } else if (textColorSource == TextColorSource.SHADING && colorAttrId == R.attr.eventEntryTitle) {
+            return getTextShadingStored(textColorPref).shading.titleColor;
         } else {
-            return getColorValue(getShadingContext(textColorPref), colorAttrId);
+            return getColorValue(getThemeContext(textColorPref), colorAttrId);
         }
     }
 
-    public ShadingAndColor getTextShadingAndColor(TextColorPref colorPref) {
-        return textColors.computeIfAbsent(colorPref, pref -> new ShadingAndColor(pref.defaultShading, pref.defaultColor));
+    public ShadingAndColor getTextShadingStored(TextColorPref colorPref) {
+        return textShadings.computeIfAbsent(colorPref, pref -> new ShadingAndColor(pref.defaultShading));
+    }
+
+    public ShadingAndColor getTextColorStored(TextColorPref colorPref) {
+        return textColors.computeIfAbsent(colorPref, pref -> new ShadingAndColor(pref.defaultColor));
     }
 
     public Shading getShading(TextColorPref pref) {
         switch (textColorSource) {
             case SHADING:
-                return getTextShadingAndColor(pref).shading;
+                return getTextShadingStored(pref).shading;
             case COLORS:
-                ShadingAndColor shadingAndColor2 = getTextShadingAndColor(pref);
-                // TODO:
-                return ShadingAndColor.colorToShading(shadingAndColor2.color);
+                return getTextColorStored(pref).shading;
             default:
                 return pref.getShadingForBackground(getBackground(pref.backgroundColorPref).shading);
         }
@@ -178,7 +186,7 @@ public class ThemeColors {
         return getBackgroundColor(BackgroundColorPref.forTimeSection(entry.timeSection));
     }
 
-    public ContextThemeWrapper getShadingContext(TextColorPref pref) {
+    public ContextThemeWrapper getThemeContext(TextColorPref pref) {
         return new ContextThemeWrapper(context, getShading(pref).themeResId);
     }
 

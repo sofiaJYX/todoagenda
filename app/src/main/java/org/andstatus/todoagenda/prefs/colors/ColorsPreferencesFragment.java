@@ -67,13 +67,22 @@ public class ColorsPreferencesFragment extends MyPreferenceFragment
             if (textColorSource == TextColorSource.SHADING) {
                 showShadings();
             }
+            previewTextOnBackground();
+        }
+    }
 
-            ThemeColors colors = getSettings().colors();
-            ColorPreference colorPreference = findPreference(BackgroundColorPref.WIDGET_HEADER.colorPreferenceName);
-            TextColorPref textColorPref = TextColorPref.WIDGET_HEADER;
+    private void previewTextOnBackground() {
+        // TODO: implement
+        ThemeColors colors = getSettings().colors();
+        TextColorPref textColorPref = TextColorPref.WIDGET_HEADER;
+        BackgroundColorPref backgroundColorPref = textColorPref.backgroundColorPref;
+        ColorPreference colorPreference = findPreference(backgroundColorPref.colorPreferenceName);
+        if (colorPreference != null) {
             colorPreference.setSampleTextColor1(colors.getTextColor(textColorPref, R.attr.header));
+        }
 
-            colorPreference = findPreference(BackgroundColorPref.PAST_EVENTS.colorPreferenceName);
+        colorPreference = findPreference(BackgroundColorPref.PAST_EVENTS.colorPreferenceName);
+        if (colorPreference != null) {
             colorPreference.setSampleTextColor1(colors.getTextColor(TextColorPref.DAY_HEADER_PAST, R.attr.header));
             colorPreference.setSampleTextColor2(colors.getTextColor(TextColorPref.EVENT_PAST, R.attr.eventEntryTitle));
         }

@@ -11,26 +11,22 @@ public class ShadingAndColor {
     @ColorInt
     public final int color;
 
+    ShadingAndColor(Shading shading) {
+        this(shading, colorToLuminance(shading.titleColor), shading.titleColor);
+    }
+
     ShadingAndColor(int color) {
         this(colorToLuminance(color), color);
     }
 
-    ShadingAndColor(double luminance, int color) {
+    private ShadingAndColor(double luminance, int color) {
         this(luminanceToShading(luminance), luminance, color);
     }
 
-    ShadingAndColor(Shading shading, int color) {
-        this(shading, colorToLuminance(color), color);
-    }
-
-    ShadingAndColor(Shading shading, double luminance, int color) {
+    private ShadingAndColor(Shading shading, double luminance, int color) {
         this.shading = shading;
         this.luminance = luminance;
         this.color = color;
-    }
-
-    public static Shading colorToShading(@ColorInt int color) {
-        return luminanceToShading(colorToLuminance(color));
     }
 
     private static Shading luminanceToShading(double luminance) {
