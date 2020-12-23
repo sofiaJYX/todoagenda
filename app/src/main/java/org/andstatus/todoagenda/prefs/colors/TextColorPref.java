@@ -1,5 +1,6 @@
 package org.andstatus.todoagenda.prefs.colors;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.StringRes;
 
@@ -11,25 +12,25 @@ public enum TextColorPref {
 
     WIDGET_HEADER("headerTheme", Shading.LIGHT, R.string.appearance_header_theme_title,
             "widgetHeaderTextColor", 0x9AFFFFFF, R.string.widget_header_text_color,
-            BackgroundColorPref.WIDGET_HEADER, false, TimeSection.ALL),
+            R.attr.header, BackgroundColorPref.WIDGET_HEADER, false, TimeSection.ALL),
     DAY_HEADER_PAST("dayHeaderThemePast", Shading.LIGHT, R.string.day_header_theme_title,
             "dayHeaderTextColorPast", 0xFFCCCCCC, R.string.day_header_text_color,
-            BackgroundColorPref.PAST_EVENTS, true, TimeSection.PAST),
+            R.attr.dayHeaderTitle, BackgroundColorPref.PAST_EVENTS, true, TimeSection.PAST),
     EVENT_PAST("entryThemePast", Shading.WHITE, R.string.appearance_entries_theme_title,
             "eventTextColorPast", 0xFFFFFFFF, R.string.event_text_color,
-            BackgroundColorPref.PAST_EVENTS, false, TimeSection.PAST),
+            R.attr.eventEntryTitle, BackgroundColorPref.PAST_EVENTS, false, TimeSection.PAST),
     DAY_HEADER_TODAY("dayHeaderTheme", Shading.DARK, R.string.day_header_theme_title,
             "dayHeaderTextColorToday", 0xFF777777, R.string.day_header_text_color,
-            BackgroundColorPref.TODAYS_EVENTS, true, TimeSection.TODAY),
+            R.attr.dayHeaderTitle, BackgroundColorPref.TODAYS_EVENTS, true, TimeSection.TODAY),
     EVENT_TODAY("entryTheme", Shading.BLACK, R.string.appearance_entries_theme_title,
             "eventTextColorToday", 0xFF000000, R.string.event_text_color,
-            BackgroundColorPref.TODAYS_EVENTS, false, TimeSection.TODAY),
+            R.attr.eventEntryTitle, BackgroundColorPref.TODAYS_EVENTS, false, TimeSection.TODAY),
     DAY_HEADER_FUTURE("dayHeaderThemeFuture", Shading.LIGHT, R.string.day_header_theme_title,
             "dayHeaderTextColorFuture", 0xFFCCCCCC, R.string.day_header_text_color,
-            BackgroundColorPref.FUTURE_EVENTS, true, TimeSection.FUTURE),
+            R.attr.dayHeaderTitle, BackgroundColorPref.FUTURE_EVENTS, true, TimeSection.FUTURE),
     EVENT_FUTURE("entryThemeFuture", Shading.WHITE, R.string.appearance_entries_theme_title,
             "eventTextColorFuture", 0xFFFFFFFF, R.string.event_text_color,
-            BackgroundColorPref.FUTURE_EVENTS, false, TimeSection.FUTURE);
+            R.attr.eventEntryTitle, BackgroundColorPref.FUTURE_EVENTS, false, TimeSection.FUTURE);
 
     public final String shadingPreferenceName;
     public final Shading defaultShading;
@@ -38,6 +39,7 @@ public enum TextColorPref {
     public final String colorPreferenceName;
     @ColorInt public final int defaultColor;
     @StringRes public final int colorTitleResId;
+    @AttrRes public final int colorAttrId;
 
     public final BackgroundColorPref backgroundColorPref;
     public final boolean dependsOnDayHeader;
@@ -45,13 +47,14 @@ public enum TextColorPref {
 
     TextColorPref(String shadingPreferenceName, Shading defaultShading, int shadingTitleResId,
                   String colorPreferenceName, @ColorInt int defaultColor, int colorTitleResId,
-                  BackgroundColorPref backgroundColorPref, boolean dependsOnDayHeader, TimeSection timeSection) {
+                  int colorAttrId, BackgroundColorPref backgroundColorPref, boolean dependsOnDayHeader, TimeSection timeSection) {
         this.shadingPreferenceName = shadingPreferenceName;
         this.defaultShading = defaultShading;
         this.colorPreferenceName = colorPreferenceName;
         this.defaultColor = defaultColor;
         this.shadingTitleResId = shadingTitleResId;
         this.colorTitleResId = colorTitleResId;
+        this.colorAttrId = colorAttrId;
         this.backgroundColorPref = backgroundColorPref;
         this.dependsOnDayHeader = dependsOnDayHeader;
         this.timeSection = timeSection;

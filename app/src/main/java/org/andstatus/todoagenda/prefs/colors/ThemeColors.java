@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
+import androidx.annotation.AttrRes;
+
 import org.andstatus.todoagenda.R;
 import org.andstatus.todoagenda.prefs.ApplicationPreferences;
 import org.andstatus.todoagenda.widget.WidgetEntry;
@@ -153,7 +155,7 @@ public class ThemeColors {
         return toJson(new JSONObject()).toString().hashCode();
     }
 
-    public int getTextColor(TextColorPref textColorPref, int colorAttrId) {
+    public int getTextColor(TextColorPref textColorPref, @AttrRes int colorAttrId) {
         if (textColorSource == TextColorSource.COLORS) {
             return getTextColorStored(textColorPref).color;
         } else if (textColorSource == TextColorSource.SHADING && colorAttrId == R.attr.eventEntryTitle) {

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.DimenRes;
 import androidx.annotation.IdRes;
 
@@ -82,7 +83,7 @@ public class RemoteViewsUtil {
         return resValue * settings.getTextSizeScale().scaleValue / density;
     }
 
-    public static int getColorValue(Context context, int attrId) {
+    public static int getColorValue(Context context, @AttrRes int attrId) {
         TypedValue outValue = new TypedValue();
         if (context.getTheme().resolveAttribute(attrId, outValue, true)) {
             int colorResourceId = outValue.resourceId;

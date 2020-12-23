@@ -23,6 +23,10 @@ import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.MyPreferenceFragment;
 import org.andstatus.todoagenda.widget.TimeSection;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.EXTRA_GOTO_SECTION_COLORS;
 import static org.andstatus.todoagenda.WidgetConfigurationActivity.FRAGMENT_TAG;
 import static org.andstatus.todoagenda.prefs.ApplicationPreferences.PREF_DIFFERENT_COLORS_FOR_DARK;
@@ -72,19 +76,21 @@ public class ColorsPreferencesFragment extends MyPreferenceFragment
     }
 
     private void previewTextOnBackground() {
-        // TODO: implement
         ThemeColors colors = getSettings().colors();
-        TextColorPref textColorPref = TextColorPref.WIDGET_HEADER;
-        BackgroundColorPref backgroundColorPref = textColorPref.backgroundColorPref;
-        ColorPreference colorPreference = findPreference(backgroundColorPref.colorPreferenceName);
-        if (colorPreference != null) {
-            colorPreference.setSampleTextColor1(colors.getTextColor(textColorPref, R.attr.header));
-        }
-
-        colorPreference = findPreference(BackgroundColorPref.PAST_EVENTS.colorPreferenceName);
-        if (colorPreference != null) {
-            colorPreference.setSampleTextColor1(colors.getTextColor(TextColorPref.DAY_HEADER_PAST, R.attr.header));
-            colorPreference.setSampleTextColor2(colors.getTextColor(TextColorPref.EVENT_PAST, R.attr.eventEntryTitle));
+        for(BackgroundColorPref backgroundColorPref: BackgroundColorPref.values()) {
+            ColorPreference colorPreference = findPreference(backgroundColorPref.colorPreferenceName);
+            if (colorPreference != null) {
+                List<TextColorPref> toPreview = Arrays.stream(TextColorPref.values())
+                        .filter(pref -> pref.backgroundColorPref == backgroundColorPref).collect(Collectors.toList());
+                if (toPreview.size() > 0) {
+                    TextColorPref pref = toPreview.get(0);
+                    colorPreference.setSampleTextColor1(colors.getTextColor(pref, pref.colorAttrId));
+                }
+                if(toPreview.size() > 1) {
+                    TextColorPref pref = toPreview.get(1);
+                    colorPreference.setSampleTextColor2(colors.getTextColor(pref, pref.colorAttrId));
+                }
+            }
         }
     }
 
