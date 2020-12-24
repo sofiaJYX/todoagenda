@@ -158,11 +158,16 @@ public class ThemeColors {
     public int getTextColor(TextColorPref textColorPref, @AttrRes int colorAttrId) {
         if (textColorSource == TextColorSource.COLORS) {
             return getTextColorStored(textColorPref).color;
-        } else if (textColorSource == TextColorSource.SHADING && colorAttrId == R.attr.eventEntryTitle) {
-            return getTextShadingStored(textColorPref).shading.titleColor;
-        } else {
-            return getColorValue(getThemeContext(textColorPref), colorAttrId);
+        } else if (textColorSource == TextColorSource.SHADING) {
+            if (colorAttrId == R.attr.header) {
+                return getTextShadingStored(textColorPref).shading.widgetHeaderColor;
+            } else if (colorAttrId == R.attr.dayHeaderTitle) {
+                return getTextShadingStored(textColorPref).shading.dayHeaderColor;
+            } else if (colorAttrId == R.attr.eventEntryTitle) {
+                return getTextShadingStored(textColorPref).shading.titleColor;
+            }
         }
+        return getColorValue(getThemeContext(textColorPref), colorAttrId);
     }
 
     public ShadingAndColor getTextShadingStored(TextColorPref colorPref) {

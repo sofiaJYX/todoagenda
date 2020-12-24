@@ -14,24 +14,34 @@ import org.andstatus.todoagenda.R;
 public enum Shading {
 
     // For historical reasons we store theme names for text shadings i.e. "BLACK" theme for WHITE text shading
-    BLACK("WHITE", Color.WHITE, R.style.Theme_ToDoAgenda_White, R.string.appearance_theme_white),
-    DARK("LIGHT", 0xFFCCCCCC, R.style.Theme_ToDoAgenda_Light, R.string.appearance_theme_light),
-    LIGHT("DARK", 0xFF777777, R.style.Theme_ToDoAgenda_Dark, R.string.appearance_theme_dark),
-    WHITE("BLACK", Color.BLACK, R.style.Theme_ToDoAgenda_Black, R.string.appearance_theme_black);
+    WHITE(0xDCFFFFFF, Color.WHITE, Color.WHITE,
+            R.string.appearance_theme_black, "BLACK", R.style.Theme_ToDoAgenda_Black),
+    LIGHT(0x9AFFFFFF, 0xFFCCCCCC, 0xFFCCCCCC,
+          R.string.appearance_theme_dark, "DARK", R.style.Theme_ToDoAgenda_Dark),
+    DARK(0x99000000, 0xFF777777, 0xFF555555,
+         R.string.appearance_theme_light, "LIGHT", R.style.Theme_ToDoAgenda_Light),
+    BLACK(0xCC000000, Color.BLACK, Color.BLACK,
+            R.string.appearance_theme_white, "WHITE", R.style.Theme_ToDoAgenda_White);
 
-    public final String themeName;
+    @ColorInt
+    public final int widgetHeaderColor;
+    @ColorInt
+    public final int dayHeaderColor;
     @ColorInt
     public final int titleColor;
-    @StyleRes
-    public final int themeResId;
     @StringRes
     public final int titleResId;
+    public final String themeName;
+    @StyleRes
+    public final int themeResId;
 
-    Shading(String themeName, int titleColor, int themeResId, int titleResId) {
-        this.themeName = themeName;
+    Shading(int widgetHeaderColor, int dayHeaderColor, int titleColor, int titleResId, String themeName, int themeResId) {
+        this.widgetHeaderColor = widgetHeaderColor;
         this.titleColor = titleColor;
-        this.themeResId = themeResId;
+        this.dayHeaderColor = dayHeaderColor;
         this.titleResId = titleResId;
+        this.themeName = themeName;
+        this.themeResId = themeResId;
     }
 
     public static Shading fromThemeName(String themeName, Shading defaultShading) {
