@@ -33,7 +33,7 @@ so that you can easily have a glimpse at your due, current and upcoming appointm
 * Select only the calendars and task lists that you want to see in the widget.
 * Create several widgets, if you need. Each widget has its own settings, including layouts, colors, filters, 
 selected calendars and task lists.
-* Customize background colors and transparency of different widget parts, black and white shading for texts.
+* Customize colors and transparency of different widget parts, of their texts and backgrounds.
 * Scroll through the list of events. Use "Go to Today" button to return to today instantly.
 * Customize the text size of the widget.
 * Fully resizable widget with alternative layouts.
@@ -89,9 +89,31 @@ If the problem is still present:
 
 In a case the widget doesn't work properly even after this, please
  [search, read and follow up on similar issues here](https://github.com/andstatus/todoagenda/issues?q=is%3Aissue+sort%3Aupdated-desc).
-In particular, [if buttons don't work, look here](https://github.com/andstatus/todoagenda/issues/45).
+In particular, [if buttons don't work, look here](https://github.com/andstatus/todoagenda/issues/45),  
+here: [if refresh doesn't help showing new events](https://github.com/andstatus/todoagenda/issues/17) and here:  
+[if new recurring calendar events not showing](https://github.com/andstatus/todoagenda/issues/55).
 
 ## Changelog
+
+<a id="v4.4"/>
+
+### 2020-12-24 v4.4.0 Allow to set not only "Text shading" but any custom "Text color".
+* [How Text color is defined](https://github.com/andstatus/todoagenda/issues/47)
+  option added with these three values:
+
+  1. Auto text shading (Text shading (White, Light, Dark or Black)
+  is set automatically based on background color)<br/>
+  \- new value, with which we don't need to have "Text shading" setting
+  anymore (this will be default option for new widgets).
+
+  2. Manual text shading (Text shading should be set for each part of the widget)<br/>
+  \- this is what we had before this change.
+
+  3. Custom text colors (Text color should be set for each part of the widget)<br/>
+  \- this is another new value.
+
+  As a result, we have less settings by default,
+   and more flexibility for those who need it.
 
 <a id="v4.3"/>
 

@@ -52,8 +52,8 @@
         that you want to see in the widget.</string>
     <string name="app_description_4000_chars_max_part06">Create several widgets, if you need. Each widget has its own settings,
         including layouts, colors, filters, selected calendars and task lists.</string>
-    <string name="app_description_4000_chars_max_part07">Customize background colors and transparency
-        of different widget parts, black and white shading for texts.</string>
+    <string name="app_description_4000_chars_max_part07">Customize colors and transparency of different widget parts,
+        of their texts and backgrounds.</string>
     <string name="app_description_4000_chars_max_part08">Scroll through the list of events.
         Use "Go to Today" button to return to today instantly.</string>
     <string name="app_description_4000_chars_max_part09">Customize the text size of the widget.</string>
