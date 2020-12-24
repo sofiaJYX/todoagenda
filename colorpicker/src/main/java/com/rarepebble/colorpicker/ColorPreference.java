@@ -33,7 +33,7 @@ public class ColorPreference extends DialogPreference {
 	final String selectNoneButtonText;
 	Integer defaultColor;
 	private final String noneSelectedSummaryText;
-	public String sampleText1 = "5 ABC";
+	public String sampleText1 = "5_ABC";
 	public String sampleText2 = "Abcde";
 	private Integer sampleTextColor1;
 	private Integer sampleTextColor2;
