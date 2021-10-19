@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Attendees;
 import android.provider.CalendarContract.Instances;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -165,6 +166,7 @@ public class CalendarEventProvider extends EventProvider {
         List<String> columnNames = new ArrayList<>();
         columnNames.add(Instances.CALENDAR_ID);
         columnNames.add(Instances.EVENT_ID);
+        columnNames.add(Instances.STATUS);
         columnNames.add(Instances.TITLE);
         columnNames.add(Instances.BEGIN);
         columnNames.add(Instances.END);
@@ -201,6 +203,7 @@ public class CalendarEventProvider extends EventProvider {
         CalendarEvent event = new CalendarEvent(getSettings(), context, widgetId, allDay);
         event.setEventSource(source);
         event.setEventId(cursor.getInt(cursor.getColumnIndex(Instances.EVENT_ID)));
+        event.setStatus(cursor.getInt(cursor.getColumnIndex(Instances.STATUS)));
         event.setTitle(cursor.getString(cursor.getColumnIndex(Instances.TITLE)));
         event.setStartMillis(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN)));
         event.setEndMillis(cursor.getLong(cursor.getColumnIndex(Instances.END)));
@@ -208,6 +211,7 @@ public class CalendarEventProvider extends EventProvider {
         event.setAlarmActive(cursor.getInt(cursor.getColumnIndex(Instances.HAS_ALARM)) > 0);
         event.setRecurring(cursor.getString(cursor.getColumnIndex(Instances.RRULE)) != null);
         event.setColor(getAsOpaque(cursor.getInt(cursor.getColumnIndex(Instances.DISPLAY_COLOR))));
+        Log.d("feilen", "Status detected as " + event.getStatus() + " for event " + event.getTitle() + ", id " + event.getEventId());
         getColumnIndex(cursor, Instances.CALENDAR_COLOR)
                 .map(ind -> getAsOpaque(cursor.getInt(ind)))
                 .ifPresent(event::setCalendarColor);

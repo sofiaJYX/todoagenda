@@ -3,6 +3,7 @@ package org.andstatus.todoagenda.util;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
@@ -24,6 +25,7 @@ public class RemoteViewsUtil {
     private static final String METHOD_SET_COLOR_FILTER = "setColorFilter";
     private static final String METHOD_SET_WIDTH = "setWidth";
     private static final String METHOD_SET_HEIGHT = "setHeight";
+    private static final String METHOD_SET_PAINT_FLAGS = "setPaintFlags";
 
     private RemoteViewsUtil() {
         // prohibit instantiation
@@ -62,6 +64,21 @@ public class RemoteViewsUtil {
                                     RemoteViews rv, int viewId, int colorAttrId) {
         int color = settings.colors().getTextColor(textColorPref, colorAttrId);
         rv.setTextColor(viewId, color);
+    }
+
+    public static void setTextColorAlpha(InstanceSettings settings, TextColorPref textColorPref,
+                                    RemoteViews rv, int viewId, int colorAttrId, int alpha) {
+        int color = settings.colors().getTextColor(textColorPref, colorAttrId);
+        color = (color & 0xFFFFFF) | (alpha << 24);
+        rv.setTextColor(viewId, color);
+    }
+
+    public static void setTextStrikethrough(RemoteViews rv, int viewID, boolean isStrikethrough) {
+        if (isStrikethrough) {
+            rv.setInt(viewID, METHOD_SET_PAINT_FLAGS, Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+        } else {
+            rv.setInt(viewID, METHOD_SET_PAINT_FLAGS, Paint.ANTI_ALIAS_FLAG);
+        }
     }
 
     public static void setBackgroundColorFromAttr(Context context, RemoteViews rv, int viewId, int colorAttrId) {

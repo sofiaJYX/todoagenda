@@ -145,6 +145,10 @@ public abstract class WidgetEntry<T extends WidgetEntry<T>> implements Comparabl
         return "";
     }
 
+    public int getStatus() {
+        return 0;
+    }
+
     String getLocationString() {
         return hideLocation() ? "" : getLocation();
     }

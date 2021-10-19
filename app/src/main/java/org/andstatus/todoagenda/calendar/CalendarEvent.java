@@ -33,6 +33,7 @@ public class CalendarEvent implements WidgetEvent {
     private String location = "";
     private boolean alarmActive;
     private boolean recurring;
+    private int status;
 
     public CalendarEvent(InstanceSettings settings, Context context, int widgetId, boolean allDay) {
         this.settings = settings;
@@ -128,6 +129,10 @@ public class CalendarEvent implements WidgetEvent {
         this.title = notNull(title);
         return this;
     }
+
+    public int getStatus() { return this.status; }
+
+    public void setStatus(int status) { this.status = status; }
 
     public DateTime getEndDate() {
         return endDate;
