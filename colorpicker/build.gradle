@@ -31,8 +31,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 20402
-        versionName '2.4.2'
     }
     buildTypes {
         release {
