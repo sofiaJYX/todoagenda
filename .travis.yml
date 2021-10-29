@@ -97,7 +97,13 @@ script:
   fi
 
 - LOG_FILE="adb-test.log"
-- adb shell am instrument -w -r -e debug false org.andstatus.todoagenda.tests/androidx.test.runner.AndroidJUnitRunner |& tee "$LOG_FILE"
+- |
+  adb shell am instrument -w -r -e debug false org.andstatus.todoagenda.tests/androidx.test.runner.AndroidJUnitRunner |& tee "$LOG_FILE"
+  retval=$?
+  if [ $retval -ne 0 ]; then
+    echo "error in adb, exit code: "$retval
+    exit $retval
+  fi
 
 # adb doesn't propagate exit code from tests, see https://code.google.com/p/android/issues/detail?id=3254
 # So we need to parse saved terminal log
@@ -107,7 +113,7 @@ script:
     echo "Test failure found"
     exit 1
   else
-    cat build/adb-test.log | grep "OK ("
+    cat "$LOG_FILE" | grep "OK ("
   fi
 
 after_success:
