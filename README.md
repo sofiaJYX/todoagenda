@@ -1,6 +1,6 @@
 # [Todo Agenda](https://github.com/andstatus/todoagenda#readme) - Calendar and Task widgets for Android
 
-[![Build Status](https://travis-ci.org/andstatus/todoagenda.svg?branch=master)](https://travis-ci.org/andstatus/todoagenda)
+[![Build Status](https://travis-ci.com/andstatus/todoagenda.svg?branch=master)](https://travis-ci.com/github/andstatus/todoagenda)
 
 Todo Agenda is home screen widgets for your Android device. 
 Each widget has its own settings and displays configured list of calendar events and tasks
