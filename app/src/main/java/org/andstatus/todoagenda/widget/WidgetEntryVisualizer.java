@@ -8,7 +8,6 @@ import android.widget.RemoteViews;
 import androidx.annotation.NonNull;
 
 import org.andstatus.todoagenda.R;
-import org.andstatus.todoagenda.calendar.CalendarEventProvider;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatType;
@@ -19,7 +18,6 @@ import org.andstatus.todoagenda.util.RemoteViewsUtil;
 import java.util.List;
 
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setColorFilter;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setMultiline;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
 import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorAlpha;

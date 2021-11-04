@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Attendees;
 import android.provider.CalendarContract.Instances;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
