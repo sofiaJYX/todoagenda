@@ -210,7 +210,6 @@ public class CalendarEventProvider extends EventProvider {
         event.setAlarmActive(cursor.getInt(cursor.getColumnIndex(Instances.HAS_ALARM)) > 0);
         event.setRecurring(cursor.getString(cursor.getColumnIndex(Instances.RRULE)) != null);
         event.setColor(getAsOpaque(cursor.getInt(cursor.getColumnIndex(Instances.DISPLAY_COLOR))));
-        Log.d("feilen", "Status detected as " + event.getStatus() + " for event " + event.getTitle() + ", id " + event.getEventId());
         getColumnIndex(cursor, Instances.CALENDAR_COLOR)
                 .map(ind -> getAsOpaque(cursor.getInt(ind)))
                 .ifPresent(event::setCalendarColor);
