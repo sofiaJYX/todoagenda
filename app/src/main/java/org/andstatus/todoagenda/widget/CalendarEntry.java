@@ -40,6 +40,11 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
         return title;
     }
 
+    @Override
+    public int getStatus() {
+        return event.getStatus();
+    }
+
     public int getColor() {
         return event.getColor();
     }
