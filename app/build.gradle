@@ -7,8 +7,8 @@ android {
     useLibrary 'android.test.mock'
 
     defaultConfig {
-        versionCode 691
-        versionName '4.4.0'
+        versionCode 692
+        versionName '4.5.0'
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
 
@@ -32,8 +32,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    lintOptions {
+    lint {
         abortOnError false
     }
 

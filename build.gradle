@@ -12,18 +12,18 @@ buildscript {
 
         // Lookup the latest here: https://mvnrepository.com/
         annotationVersion = '1.0.1'
-        appCompatVersion = '1.4.0'        // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
+        appCompatVersion = '1.4.1'        // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
         espressoCoreVersion = '3.4.0'
         jodaTimeVersion = '2.10.13'
         junitVersion = '4.13.2'
-        junitJupiterVersion = '5.8.1'
-        preferenceVersion = '1.1.1'
+        junitJupiterVersion = '5.8.2'
+        preferenceVersion = '1.2.0'
         testRulesVersion = '1.4.0'
         testRunnerVersion = '1.4.0'
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.1.2'
     }
 
     // https://github.com/facebook/flipper/issues/146#issuecomment-463667556
