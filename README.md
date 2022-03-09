@@ -96,6 +96,14 @@ In particular, see these solutions:
 
 ## Changelog
 
+<a id="v4.5"/>
+
+### 2022-03-09 v4.5.0 Update time zones.
+* Time-related library (Joda Time) updated in order to have  up-to-date
+information about time world zones.
+* Fixed filtering of all day events. Sometimes today's all day events disappeared.
+[#89](https://github.com/andstatus/todoagenda/issues/89)
+
 <a id="v4.4"/>
 
 ### 2020-12-24 v4.4.0 Allow to set not only "Text shading" but any custom "Text color".

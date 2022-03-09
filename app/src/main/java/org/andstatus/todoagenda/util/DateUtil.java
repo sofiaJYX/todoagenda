@@ -104,4 +104,12 @@ public class DateUtil {
                 now.getDayOfMonth(), now.getHourOfDay(), now.getMinuteOfHour(), now.getZone())
                 .plusMinutes(periodMinutes);
     }
+
+    public static DateTime minusOneDay(DateTime dateIn) {
+        if (dateIn.isAfter(MyClock.DATETIME_MIN)) {
+            return dateIn.minusDays(1);
+        } else {
+            return dateIn;
+        }
+    }
 }

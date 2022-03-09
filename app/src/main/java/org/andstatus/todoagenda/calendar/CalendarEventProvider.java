@@ -1,5 +1,7 @@
 package org.andstatus.todoagenda.calendar;
 
+import static org.andstatus.todoagenda.util.DateUtil.minusOneDay;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -105,7 +107,7 @@ public class CalendarEventProvider extends EventProvider {
 
         Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
         ContentUris.appendId(builder, (filterMode == FilterMode.NORMAL_FILTER
-                ? mStartOfTimeRange : MyClock.DATETIME_MIN).getMillis());
+                ? minusOneDay(mStartOfTimeRange) : MyClock.DATETIME_MIN).getMillis());
         ContentUris.appendId(builder, (filterMode == FilterMode.NORMAL_FILTER
                 ? mEndOfTimeRange : MyClock.DATETIME_MAX).getMillis());
         List<CalendarEvent> eventList = queryList(builder.build(), getCalendarSelection());
@@ -114,8 +116,8 @@ public class CalendarEventProvider extends EventProvider {
             case NO_FILTERING:
                 break;
             default:
-                // Filters in a query are not exactly correct for AllDay events: for them that filter
-                // time should be moved by a time zone... (i.e. by several hours)
+                // Filters in a query are not exactly correct for AllDay events:
+                // for them we are selecting events one day before what is defined in settings.
                 // This is why we need to do additional filtering after querying a Content Provider:
                 for (Iterator<CalendarEvent> it = eventList.iterator(); it.hasNext(); ) {
                     CalendarEvent event = it.next();
