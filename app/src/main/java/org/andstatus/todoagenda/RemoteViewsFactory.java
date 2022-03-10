@@ -430,7 +430,8 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
                 .setAction(action)
                 .setData(Uri.parse("intent:" + action.toLowerCase() + settings.getWidgetId()))
                 .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
-        return PendingIntent.getBroadcast(settings.getContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(settings.getContext(), requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE);
     }
 
 }

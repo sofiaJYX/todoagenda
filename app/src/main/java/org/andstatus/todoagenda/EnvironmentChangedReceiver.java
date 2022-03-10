@@ -73,7 +73,7 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                     RemoteViewsFactory.REQUEST_CODE_MIDNIGHT_ALARM + counter,
                     intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE);
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             if (am != null) {
                 am.set(AlarmManager.RTC, alarmTime.getMillis(), pendingIntent);
@@ -95,7 +95,7 @@ public class EnvironmentChangedReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 RemoteViewsFactory.REQUEST_CODE_PERIODIC_ALARM,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (am != null) {
             DateTime alarmTime = DateUtil.exactMinutesPlusMinutes(DateTime.now(), periodMinutes);

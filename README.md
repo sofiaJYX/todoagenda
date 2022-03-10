@@ -98,11 +98,13 @@ In particular, see these solutions:
 
 <a id="v4.5"/>
 
-### 2022-03-09 v4.5.0 Update time zones.
+### 2022-03-10 v4.5.1 Update time zones.
 * Time-related library (Joda Time) updated in order to have  up-to-date
 information about time world zones.
 * Fixed filtering of all day events. Sometimes today's all day events disappeared.
 [#89](https://github.com/andstatus/todoagenda/issues/89)
+* Strikethrough and partial transparency for event status.
+[#82](https://github.com/andstatus/todoagenda/issues/82)
 
 <a id="v4.4"/>
 
