@@ -1,10 +1,21 @@
 package org.andstatus.todoagenda;
 
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setImageFromAttr;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
+import static org.andstatus.todoagenda.widget.LastEntry.LastEntryType.NOT_LOADED;
+import static org.andstatus.todoagenda.widget.WidgetEntryPosition.DAY_HEADER;
+import static org.andstatus.todoagenda.widget.WidgetEntryPosition.END_OF_LIST_HEADER;
+import static org.andstatus.todoagenda.widget.WidgetEntryPosition.PAST_AND_DUE_HEADER;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -17,8 +28,8 @@ import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.prefs.colors.BackgroundColorPref;
-import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.prefs.colors.Shading;
+import org.andstatus.todoagenda.prefs.colors.TextColorPref;
 import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.InstanceId;
 import org.andstatus.todoagenda.util.MyClock;
@@ -39,16 +50,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setAlpha;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setImageFromAttr;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
-import static org.andstatus.todoagenda.widget.LastEntry.LastEntryType.NOT_LOADED;
-import static org.andstatus.todoagenda.widget.WidgetEntryPosition.DAY_HEADER;
-import static org.andstatus.todoagenda.widget.WidgetEntryPosition.END_OF_LIST_HEADER;
-import static org.andstatus.todoagenda.widget.WidgetEntryPosition.PAST_AND_DUE_HEADER;
 
 public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String TAG = RemoteViewsFactory.class.getSimpleName();
@@ -430,8 +431,11 @@ public class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
                 .setAction(action)
                 .setData(Uri.parse("intent:" + action.toLowerCase() + settings.getWidgetId()))
                 .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, settings.getWidgetId());
-        return PendingIntent.getBroadcast(settings.getContext(), requestCode, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE);
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags += PendingIntent.FLAG_MUTABLE;
+        }
+        return PendingIntent.getBroadcast(settings.getContext(), requestCode, intent, flags);
     }
 
 }
