@@ -1,12 +1,13 @@
 package org.andstatus.todoagenda.prefs;
 
+import static org.andstatus.todoagenda.prefs.SettingsStorage.saveJson;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import org.andstatus.todoagenda.widget.Alignment;
 import org.andstatus.todoagenda.prefs.colors.ColorThemeType;
 import org.andstatus.todoagenda.prefs.colors.ThemeColors;
 import org.andstatus.todoagenda.prefs.dateformat.DateFormatType;
@@ -17,6 +18,7 @@ import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.util.InstanceId;
 import org.andstatus.todoagenda.util.MyClock;
 import org.andstatus.todoagenda.util.StringUtil;
+import org.andstatus.todoagenda.widget.Alignment;
 import org.andstatus.todoagenda.widget.EventEntryLayout;
 import org.andstatus.todoagenda.widget.WidgetHeaderLayout;
 import org.joda.time.DateTime;
@@ -29,8 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
-
-import static org.andstatus.todoagenda.prefs.SettingsStorage.saveJson;
 
 /**
  * Loaded settings of one Widget
@@ -164,11 +164,9 @@ public class InstanceSettings {
         int widgetId = json.optInt(PREF_WIDGET_ID);
         String instanceName = json.optString(PREF_WIDGET_INSTANCE_NAME);
 
-        if (storedSettings != null) {
-            if (storedSettings.getWidgetInstanceName().endsWith(TEST_REPLAY_SUFFIX) &&
+        if (storedSettings != null && storedSettings.isForTestsReplaying() &&
                 !instanceName.endsWith(TEST_REPLAY_SUFFIX)) {
-                instanceName = (StringUtil.isEmpty(instanceName) ? "" : instanceName + " - ") + TEST_REPLAY_SUFFIX;
-            }
+            instanceName = (StringUtil.isEmpty(instanceName) ? "" : instanceName + " - ") + TEST_REPLAY_SUFFIX;
         }
 
         InstanceSettings settings = new InstanceSettings(context, widgetId, instanceName);
@@ -497,6 +495,10 @@ public class InstanceSettings {
 
     public String getWidgetInstanceName() {
         return widgetInstanceName;
+    }
+
+    public boolean isForTestsReplaying() {
+        return getWidgetInstanceName().endsWith(TEST_REPLAY_SUFFIX);
     }
 
     public void setActiveEventSources(List<OrderedEventSource> activeEventSources) {

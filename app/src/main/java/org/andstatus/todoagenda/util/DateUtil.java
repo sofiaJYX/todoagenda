@@ -1,5 +1,7 @@
 package org.andstatus.todoagenda.util;
 
+import static org.andstatus.todoagenda.util.MyClock.isDateDefined;
+
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
@@ -18,8 +20,6 @@ import java.util.Date;
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.function.Supplier;
-
-import static org.andstatus.todoagenda.util.MyClock.isDateDefined;
 
 public class DateUtil {
     private static final String TWELVE = "12";
@@ -105,11 +105,4 @@ public class DateUtil {
                 .plusMinutes(periodMinutes);
     }
 
-    public static DateTime minusOneDay(DateTime dateIn) {
-        if (dateIn.isAfter(MyClock.DATETIME_MIN)) {
-            return dateIn.minusDays(1);
-        } else {
-            return dateIn;
-        }
-    }
 }

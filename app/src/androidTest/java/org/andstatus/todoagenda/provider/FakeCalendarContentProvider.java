@@ -53,7 +53,7 @@ public class FakeCalendarContentProvider {
     private FakeCalendarContentProvider(Context context) {
         this.context = context;
         InstanceSettings instanceToReuse = AllSettings.getInstances(context).values().stream()
-                .filter(settings -> settings.getWidgetInstanceName().endsWith(InstanceSettings.TEST_REPLAY_SUFFIX)).findFirst().orElse(null);
+                .filter(InstanceSettings::isForTestsReplaying).findFirst().orElse(null);
         usesActualWidget = instanceToReuse != null;
 
         widgetId = usesActualWidget ? instanceToReuse.getWidgetId() : lastWidgetId.incrementAndGet();

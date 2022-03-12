@@ -1,7 +1,5 @@
 package org.andstatus.todoagenda.calendar;
 
-import static org.andstatus.todoagenda.util.DateUtil.minusOneDay;
-
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +8,11 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Attendees;
 import android.provider.CalendarContract.Instances;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import org.andstatus.todoagenda.RemoteViewsFactory;
 import org.andstatus.todoagenda.prefs.EventSource;
 import org.andstatus.todoagenda.prefs.FilterMode;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
@@ -106,18 +106,32 @@ public class CalendarEventProvider extends EventProvider {
         FilterMode filterMode = getSettings().getFilterMode();
 
         Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
-        ContentUris.appendId(builder, (filterMode == FilterMode.NORMAL_FILTER
-                ? minusOneDay(mStartOfTimeRange) : MyClock.DATETIME_MIN).getMillis());
-        ContentUris.appendId(builder, (filterMode == FilterMode.NORMAL_FILTER
-                ? mEndOfTimeRange : MyClock.DATETIME_MAX).getMillis());
+        DateTime startDateForQuery = filterMode == FilterMode.NORMAL_FILTER
+                ? correctStartOfTimeRangeForQuery(mStartOfTimeRange) : MyClock.DATETIME_MIN;
+        ContentUris.appendId(builder, startDateForQuery.getMillis());
+        DateTime endDateForQuery = filterMode == FilterMode.NORMAL_FILTER
+                ? mEndOfTimeRange : MyClock.DATETIME_MAX;
+        ContentUris.appendId(builder, endDateForQuery.getMillis());
         List<CalendarEvent> eventList = queryList(builder.build(), getCalendarSelection());
+
+        if (getSettings().isForTestsReplaying()) {
+            String tag = "eventsQuerying";
+            Log.d(tag, "widget " + widgetId + ", start: " + startDateForQuery +
+                    ", (before correction: " + mStartOfTimeRange + ")" +
+                    ", end: " + endDateForQuery +
+                    ", got " + eventList.size() + " events");
+            RemoteViewsFactory factory = RemoteViewsFactory.factories.get(widgetId);
+            if (factory != null) {
+                factory.logWidgetEntries(tag);
+            }
+        }
 
         switch (filterMode) {   // TODO: Implement fully...
             case NO_FILTERING:
                 break;
             default:
                 // Filters in a query are not exactly correct for AllDay events:
-                // for them we are selecting events one day before what is defined in settings.
+                // for them we are selecting events some days/time before what is defined in settings.
                 // This is why we need to do additional filtering after querying a Content Provider:
                 for (Iterator<CalendarEvent> it = eventList.iterator(); it.hasNext(); ) {
                     CalendarEvent event = it.next();
@@ -130,6 +144,14 @@ public class CalendarEventProvider extends EventProvider {
                 break;
         }
         return eventList;
+    }
+
+    public static DateTime correctStartOfTimeRangeForQuery(DateTime startDateIn) {
+        if (startDateIn.isAfter(MyClock.DATETIME_MIN)) {
+            return startDateIn.minusDays(2);
+        } else {
+            return startDateIn;
+        }
     }
 
     private String getCalendarSelection() {
