@@ -21,6 +21,7 @@ import org.andstatus.todoagenda.provider.EventProviderType;
 import org.andstatus.todoagenda.util.CalendarIntentUtil;
 import org.andstatus.todoagenda.util.IntentUtil;
 import org.andstatus.todoagenda.util.MyClock;
+import org.andstatus.todoagenda.widget.EventStatus;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -226,7 +227,7 @@ public class CalendarEventProvider extends EventProvider {
         CalendarEvent event = new CalendarEvent(getSettings(), context, widgetId, allDay);
         event.setEventSource(source);
         event.setEventId(cursor.getInt(cursor.getColumnIndex(Instances.EVENT_ID)));
-        event.setStatus(cursor.getInt(cursor.getColumnIndex(Instances.STATUS)));
+        event.setStatus(EventStatus.fromCalendarStatus(cursor.getInt(cursor.getColumnIndex(Instances.STATUS))));
         event.setTitle(cursor.getString(cursor.getColumnIndex(Instances.TITLE)));
         event.setStartMillis(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN)));
         event.setEndMillis(cursor.getLong(cursor.getColumnIndex(Instances.END)));

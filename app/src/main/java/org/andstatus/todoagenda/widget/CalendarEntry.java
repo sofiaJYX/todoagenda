@@ -1,5 +1,7 @@
 package org.andstatus.todoagenda.widget;
 
+import static org.andstatus.todoagenda.util.MyClock.isDateDefined;
+
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -10,8 +12,6 @@ import org.andstatus.todoagenda.prefs.OrderedEventSource;
 import org.andstatus.todoagenda.util.DateUtil;
 import org.andstatus.todoagenda.util.StringUtil;
 import org.joda.time.DateTime;
-
-import static org.andstatus.todoagenda.util.MyClock.isDateDefined;
 
 public class CalendarEntry extends WidgetEntry<CalendarEntry> {
 
@@ -41,7 +41,7 @@ public class CalendarEntry extends WidgetEntry<CalendarEntry> {
     }
 
     @Override
-    public int getStatus() {
+    public EventStatus getStatus() {
         return event.getStatus();
     }
 

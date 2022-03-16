@@ -66,13 +66,6 @@ public class RemoteViewsUtil {
         rv.setTextColor(viewId, color);
     }
 
-    public static void setTextColorAlpha(InstanceSettings settings, TextColorPref textColorPref,
-                                    RemoteViews rv, int viewId, int colorAttrId, int alpha) {
-        int color = settings.colors().getTextColor(textColorPref, colorAttrId);
-        color = (color & 0xFFFFFF) | (alpha << 24);
-        rv.setTextColor(viewId, color);
-    }
-
     public static void setTextStrikethrough(RemoteViews rv, int viewID, boolean isStrikethrough) {
         if (isStrikethrough) {
             rv.setInt(viewID, METHOD_SET_PAINT_FLAGS, Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);

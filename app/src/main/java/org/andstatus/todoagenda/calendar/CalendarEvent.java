@@ -1,20 +1,21 @@
 package org.andstatus.todoagenda.calendar;
 
+import static org.andstatus.todoagenda.util.StringUtil.nonEmpty;
+import static org.andstatus.todoagenda.util.StringUtil.notNull;
+
 import android.content.Context;
 import android.util.Log;
 
 import org.andstatus.todoagenda.prefs.AllSettings;
 import org.andstatus.todoagenda.prefs.InstanceSettings;
 import org.andstatus.todoagenda.prefs.OrderedEventSource;
+import org.andstatus.todoagenda.widget.EventStatus;
 import org.andstatus.todoagenda.widget.WidgetEvent;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
 import java.util.Optional;
-
-import static org.andstatus.todoagenda.util.StringUtil.nonEmpty;
-import static org.andstatus.todoagenda.util.StringUtil.notNull;
 
 public class CalendarEvent implements WidgetEvent {
 
@@ -33,7 +34,7 @@ public class CalendarEvent implements WidgetEvent {
     private String location = "";
     private boolean alarmActive;
     private boolean recurring;
-    private int status;
+    private EventStatus status = EventStatus.CONFIRMED;
 
     public CalendarEvent(InstanceSettings settings, Context context, int widgetId, boolean allDay) {
         this.settings = settings;
@@ -130,9 +131,9 @@ public class CalendarEvent implements WidgetEvent {
         return this;
     }
 
-    public int getStatus() { return this.status; }
+    public EventStatus getStatus() { return this.status; }
 
-    public void setStatus(int status) { this.status = status; }
+    public void setStatus(EventStatus status) { this.status = status; }
 
     public DateTime getEndDate() {
         return endDate;

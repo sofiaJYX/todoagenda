@@ -98,13 +98,13 @@ In particular, see these solutions:
 
 <a id="v4.5"/>
 
-### 2022-03-12 v4.5.3 Update time zones and fix All day events.
+### 2022-03-16 v4.5.4 Update time zones and fix All day events.
 * Time-related library (Joda Time) updated in order to have  up-to-date
 information about world time zones.
 * Fixed filtering of all day events. Sometimes today's all day events disappeared.
 [#89](https://github.com/andstatus/todoagenda/issues/89)
-* Strikethrough and partial transparency for event status.
-[#82](https://github.com/andstatus/todoagenda/issues/82)
+* Text strikethrough for canceled calendar events.
+[#94](https://github.com/andstatus/todoagenda/issues/94)
 
 <a id="v4.4"/>
 

@@ -1,5 +1,12 @@
 package org.andstatus.todoagenda.widget;
 
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setMultiline;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
+import static org.andstatus.todoagenda.util.RemoteViewsUtil.setViewWidth;
+import static org.andstatus.todoagenda.widget.EventEntryLayout.SPACE_PIPE_SPACE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -17,23 +24,7 @@ import org.andstatus.todoagenda.util.RemoteViewsUtil;
 
 import java.util.List;
 
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setBackgroundColor;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setMultiline;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColor;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextColorAlpha;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setTextSize;
-import static org.andstatus.todoagenda.util.RemoteViewsUtil.setViewWidth;
-import static org.andstatus.todoagenda.widget.EventEntryLayout.SPACE_PIPE_SPACE;
-
 public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
-    // TODO: this is from CalendarContract.EventsColumns
-    int STATUS_CANCELED = 2;
-    int STATUS_CONFIRMED = 1;
-    int STATUS_TENTATIVE = 0;
-
-    int ALPHA_CONFIRMED = 0xFF;
-    int ALPHA_TENTATIVE = 0x80;
-
     protected final EventProvider eventProvider;
 
     public WidgetEntryVisualizer(EventProvider eventProvider) {
@@ -83,8 +74,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
         int viewId = R.id.event_entry_title;
         rv.setTextViewText(viewId, getTitleString(entry));
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_title);
-        setTextColorAlpha(getSettings(), TextColorPref.forTitle(entry), rv, viewId, R.attr.eventEntryTitle,
-                (entry.getStatus() == STATUS_TENTATIVE) ? ALPHA_TENTATIVE : ALPHA_CONFIRMED);
+        setTextColor(getSettings(), TextColorPref.forTitle(entry), rv, viewId, R.attr.eventEntryTitle);
         setMultiline(rv, viewId, getSettings().isMultilineTitle());
     }
 
@@ -109,15 +99,14 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
             rv.setViewVisibility(viewId, View.VISIBLE);
             rv.setTextViewText(viewId, eventDetails);
             setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_details);
-            setTextColorAlpha(getSettings(), TextColorPref.forDetails(entry), rv, viewId, R.attr.dayHeaderTitle,
-                    (entry.getStatus() == STATUS_TENTATIVE) ? ALPHA_TENTATIVE : ALPHA_CONFIRMED);
+            setTextColor(getSettings(), TextColorPref.forDetails(entry), rv, viewId, R.attr.dayHeaderTitle);
             setMultiline(rv, viewId, getSettings().isMultilineDetails());
         }
     }
 
     protected void setTextStrikethrough(WidgetEntry entry, RemoteViews rv) {
         int viewId = R.id.event_entry_title;
-        RemoteViewsUtil.setTextStrikethrough(rv, viewId, entry.getStatus() == STATUS_CANCELED);
+        RemoteViewsUtil.setTextStrikethrough(rv, viewId, entry.getStatus() == EventStatus.CANCELED);
     }
 
     protected void setDate(WidgetEntry entry, RemoteViews rv) {
@@ -154,8 +143,7 @@ public abstract class WidgetEntryVisualizer<T extends WidgetEntry<T>> {
                 .SPACE_DASH_SPACE, "\n"));
         setViewWidth(getSettings(), rv, viewId, R.dimen.event_time_width);
         setTextSize(getSettings(), rv, viewId, R.dimen.event_entry_details);
-        setTextColorAlpha(getSettings(), TextColorPref.forDetails(entry), rv, viewId, R.attr.dayHeaderTitle,
-                (entry.getStatus() == STATUS_TENTATIVE) ? ALPHA_TENTATIVE : ALPHA_CONFIRMED);
+        setTextColor(getSettings(), TextColorPref.forDetails(entry), rv, viewId, R.attr.dayHeaderTitle);
     }
 
     public boolean isFor(WidgetEntry entry) {
