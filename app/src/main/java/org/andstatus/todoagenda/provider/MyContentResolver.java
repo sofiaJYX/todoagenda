@@ -71,10 +71,22 @@ public class MyContentResolver {
     }
 
     private Cursor queryAvailableSources(@NonNull Uri uri, @Nullable String[] projection) {
-        return widgetId != 0 && getSettings().isSnapshotMode()
-                ? getSettings().getResultsStorage().getResult(type, requestsCounter.incrementAndGet() - 1)
-                    .map(r -> r.querySource(projection)).orElse(null)
-                : context.getContentResolver().query(uri, projection, null, null, null);
+        Cursor cursor = null;
+        try {
+            if (widgetId != 0 && getSettings().isSnapshotMode()) {
+                cursor = getSettings().getResultsStorage()
+                        .getResult(type, requestsCounter.incrementAndGet() - 1)
+                        .map(r -> r.querySource(projection))
+                        .orElse(null);
+            } else {
+                cursor = context.getContentResolver()
+                        .query(uri, projection, null, null, null);
+            }
+        } finally {
+            Log.d("queryAvailableSources", "URI:" + uri + ", projection:" + Arrays.toString(projection) +
+                    ", result:" + cursor);
+        }
+        return cursor;
     }
 
     public void onQueryEvents() {

@@ -98,7 +98,7 @@ In particular, see these solutions:
 
 <a id="v4.5"/>
 
-### 2022-03-16 v4.5.4 Update time zones and fix All day events.
+### 2022-03-19 v4.5.5 Update time zones and fix All day events.
 * Time-related library (Joda Time) updated in order to have  up-to-date
 information about world time zones.
 * Fixed filtering of all day events. Sometimes today's all day events disappeared.
